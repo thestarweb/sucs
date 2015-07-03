@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>all_style.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>admin_login.css">
+</head>
+<body>
+	<div style="float:right; color:#FFF; background-color:#F00; display:none;" id="doing"></div>
+	<div class="all">
+	<h1>sucs后台管理中心</h1>
+		<div class="login">
+				<form>
+					管　理　员　名　称<input id="adminname" type="text" size="20"/><br/>
+					管　理　员　密　码<input id="password" type="password" size="20" /><br/>
+					验证码（计算结果）<img id="addition" src="/img/addition.php" onClick="shuaxinyanzhengma()"/><input id="numbers" type="text" size="10"/><br/>
+					<p align="center">
+						<input type="hidden" name="user" value="admin" />
+						请确保您已经打开cookies　　<input type="submit" value="进入后台" onClick="return login()"/>
+					</p>
+					<p>sucs&nbsp;by&nbsp;星星站点&nbsp;保留所有权利</p>
+					<p>sucs后台管理中心</p>
+					
+				</form>
+		</div>
+	</div>
+	<script language="javascript" type="text/javascript" src="/script/MyScript.js"></script>
+	<script language="javascript" type="text/javascript">
+		function login(){
+			if(!$('adminname').value){
+				alert('请输入用户名');
+			}else if(!$('password').value){
+				alert('请输入用户名');
+			}else if(!$('numbers').value){
+				alert('请输入验证码')
+			}else{
+				var data='doing=login&username='+$('adminname').value+'&password='+$('password').value+'&number='+$('numbers').value;
+				send_ajax('<?php echo URLROOT;?>p/admin?server=login&user=admin','POST',data,login_huidiao,true);
+			}
+			return false;
+		}
+		function login_huidiao(ajax){
+			if(ajax.responseText){
+				$('doing').style.display = 'none';
+				if(ajax.responseText=='ok'){
+					location.replace('admin.php');
+				}else{
+					shuaxinyanzhengma();
+					alert(ajax.responseText);
+				}
+			}else{
+				alert('与服务器互交出现故障');
+			}
+		}
+		function shuaxinyanzhengma(){
+			$('addition').src ="/img/addition.php?"+Math.random();
+		}
+	</script>
+</body>
+</html>

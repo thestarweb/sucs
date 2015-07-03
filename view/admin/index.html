@@ -1,0 +1,244 @@
+<?php
+$menu=array(
+        array('title'=>'欢迎使用','is_menu'=>0,'page'=>'0'),
+        array('title'=>'后台管理','is_menu'=>1)
+);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+<title>admins</title>
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+table{
+	width:100%;
+	height:100%;
+}
+#head{
+	background:#000;
+	overflow:hidden;
+}
+span{
+	margin:10px;
+}
+#main{
+	height:100%;
+	width:100%;
+	background:#9F9;
+}
+#opening{
+	width:150px;
+	height:100%;
+	background:#58F;
+}
+#opening div{
+border:5px outset rgba(255,255,255,0.4);
+padding:2px;
+}
+#web *{
+	width:100%;
+	height:100%;
+	float:right;
+}
+.menu_box{
+	position: absolute;
+}
+.menu_box div{
+padding:2px;
+border:1px outset #000;
+}
+p{
+	text-align: center;
+}
+</style>
+</head>
+<body>
+<div></div>
+<table>
+	<tr id="head" style="bankgroump:#000;">
+		<td width="150px"><img src="？"></td>
+		<td style="background:#08F;" id="menu"></td>
+	</tr>
+
+	<tr id="main">
+		<td><div id="opening"></div></td>
+		<td id="web"></td>
+	</tr>
+	<tr>
+		<td colspan="2">
+			<p>by星星站点</p>
+			<p>2014.09.07</p><?php json_encode($menus);?>
+		</td>
+	</tr>
+</table>
+
+<script src="<?php echo $system->ini_get('my_script_path');?>"></script>
+<script type="text/javascript">
+//var a=eval("("+<?php echo json_encode($menu);?>+")")；
+var menu=<?php echo json_encode($menus);?>;
+//var opening=[];
+var now;
+var t;
+function set_menu(arr,dom){
+	var i;
+	var nd;
+	dom.innerHTML='';
+	for(i in arr){
+		nd=$.set(dom.p?'div':'span',dom);
+		nd.innerHTML=arr[i].title;
+		nd.info=arr[i];
+		if(parseInt(arr[i].is_menu)){
+			set_menu_function(nd);
+		}else{
+			nd.onclick=function(){
+				/*var opening=$('.opening');
+				for(var j=0;opening[j];j++){
+					if(opening[j].title==this.innerHTML) return;
+				}*/
+				var t=$.set('div',$('#opening'))
+				t.innerHTML=this.innerHTML;
+				t.className='opening';
+				t.title=this.innerHTML;
+				var iframe=$.set('iframe',$('#web'));
+				iframe.src=this.info.src;
+				t.iframe=iframe;
+				t.onclick=function(){
+					go_to(this);
+				}
+				if(now){
+					now.iframe.style.display='none';
+				}
+				now=t;
+			}
+		}
+	}
+	set_menu_place(dom);
+}
+function set_menu_place(div,is_f){
+	if(!div.p) return;
+	if(div.offsetWidth<100){
+		div.style.width='100px';
+	}
+	if(!div.p.parentNode.p){
+		div.style.left=div.p.offsetLeft+div.p.parentNode.offsetLeft+'px';
+		div.style.top=div.p.offsetTop+div.p.parentNode.offsetTop+div.p.offsetHeight+'px';
+		return;
+	}
+	div.style.left=div.p.offsetLeft+div.p.offsetWidth+div.p.parentNode.offsetLeft+'px';
+ 	div.style.top=div.p.offsetTop+div.p.parentNode.offsetTop+'px';
+	//alert(div.offsetWidth);
+	if((div.offsetLeft+div.offsetWidth)>=window.innerWidth){
+		//alert(div.offsetWidth);
+		div.style.left=div.p.parentNode.offsetLeft-div.offsetWidth+'px';
+	}
+	if(div.offsetHeight>window.innerHeight){
+		div.style.height=window.innerHeight-10+'px';
+	}
+	var h=div.offsetHeight+div.offsetTop-window.innerHeight;
+	if(h>0){
+		div.style.top=div.offsetTop-h+'px';
+	}	
+}
+function set_menu_function(dom,is_first){
+	dom.onmouseover=function(){
+		if(this.div) return;
+		this.div=$.set('div',$('div')[0]);
+		this.div.p=this;
+		this.div.style.background='rgb(255,255,255)';
+		//div.style.height='100px';
+		this.div.innerHTML='正在获取';
+		this.div.className='menu_box';
+		this.div.p=this;
+			set_menu_place(this.div,1);
+		this.div.onmousemove=function(){
+			this.p.set_type(1);
+		}
+		this.div.onmouseout=function(){
+			this.p.set_type(0);
+		}
+		this.set_type=function(type){
+			this.now_type=type;
+			if(this.parentNode.p){
+				this.parentNode.pset_type(type);
+			}
+		}
+		get_list(this.info.src,(function(div){
+			return function(arr){//获取并挂载菜单
+			set_menu(arr,div);
+			};
+		})(this.div));
+	}
+	dom.onmouseout=function(){
+		if(this.div&&!this.now_type){
+			setTimeout((function(dom){
+				return function(){
+					if(dom.try_off)return;
+					dom.try_off=1;
+					if(dom.now_type){
+						dom.try_off=0;
+						return;
+					}
+					dom.off();
+				}
+			})(this),5);
+			//$('div')[0].removeChild(this.div);
+			//this.div=null;
+		}
+	}
+	dom.off=function(){
+		$.remove(this.div);
+		this.div=false;
+	}
+	dom.onclick=function(e){
+		if(window.event){
+			window.event.cancelBubble = true;
+		}else{
+			e.stopPropagation();
+		}
+	}
+}
+set_menu(menu,$('#menu'));
+function go_to(dom){
+	now.iframe.style.display='none';
+	dom.iframe.style.display='';
+	now=dom;
+}
+function get_list(page,call_back){
+	//call_back([{title:'测试1',is_menu:0,src:'a',id:0},{title:'测试2',is_menu:1,src:'b',id:5},{title:'测试3',is_menu:0,src:'c',id:6},{title:'目录',is_menu:1,src:'test',id:10}]);
+	var ajax=$.ajax();
+	ajax.page=page;
+	ajax.callback=function(ajax){
+		if(ajax.json){
+			call_back(ajax.json.list);
+		}else{
+			myScript.show(ajax.text);
+		}
+	}
+	ajax.send();
+}
+$('table')[0].style.height=window.innerHeight+'px';
+function off_all_menu(){
+	var menu_p=$('div')[0];
+	var menu;
+	while(menu=menu_p.childNodes[0]){
+		$.remove(menu);
+	};
+	var menu_p=$('#menu');
+	var menu;
+	for(var i=0;menu=menu_p.childNodes[i];i++){
+		menu.div=false;
+	};
+}
+window.onresize=function(){
+	$('table')[0].style.height=window.innerHeight+'px';
+	off_all_menu();
+}
+document.onclick=function(){
+	off_all_menu();
+}
+</script>
+</body>
+</html>

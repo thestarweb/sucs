@@ -1,0 +1,73 @@
+<div style="height:110px;"></div>
+<div id="main">
+	<h2>
+		请填写下列信息完成注册
+	</h2>
+<div style="margin:0 110px;">
+	<h3>有邀请码？<a href="reg_for_key">前往邀请注册</a></h3>
+	<h3>已经有帐号？<a href="./">前往登录页面</a></h3>
+	用&nbsp;户&nbsp;名&nbsp;<input type="text" id="username"/><br/>
+	密码<input type="password" id="password1"/><br/>
+	确认密码<input type="password" id="password2"/><br/>
+	<img src=""/>
+	=<input type="text" maxlength="3" size="3" id="add"/>
+	<input type="button" value="检验并提交" onclick="up()"/>
+</div>
+</div>
+<script>
+$('img')[0].onclick=function(){
+	this.src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>&"+Math.rand
+}
+$('img')[0].onclick();
+function up(){
+		if(!$('#username').value){
+			myScript.show('您必须输入您的用户名');
+			return;
+		}
+		if(!$('#password1').value){
+			myScript.show('您必须设置您的密码');
+			return;
+		}
+		if($('#password1').value!=$('#password2').value){
+			myScript.show('你两次输入的密码不一致，请检查');
+			return;
+		}
+		if(!$('#add').value){
+			myScript.show('您必须输入验证码');
+			return;
+		}
+		var ajax=$.ajax();
+		ajax.page='<?php echo URLROOT;?>p/reg';
+		ajax.setCont({
+			'username':$('#username').value,
+			'password':$('#password1').value,
+			'add':$('#add').value
+		});
+		ajax.callback=function(ajax){
+			if(ajax.json){
+				if(ajax.json.error){
+					switch (ajax.json.error){
+						case -1:
+						var info='验证码错误';
+						break;
+						case 1:
+						var info='用户名已存在，请换一个';
+						break;
+						default:
+						var info='未知的错误代码'+ajax.json.error;
+						break;
+					}
+					myScript.show(info);
+					$('img')[0].onclick()
+				}else{
+					myScript.show('注册成功').onoff=function(){
+						location.href='<?php echo URLROOT;?>';
+					};
+				}
+			}else{
+				myScript.show(ajax.text);
+			}
+		}
+		ajax.send();
+	}
+</script>

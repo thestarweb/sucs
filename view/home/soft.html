@@ -1,0 +1,65 @@
+<style>
+	.change_pass{
+		text-align: center;
+	}
+	.UA_c{
+		width: 600px;
+	}
+</style>
+<div id="main">
+	<h1>星星站点安全中心</h1>
+	<h2>当前在线客户端(目前浏览器和系统识别可能有bug，同时UA也可能是伪造的)</h2>
+	<table>
+<?php foreach($login_c as $v){?>
+	<tr>
+	<td class="UA_c"><?php echo $v['UA'];?></td><td>下线</td>
+	</tr>
+<?php }?>
+	</table>
+	<hr/>
+	<hr/>
+	<h2>历史登陆记录</h2>
+<?php foreach($login_his as $v){?>
+	<div>
+	<?php echo date('Y-m-d h:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
+	</div>
+<?php }?>
+	<hr/>
+	<div class="change_pass">
+		<h2>如果不是本人操作请及时修改密码(测试阶段)：</h2><br/>
+		原始密码<input type="password"/><br/>
+		&nbsp;新 密 码 <input type="password"/><br/>
+		确认密码<input type="password"/><br/>
+		<input type="button" value="更改密码"/>
+	</div>
+	<script>
+		var UA_c=$('.UA_c');
+		for (var i = UA_c.length - 1; i >= 0; i--) {
+			UA_c[i].innerHTML='运行在'+myScript.get_os(UA_c[i].innerHTML)+'上的'+myScript.get_browser(UA_c[i].innerHTML);
+		};
+		var is=$('input');
+		is[3].onclick=function(){
+			if(!is[0].value){myScript.show('请输入原始密码');return;}
+			if(!is[1].value){myScript.show('请输入新密码');return;}
+			if(is[1].value!=is[2].value){myScript.show('两次输入密码不一致');return;}
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/chage_password';
+			ajax.setCont({
+				old_password:is[0].value,
+				new_password:is[1].value
+			});
+			ajax.callback=function(ajax){
+				if(ajax.json){
+					if(ajax.json.info){
+						myScript.show(ajax.json.info);
+					}else{
+						myScript.show('修改成功')
+					}
+				}else{
+					myScript.show('SERVER REEOR<br/>'+ajax.text);
+				}
+			}
+			ajax.send();
+		}
+	</script>
+</div>

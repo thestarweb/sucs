@@ -1,0 +1,70 @@
+<style type="text/css">
+	.b{
+		background-color: rgba(0,128,255,0.5);
+		padding: 5px 11px;
+	}
+</style>
+<div id="main">
+	<div class="b">
+		<input type="button" value="<<|返回"/>
+		<input type="button" value="举报(正在逐步支持中)"/>
+		<input type="button" value="加入黑名单（后续增加支持）"/>
+		<input type="button" value="删除"/>
+	</div>
+	<hr/>
+	<div class="marginLR">发送者：<a href="#"><?php echo $messages['sender'];?></a>　接收者：<a href="#"><?php echo $messages['geter'];?></a></div>
+	<div class="marginLR">发送时间：<?php echo date('Y-m-d h:m:s',$messages['time']);?></div>
+	<hr/>
+	<br/><br/>
+	<div id="body" class="marginLR"><?php echo $messages['body'];?></div>
+	<br/><br/>
+	<hr/>
+	<div class="b">
+		<input type="button" value="<<|返回"/>
+		<input type="button" value="举报(正在逐步支持中)"/>
+		<input type="button" value="加入黑名单（后续增加支持）"/>
+		<input type="button" value="删除"/>
+	</div>
+	<hr/>
+	<div id="re" class="marginLR"></div>
+	　<input type="button" value="快速回复"/>
+	<br/><br/>
+	<script type="text/javascript">
+		//$('#body').innerHTML=myScript.ubb_to_html($('#body').innerHTML,['p','br','a','div']);
+		myScript.marked($('#body').innerHTML,function(html){
+			$('#body').innerHTML=html;
+		});
+		var input=$.input('re');
+		var button=$('input');
+		button.set('onclick',function(){
+			window.location.href="<?php echo URLROOT;?>home/message";
+		},[0,4]).set('onclick',function(){
+			if(input.get()==''){
+				alert('您必须输入内容');
+				return
+			}
+			var ajax=new $.ajax();
+			ajax.setCont({'body':input.get(),'geter':'<?php echo $messages['sender'];?>'});
+			ajax.page='<?php echo URLROOT ?>p/send_message';
+			ajax.callback=function(ajax){
+				if(ajax.json){
+					window.location.href="<?php echo URLROOT;?>home/message";
+				}else{
+					alert("失败\r\n"+ajax.text);
+				}
+			}
+			ajax.send();
+		},[8]).set('onclick',function(){
+			myScript.fast_ajax('<?php echo URLROOT;?>p/delete_message',function(ajax){
+				if(ajax.json){
+					if(ajax.json.info) myScript.show(ajax.json.info);
+					else window.location.href='<?php echo URLROOT ?>home/message';
+				}else{
+					myScript.show('sever error<br/>'+ajax.text);
+				}
+			},{
+				mid:<?php echo $_GET['mid'];?>
+			})
+		},[3,7]);
+	</script>
+</div>

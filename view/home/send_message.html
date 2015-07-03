@@ -1,0 +1,93 @@
+<div id="main">
+	<p>接收者：<span id="geters"></span><input type="text" /><input type="button" value="添加"></p>
+	<p>输入完毕后请点击添加，按回车也可以添加哦</p>
+	<div id="input"></div>
+	<input type="button" value="发送"/>
+</div>
+<script type="text/javascript">
+	var input=$.input('input',800,400);
+	$('input').set('add',function(){
+		if(this.value===''){
+			return;
+		}
+		var c=document.getElementById('geters').childNodes;
+		for (var i=0;i<c.length;i++) {
+			if(c[i].innerHTML==this.value){
+				myScript.show('您不能重复添加同一接收人');
+				return;
+			}
+		};
+		var t=$.set('span',$('#geters'));
+		t.innerHTML=this.value;
+		//t.style.background='rgb('+Math.random()*255+','+Math.random()*255+','+Math.random()*255+')';
+		//t.style.background='rgb(2,2,2)';
+		switch (parseInt(Math.random()*5)){
+			case 0:
+			case 5:
+				t.style.background='rgb(255,255,255)';
+				break;
+			case 1:
+				t.style.background='rgb(255,0,0)';
+				break;
+			case 2:
+				t.style.background='rgb(0,255,0)';
+				break;
+			case 3:
+				t.style.background='rgb(100,100,255)';
+				break;
+			case 4:
+				t.style.background='rgb(255,255,0)';
+				break;
+		}
+		t.style.margin='5px';
+		t.onclick=function(){
+			myScript.show('<br/>此功能还未正式实现',300,70,'你确定要删除这个接收人吗？');
+		}
+		this.value='';
+	},[0]).set('onkeydown',function(e){
+		var theEvent = e || window.event;
+		var code = theEvent.keyCode || theEvent.which || theEvent.charCode;
+		if (code == 13) {
+			this.add();
+		}
+	},[0]).set('onclick',function(e){
+		//myScript.show('select<input type="text" />',300,400);
+		$('input')[0].add();
+		//
+	},[1]).set('onclick',function (){
+		var gets='';
+		var c=document.getElementById('geters').childNodes;
+		for (var i=0;i<c.length;i++) {
+			gets+=c[i].innerHTML+"\r\n";
+		};
+		if(!gets){
+			myScript.show('必须输入接收人');
+			return;
+		}
+		if(input.get()==''){
+			myScript.show('您必须输入内容');
+			return
+		}
+		var ajax=new $.ajax();
+		ajax.setCont({'body':input.get(),'geter':gets});
+		ajax.page='<?php echo URLROOT ?>p/send_message';
+		ajax.callback=function(ajax){
+			if(ajax.json){
+				var inf=ajax.json.info;
+				if(typeof(inf)=='object'&&inf.length){
+					myScript.show('向以下成员发送消息失败：<br/>'+inf+'<br/>请检查是否输入有误',500).onoff=function(){
+						window.location.href="<?php echo URLROOT;?>home/message";
+					};
+					return;
+				}else if(typeof(inf)=='string'){
+					myScript.show(inf);
+					return;
+				}
+				window.location.href="<?php echo URLROOT;?>home/message";
+			}else{
+				myScript.show("失败<br/>"+ajax.text);
+			}
+		}
+		ajax.send();
+	},[2])
+</script>

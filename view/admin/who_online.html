@@ -1,0 +1,36 @@
+<input type="button" id="reload" value="刷新"/>
+<table>
+	<tr>
+		<th>uid</th>
+		<th>用户名</th>
+		<th>os/浏览器</th>
+	</tr>
+<?php foreach($list as $v){?>
+	<tr>
+		<td><?php echo $v['uid'];?></td>
+		<td><?php echo $v['username'];?></td>
+		<td class="os"><?php echo $v['UA'];?></td>
+		<td><input type="button" value="下线" onclick="offline(<?php echo $v['id'];?>)"></td>
+	</tr>
+<?php }?>
+</table>
+<script type="text/javascript" src="<?php echo $system->ini_get('my_script_path');?>"></script>
+<script>
+	var list=$('.os');
+	for(var i=0;list[i];i++){
+		list[i].innerHTML=myScript.get_os(list[i].innerHTML||1)+'/'+myScript.get_browser(list[i].innerHTML||'1');
+	}
+	$('#reload').onclick=function(){
+		window.location.reload(true);
+	}
+	function offline(id){
+		var ajax=$.ajax();
+		ajax.page="#";
+		ajax.data="doing=offline&id="+id;
+		ajax.callback=function(ajax){
+			if(ajax.text) alert(ajax.text)
+			else window.location.reload(true);
+		}
+		ajax.send();
+	}
+</script>

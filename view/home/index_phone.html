@@ -1,0 +1,22 @@
+<div id="main">
+	<h1>欢迎回来</h1>
+	<hr/>
+<?php if($messages){ ?>
+	<h2>您有<?php echo count($messages) ?>条未读消息</h2>
+	<div id="messages">
+<?php foreach($messages as $v){?>
+		<div>
+			<?php echo $v['sender']; ?>(<?php echo date('Y-m-d h:m:s',$v['time']);?>):
+			<span><?php echo mb_substr($v['body'],0,25,'utf-8'); ?>...</span>
+			<a href="<?php echo URLROOT.'home/message?mid='.$v['mid']?>">点击查看</a>
+		</div>
+<?php } ?>
+	</div>
+<?php } ?>
+	<h2>历史登陆记录</h2>
+<?php foreach($login_his as $v){?>
+	<div>
+	<?php echo date('Y-m-d h:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
+	</div>
+<?php }?>
+</div>

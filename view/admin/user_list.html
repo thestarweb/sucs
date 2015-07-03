@@ -1,0 +1,20 @@
+<table>
+	<tr>
+		<th>uid</th>
+		<th>头像</th>
+		<th>用户名</th>
+		<th>性别</th>
+		<th>注册时间</th>
+		<th>注册IP</th>
+	</tr>
+<?php foreach($users_list as $v){?>
+	<tr>
+		<td><?php echo $v['uid'];?></td>
+		<td><img src="<?php echo URLROOT.'user/head/'.$v['uid'];?>" height="90"/></td>
+		<td><?php echo $v['username'];?></td>
+		<td><?php echo $v['sex']?($v['sex']==1?'男':'女'):'保密';?></td>
+		<td><?php echo date('Y-m-d',$v['reg_time']);?></td>
+		<td><?php echo $v['reg_ip'];?></td>
+	</tr>
+<?php } ?>
+</table>

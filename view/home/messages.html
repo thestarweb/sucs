@@ -1,0 +1,111 @@
+<style>
+	.message{
+		border-radius: 5px;
+		/*box-shadow:10px 10px 40px 5px black;*/
+		border: 1px solid #000;
+		margin: 2px;
+		padding: 2px;
+		background-color: #FFF;
+		cursor:pointer;
+	}
+	div{
+		overflow: hidden;
+	}
+	.m1,.m2,.m3,.m4,.m5,.m6,.m7{
+		float: left;
+	}
+	.m1{
+		width: 2%;
+	}
+	.m2{
+		width: 18%;
+	}
+	.m3{
+		width: 9%;
+	}
+	.m4{
+		width: 9%;
+	}
+	.m5{
+		width: 56%;
+	}
+	.m6{
+		width: 5%;
+	}
+</style>
+<div id="main">
+	消息列表
+	<div>
+		删除功能已经开发完毕，同时为了保证站点消息功能运行速度，我们不定期在消息表内数据达一定量时清理，总要消息请自行备份。
+		请勿通过消息功能发送自己的账号和密码
+		<br/>
+		<select id="dosth">
+			<option value="a">--请选择操作--</option>
+			<option value="delete">删除</option>
+			<option value="a">标记为已读</option>
+		</select>
+		<input type="button" value="发表消息" class="send"/>
+			<div>
+				<div class="m1">　</div>
+				<div class="m2">时间</div>
+				<div class="m3">发送者</div>
+				<div class="m4">接收者</div>
+				<div class="m5">内容</div>
+				<div class="m6">状态</div>
+			</div>
+<?php foreach ($mlist as $v){?>
+			<div class="message" mid="<?php echo $v['mid']; ?>" onclick="select(this)">
+				<div class="m1"><input type="checkbox" class="check"></div>
+				<div class="m2"><?php echo date('Y-m-d h:m:s',$v['time']);?></div>
+				<div class="m3"><?php echo $v['sender']; ?></div>
+				<div class="m4"><?php echo $v['geter']; ?></div>
+				<div class="m5"><?php echo mb_substr($v['body'],0,30,'utf-8'); ?></div>
+				<div class="m6"><?php echo $v['type']&1==1?'已读':'未读'; ?></div>
+			</div>
+<?php } ?>
+	</div>
+	<script type="text/javascript">
+		var messageBox;
+		function select(t){
+			window.location.href='<?php echo URLROOT ?>home/message?mid='+t.getAttribute('mid');
+		}
+		$('.send').set('onclick',function(){
+			window.location.href='<?php echo URLROOT ?>home/send_message';
+		})
+		$('.del').set('onclick',function(){
+			myScript.fast_ajax('<?php echo URLROOT;?>p/delete_message',function(ajax){
+				if(ajax.json){
+					if(ajax.json.info) myScript.show(ajax.json.info);
+					else window.location.reload(true);
+				}else{
+					myScript.show('sever error<br/>'+ajax.text);
+				}
+			},{
+				mid:this.parentNode.parentNode.getAttribute('mid')
+			})
+		});
+		$('#dosth').onchange=function(){
+			switch(this.value){
+				case 'delete':
+					if (messageBox) return;
+					messageBox=myScript.show('确定要删除这些消息吗<br/><br/>　　<input type="button" value=" 是 " onclick="messageBox.istrue=true;messageBox.off();"/>　　<input type="button" value=" 否 " onclick="messageBox.off();"/>');
+					messageBox.onoff=function(){
+						if(this.istrue){
+							var c=$('.check');
+							for (var i = c.length - 1; i >= 0; i--) {
+								if(c[i].checked) myScript.fast_ajax('<?php echo URLROOT;?>p/delete_message',null,{
+									mid:c[i].parentNode.parentNode.getAttribute('mid')
+								})
+							}
+							setTimeout(function(){window.location.reload(true)},100);
+						}
+						messageBox=null;
+					}
+					break;
+			}
+		}
+		$('.check').set('onclick',function(ev){
+			ev.stopPropagation(); 
+		});
+	</script>
+</div>

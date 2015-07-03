@@ -1,0 +1,47 @@
+<div id="main">
+	消息列表
+	<div>
+		<select>
+			<option value="a">--请选择操作--</option>
+			<option value="a">删除</option>
+			<option value="a">标记为已读</option>
+		</select>
+		<input type="button" value="发表消息" class="send"/><input type="button" value="查看我的消息主表">
+		<table style="width:100%">
+			<tr>
+				<th></th>
+				<th>时间</th>
+				<th>发送者/接收者</th>
+				<th>内容</th>
+				<th>状态</th>
+				<th>操作</th>
+			</tr>
+<?php foreach ($mlist as $v){?>
+			<tr>
+				<td><input type="checkbox"></td>
+				<td><?php echo date('Y-m-d h:m:s',$v['time']);?></td>
+				<td><?php echo $v['sender']; ?>/<?php echo $v['geter']; ?></td>
+				<td><?php echo mb_substr($v['body'],0,30,'utf-8'); ?></td>
+				<td><?php echo $v['type']&1==1?'已读':'未读'; ?></td>
+				<td mid="<?php echo $v['mid']; ?>"><input type="button" value="查看" class="select"/><input type="button" value="删除" class="del"/></td>
+			</tr>
+<?php } ?>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$('.select').set('onclick',function(){
+			window.location.href='<?php echo URLROOT ?>home/message?mid='+this.parentNode.getAttribute('mid');
+		})
+		$('.send').set('onclick',function(){
+			window.location.href='<?php echo URLROOT ?>home/send_message';
+		});
+		$('.del').set('onclick',function(){
+			alert(0);
+			myScript.fast_ajax('<?php echo URLROOT ?>p/delete_message',function(ajax){
+				alert(ajax.text);
+			},{
+				mid:this.parentNode.getAttribute('mid')
+			});
+		});
+	</script>
+</div>

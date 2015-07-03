@@ -1,0 +1,92 @@
+<style>
+	#main .info div div{
+		float: left;
+		width: 48%;
+		margin: 1%;
+	}
+	#main .info .say{
+		font-size: 12px;
+		margin-left: 10px;
+	}
+	#main{
+		overflow: hidden;
+	}
+	#user_head{
+		height:30px;
+		margin:1px 0 -9px 0;
+		border-radius:2px;
+	}
+	#names{
+		width: 500px;
+		left: 50%;
+		margin:0  400px -29px -400px;
+		overflow: hidden;
+		z-index: 100;
+		line-height:48px;
+		font-size:22px;
+	}
+	#names div{
+		float:left;
+		background-color:#000;
+		padding:2px;
+		line-height: 0;
+	}
+	#names div img{
+		height: 60px;
+	}
+	.main_top{
+		height: 10px;
+	}
+</style>
+<br/>
+	<div id="names">
+		<div><img src="<?php echo URLROOT.'user/head/'.$uid; ?>" alt="头像"></div>
+		　<?php echo $user['username'];?>
+	</div>
+	<div id="main">
+	<br/><br/>
+	<div class="info">
+		<div>
+			<div class="left">性别</div>
+			<div class="lright"><?php echo $user['sex']?($user['sex']==1?'男':'女'):'保密';?></div>
+		</div>
+		<div>
+			<div class="left">真实姓名</div>
+			<div class="lright"><?php echo $user['true_name']?$user['true_name']:'未填写';?></div>
+		</div>
+		<div>
+			<div class="left">主用户组</div>
+			<div class="lright"><?php echo $user['gname'];?></div>
+		</div>
+		<div>
+			<div class="left">扩展用户组</div>
+			<div class="lright">XXX<br/>hello<br/>world<br/>test</div>
+		</div>
+		<div>
+			<div class="left">自定义头衔</div>
+			<div class="lright"><?php echo $user['title']?$user['title']:'未填写';?></div>
+		</div>
+		<div>
+			<div class="left">QQ</div>
+			<div class="lright"><?php echo $user['qq']?$user['qq']:'还未设置';?></div>
+		</div>
+		<div>
+			<div class="left">注册时间</div>
+			<div class="lright"><?php echo date('Y-m-d h:m:s',$user['reg_time']);?></div>
+		</div>
+		<div>
+			<div class="left">生日</div>
+			<div class="lright"><?php echo isset($user['barth'])?$user['barth']:'未填写';?></div>
+		</div>
+		<div>
+			<div class="left">积分</div>
+			<div class="lright">&nbsp;</div>
+		</div>
+		<?php foreach($exc as $k=>$v){ ?>
+		<div>
+			<div class="left"><?php echo $k;?></div>
+			<div class="lright"><?php echo $v;?></div>
+		</div>
+		<?php } ?>
+	</div>
+</div>
