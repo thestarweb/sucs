@@ -1,0 +1,18 @@
+<table>
+	<tr>
+		<th>时间</th>
+		<th>文件</th>
+		<th>行号</th>
+		<th>页面</th>
+		<th>信息</th>
+	</tr>
+<?php foreach ($errors as $v) { ?>
+	<tr>
+		<td><?php echo $v['time'];?></td>
+		<td><?php echo $v['file'];?></td>
+		<td><?php echo $v['line'];?></td>
+		<td><?php echo $v['page'];?></td>
+		<td><?php echo $v['info'];?></td>
+	</tr>
+<?php } ?>
+</table>

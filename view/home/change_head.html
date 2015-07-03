@@ -1,0 +1,113 @@
+<style>
+	#set{
+		width: 500px;
+		height: 200px;
+	}
+	#s{
+		border:solid 1px #000;
+		background: #FFF;
+		width: 200px;
+		padding: 1px;
+		margin: 5px auto;
+	}
+	#s p{
+		background:#08F;
+		padding: 5px;
+		margin: -5px;
+		float: left;
+	}
+	#out{
+		display: none;
+	}
+</style>
+<div id="main" style="text-align: center;">
+选取图片<input type="file" id="file"/><br/>
+<canvas id="set">您的浏览器版本太低了，我们也无能为力</canvas><canvas id="out"></canvas>
+<br/><div id="s"><p></p></div><img src="" alt="" id="review"/><br/>
+<input type="button" value="上传" id="up"/>
+</div>
+<script>
+	var s=$('#set');
+	s.width=500;s.height=200;
+	var pen=s.getContext('2d');
+	var c_info=null;
+	var img_info=null;
+	var out=$('#out');
+	out.width=out.height=100;
+	out_pen=out.getContext('2d');
+	function redraw(){
+		pen.clearRect(0,0,s.width,s.height);
+		if(img_info){
+			pen.drawImage(img_info.img,200+img_info.x,50+img_info.y,img_info.img.width*img_info.s,img_info.img.height*img_info.s);
+			out_pen.drawImage(img_info.img,img_info.x,img_info.y,img_info.img.width*img_info.s,img_info.img.height*img_info.s);
+		}
+		$('#review').src=out.toDataURL('image/png');
+		pen.strokeStyle="#F00";
+		pen.strokeRect(200,50,100,100);
+	}
+	redraw();
+	s.onmousedown=function(ev){
+		c_info={x:ev.x,y:ev.y};
+	}
+	s.onmousemove=function(ev){
+		if(!img_info||!c_info) return;
+		img_info.x+=ev.x-c_info.x;
+		img_info.y+=ev.y-c_info.y;
+		if(img_info.x>0) img_info.x=0;
+		if(img_info.x+img_info.img.width*img_info.s<100) img_info.x=100-img_info.img.width*img_info.s;
+		if(img_info.y>0) img_info.y=0;
+		if(img_info.y+img_info.img.height*img_info.s<100) img_info.y=100-img_info.img.height*img_info.s;
+		this.onmousedown(ev);
+		redraw();
+	}
+	window.onmouseup=function(){
+		c_info=null;
+	}
+	$('#file').onchange=function(){
+		if(/\.(png|jpg|jpeg|gif)$/i.test(this.value)){
+			var reader = new FileReader();
+			//reader.readAsDataURL(this.files[0]);
+			var img=new Image();
+			img.onload=function(){
+				img_info={x:0,y:0,img:img,s:100/(img.width>img.height?img.height:img.width)};
+				img_info.s0=img_info.s;
+				redraw();
+			}
+			img.src=URL.createObjectURL(this.files[0]);
+		}
+	}
+	$('#s').onclick=function(ev){
+		this.childNodes[0].style.left=ev.x+"px";
+		img_info.s=(ev.x/20+1)*img_info.s0;
+		redraw();
+	}
+	$('#up').onclick=function(){
+		if(img_info){
+			//var data=s.toDataURL('image/png')
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/save_head';
+			//ajax.data='img='+out.toDataURL('image/png');
+			ajax.setCont({
+				img:out.toDataURL('image/png')
+			});
+			ajax.callback=function(ajax){
+				if(ajax.json){
+					if(ajax.json.info) myScript.show(ajax.json.info)
+					else window.location.href='<?php echo URLROOT;?>home/info';
+				}else{
+					myScript.show(ajax.text);
+				}
+			}
+			ajax.send();
+			//
+		}
+	}
+	/*$('#a').onclick=function(){
+		img_info.s*=2;
+		redraw();
+	}
+	$('#s').onclick=function(){
+		img_info.s/=2;
+		redraw();
+	}*/
+</script>

@@ -1,0 +1,55 @@
+<?php //var_dump($messages) ?>
+<div id="main">
+	<div>发送者：<a href="#"><?php echo $messages['sender'];?></a>接收者：<a href="#"><?php echo $messages['geter'];?></a></div>
+	<div>发送时间：<?php echo date('Y-m-d h:m:s',$messages['time']);?></div>
+	<hr/>
+	<div>
+		<input type="button" value="返回"/>
+		<input type="button" value="举报"/>
+		<input type="button" value="加入黑名单（后续增加支持）"/>
+		<input type="button" value="删除（后续增加支持）"/>
+	</div>
+	<hr/>
+	<br/><br/>
+	<div id="body"><?php echo $messages['body'];?></div>
+	<br/><br/>
+	<hr/>
+	<div>
+		<input type="button" value="返回"/>
+		<input type="button" value="举报"/>
+		<input type="button" value="加入黑名单（后续增加支持）"/>
+		<input type="button" value="删除（后续增加支持）"/>
+	</div>
+	<script type="text/javascript">
+		var button=$('input');
+		button.set('onclick',function(){
+			window.location.href="<?php echo URLROOT;?>home/message";
+		},[0,4]);
+	</script>
+	<?php //if($messages['sender_id']!=$this->uid){ ?>
+	<hr/>
+	<div id="re"></div>
+	　<input type="button" value="<?php echo $messages['sender_id']==$this->uid?'快速回复':'追加一条';?>"/>
+	<br/><br/>
+	<script type="text/javascript">
+		//$('#body').innerHTML=myScript.ubb_to_html($('#body').innerHTML,['p','br','a','div']);
+		var input=$.input('re');
+		button.set('onclick',function(){
+			if(input.to_ubb()==''){
+				alert('您必须输入内容');
+				return
+			}
+			var ajax=new $.ajax();
+			ajax.setCont({'body':input.to_ubb(['p','div','br','a']),'geter':'<?php echo $messages['sender_id']==$this->uid?$messages['geter']:$messages['sender'];?>'});
+			ajax.page='<?php echo URLROOT ?>p/send_message';
+			ajax.callback=function(ajax){
+				if(ajax.json){
+					window.location.href="<?php echo URLROOT;?>home/message";
+				}else{
+					alert("失败\r\n"+ajax.text);
+				}
+			}
+			ajax.send();
+		},[9]);
+	</script>
+</div>

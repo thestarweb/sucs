@@ -1,0 +1,74 @@
+<style type="text/css">
+	#head{
+		background: #000;
+		color: #FFF;
+		line-height: 40px;
+	}
+	#head div{
+		width: 100%;
+		overflow: hidden;
+	}
+	#head .l{
+		width:50px;
+		line-height: 40px;
+		float: left;
+	}
+	#head .r{
+		width:80%;
+		line-height: 40px;
+		float: right;
+		text-align: right;
+	}
+	#main .info div div{
+		float: left;
+		width: 48%;
+		margin: 1%;
+		/*background:#555;*/
+	}
+	#main .info .say{
+		font-size: 12px;
+		margin-left: 10px;
+	}
+	#messages span{
+		font-family: '宋体'; 
+	}
+	#main{
+		overflow: hidden;
+	}
+	#user_head{
+		height:30px;
+		margin:1px 0 -9px 0;
+		border-radius:2px;
+	}
+	#names{
+		margin:0 5px;
+		overflow: hidden;
+		z-index: 100;
+		line-height:48px;
+		font-size:22px;
+	}
+	#names div{
+		float:left;
+		background-color:#000;
+		padding:2px;
+		line-height: 0;
+	}
+	#names div img{
+		height: 40px;
+	}
+</style>
+<div id="head">
+	<div>
+		<div class="l">sucs</div>
+		<div class="r">
+			<img src="<?php echo URLROOT.'head/'.$_SESSION['userinfo']['uid']; ?>" alt="user_head" id="user_head"/>
+			<?php echo $_SESSION['userinfo']['username'];?>[<a href="<?php echo URLROOT;?>p/logout">退出</a>]
+		</div>
+	</div>
+</div>
+<br/><br/>
+<div id="dh">
+	<a href="<?php echo URLROOT;?>home/friends">好友列表</a>
+	<a href="<?php echo URLROOT;?>home/message">消息/通知列表</a>
+	<a href="<?php echo URLROOT;?>home/info">个人资料</a>
+</div>
