@@ -43,10 +43,4 @@ class api_control{
 		$login=new login_server($system);
 		$system->show_json(array('u'=>$login->get_now_user()));
 	}
-	public function admin_login_page($system){
-		$login=new login_server($system);
-		if($key=$login->admin_login()){
-			$system->show_json(array('admin'=>$key));
-		}
-	}
 }
