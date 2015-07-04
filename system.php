@@ -1,5 +1,10 @@
 <?php
-	class sucs_system{
+	class system{
+		private $is_phone;
+		private static $self_obj;
+		public static function get_system(){
+			return self::$self_obj;
+		}
 		private $cfgs=array(//默认的配置
 			'db_type'=>'mysql',
 			'db_server'=>'127.0.0.1',
@@ -15,14 +20,31 @@
 			'imgs_url'=>'./img',
 			'styles_url'=>'./style',
 			'root'=>'use_server_dir',
-			'my_script_path'=>'./myScript2.js',
+			'my_script_path'=>'/myScript2.js',
 			'use_key_reg_oney'=>0,
-			'reg_ver_ses_name'=>'reg'
+			'reg_ver_ses_name'=>'reg',
+			'off_info'=>'',
+			'debug'=>0
 		);//用于存放配置文件
-		public function __construct($ini='./cfg.ini'){
+		public function __construct($ini='./cfg.ini',$sfc=''){
+			if(self::$self_obj){
+				
+			}else{
+				self::$self_obj=$this;
+			}
 			
 			@define('URLROOT',$this->dir(str_replace('\\','/',dirname($_SERVER['SCRIPT_NAME']))));
 			$this->load_cfg($ini);//载入配置
+			
+			if(isset($_GET['phone'])){
+				setcookie('phone',($this->is_phone=$_GET['phone']?1:0),0,URLROOT);
+			}else{
+				if(isset($_COOKIE['phone'])){
+					$this->is_phone=$_COOKIE['phone'];
+				}else{
+					setcookie('phone',$this->is_phone=isset($_SERVER['HTTP_X_REQUESTED_WITH'])||stripos($_SERVER['HTTP_USER_AGENT'],'Mobile'),0,URLROOT);
+				}
+			}
 			
 			ob_start();
 			session_start();
@@ -31,30 +53,26 @@
 			date_default_timezone_set('PRC');
 			set_error_handler(array($this,'for_error'));//注册故障处理函数
 
-			//版本及版权信息
-			define('VERSION','1.0.2.0119');
-			define('VERSION_INFO',VERSION.' (2015新版alpha)');
-			define('MAKE_TIME','2014-10-20');
-			define('COPY','星星站点用户中心服务器端&copy;2013-2015 星星站点 保留所有权利');
-			
 			spl_autoload_register(array($this,'load_class'),E_ALL);//类的自动加载
+
+			if($this->cfgs['off_info']){
+				echo $this->cfgs['off_info'];
+				exit;
+			}
+			
+			if($sfc){
+				require_once $sfc;
+			}
 			
 			//URL解析
 			list($path)=explode('?',$_SERVER['REQUEST_URI']);
-			//$c=explode('/',str_replace(URLROOT,'',$path),3);
 			$temp=strlen(URLROOT);
-			$c=explode('/',substr($path,$temp));
-			//var_dump(URLROOT,$path,substr($path,$temp),$c);exit;
+			$c=explode('/',substr($path,$temp),3);
 			//var_dump(isset($c[1]));exit;
-			$this->show($c[0],isset($c[1])?$c[1]:'index');
+			$this->show($c[0],isset($c[1])?$c[1]:'index',isset($c[2])?$c[2]:'');
 		}
 		//自动加载类的方法
 		public function load_class($classname){
-			/*if(!include_once $this->cfgs['control_dir'].'/'.$classname.'.php'){
-				if(!include_once $this->cfgs['server_dir'].'/'.$classname.'.php'){
-					include_once $this->cfgs['tools_dir'].'/'.$classname.'.php';
-				}
-			}*/
 			if(file_exists($this->cfgs['controls_dir'].$classname.'.php')) include_once $this->cfgs['controls_dir'].$classname.'.php';
 			elseif(file_exists($this->cfgs['servers_dir'].$classname.'.php')) include_once $this->cfgs['servers_dir'].$classname.'.php';
 			elseif(file_exists($this->cfgs['tools_dir'].$classname.'.php')) include_once $this->cfgs['tools_dir'].$classname.'.php';
@@ -106,6 +124,8 @@
 					@list($k,$v)=explode("=",$cfg,2);
 					//是否是有效地配置
 					if(array_key_exists($k,$this->cfgs)){
+						$this->cfgs[$k]=$v;
+					}elseif(stripos($k,'p_')===0){
 						$this->cfgs[$k]=$v;
 					}else{
 						throw new cfg_error($k,$line,6);
@@ -166,41 +186,56 @@
 		}
 		
 		//展示页面
-		public function show($server='index',$function='index'){
+		public function show($server='index',$function='index',$c){
 			$obj_name=($server?$server:'index').'_control';
 			if(class_exists($obj_name)){
 				$obj=new $obj_name($this);
 				$function_name=($function!==''?$function:'index').'_page';
 				if(is_callable(array($obj,$function_name))){
-					call_user_func(array($obj,$function_name),$this);
+					call_user_func(array($obj,$function_name),$this,$c);
 					return;
 				}
 			}
 			header('HTTP/1.1 404 Not Found');
 			header("status: 404 Not Found");
-			require_once $this->get_view('errors/404');
+			//require_once $this->get_view('error/404');
 		}
 		//展示头部（减少重复的html头部）
 		public function show_head($title,$css=array()){
-			require_once $this->get_view('head');
+			if(!isset($_POST['ajax'])){
+				require_once $this->get_view('head');
+			}else{
+				$this->title=$title;
+			}
 		}
 		//展示尾部（减少重复的html尾部）
 		public function show_foot(){
-			require_once $this->get_view('foot');
+			if(!isset($_POST['ajax'])){
+				include $this->get_view('foot');
+			}else{
+				$this->show_json(array('title'=>$this->title?$this->title:'无标题','body'=>ob_get_contents()));
+			}
 		}
 		//获取ini配置
 		public function ini_get($name){
+			
 			return @$this->cfgs[$name];
 		}
 		public function get_view($name){
-			return $this->cfgs['views_dir'].$name.'.html';
+			//var_dump($this->is_phone,$name);
+			if($this->is_phone){
+				$file=$this->cfgs['views_dir'].$name.'_phone.html';
+				return file_exists($file)?$file:($this->cfgs['views_dir'].'phone_nofile.html');
+			}else{
+				return $this->cfgs['views_dir'].$name.'.html';
+			}
 		}
 
 		//
 		private  $link;
 		public function db(){
 			if(!$this->link){
-				$this->link=new pdo_mysql($this->cfgs['db_server'],$this->cfgs['db_username'],$this->cfgs['db_password'],$this->cfgs['db_name']);
+				$this->link=new pdo_mysql($this->cfgs['db_server'],$this->cfgs['db_username'],$this->cfgs['db_password'],$this->cfgs['db_name'],$this->cfgs['db_prefix']);
 				$this->link->system=$this;
 			}
 			return $this->link;
@@ -237,12 +272,33 @@
 		}
 		//故障处理函数
 		public function for_error($errno,$errstr,$errfile,$errline){
+			if($this->cfgs['debug']){
+				ob_clean();
+				echo '错误'.$errno.':'.$errstr.'<br/>';
+				echo '<table>';
+				$array =debug_backtrace();
+				//unset($array[0]);
+				//var_dump($array);
+				$call=null;
+				foreach($array as $v){
+					if(isset($v['file'])){
+						echo '<tr><td>'.$v['file'].'</td><td>'.(isset($v['line'])?$v['line']:'').'</td><td>'.(isset($v['class'])?$v['class'].$v['type']:'').$v['function'].' '.$call.'</td></tr>';
+						$call=null;
+					}else{
+						$call=(isset($v['class'])?$v['class'].$v['type']:'').$v['function'];
+					}
+					//isset($v['file'])||var_dump($v);
+				}
+				echo '</table>';
+				exit;
+			}else{
 			$file=explode('\\',$errfile);
 			$file=explode('/',array_pop($file));
 			$fp=fopen('./error.log','a');
-			fwrite($fp,"\r\n".serialize(array('time'=>date('Y-m-d H:i:s'),'file'=>array_pop($file),'line'=>$errline,'info'=>$errstr,'page'=>$_SERVER['REQUEST_URI']))."\r\n");
+			fwrite($fp,"\r\n".serialize(array('time'=>date('Y-m-d h:m:s'),'file'=>array_pop($file),'line'=>$errline,'info'=>$errstr,'page'=>$_SERVER['REQUEST_URI']))."\r\n");
 			fclose($fp);
-			require_once $this->get_view('errors/500');
+			require $this->get_view('error/500');
+		}
 		}
 	}
 	
