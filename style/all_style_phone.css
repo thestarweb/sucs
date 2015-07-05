@@ -1,0 +1,48 @@
+/*设置默认参数，避免浏览器“自作主张”影响兼容性*/
+*{
+	margin:0;
+	padding:0;
+	position:relative;
+	font-family:"微软雅黑", "黑体", "华文行楷";
+	font-size:15px;
+	line-height: 21px;
+}
+body{
+	background:#9F8;
+	background-repeat:no-repeat;
+	background-attachment:fixed;
+}
+h1{
+	font-size:30px;
+	line-height: 35px;
+	text-align: center;
+}
+h2{
+	font-size: 25px;
+	line-height: 35px;
+	text-align: center;
+}
+h3{
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+}
+h4{
+	font-size: 15px;
+	line-height: 25px;
+	text-align: center;
+}
+
+/*#main,#dh{
+	width:900px;
+	margin: 0 auto;
+}
+#main{
+	background-color: rgba(255,255,255,0.5);
+	box-shadow:10px 10px 40px 5px black;
+}*/
+#system_foot{
+	text-align: center;
+	color: #00b0f0;
+	text-shadow:1px 0px 4px #000, 0px 1px 4px #000, 0px -1px 4px #000, -1px 0px 4px #000;
+}

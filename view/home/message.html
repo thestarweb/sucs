@@ -27,44 +27,7 @@
 	</div>
 	<hr/>
 	<div id="re" class="marginLR"></div>
-	　<input type="button" value="快速回复"/>
+	　<input type="button" value="<?php echo $messages['sender_id']==$this->uid?'追加一条':'快速回复';?>"/>
 	<br/><br/>
-	<script type="text/javascript">
-		//$('#body').innerHTML=myScript.ubb_to_html($('#body').innerHTML,['p','br','a','div']);
-		myScript.marked($('#body').innerHTML,function(html){
-			$('#body').innerHTML=html;
-		});
-		var input=$.input('re');
-		var button=$('input');
-		button.set('onclick',function(){
-			window.location.href="<?php echo URLROOT;?>home/message";
-		},[0,4]).set('onclick',function(){
-			if(input.get()==''){
-				alert('您必须输入内容');
-				return
-			}
-			var ajax=new $.ajax();
-			ajax.setCont({'body':input.get(),'geter':'<?php echo $messages['sender'];?>'});
-			ajax.page='<?php echo URLROOT ?>p/send_message';
-			ajax.callback=function(ajax){
-				if(ajax.json){
-					window.location.href="<?php echo URLROOT;?>home/message";
-				}else{
-					alert("失败\r\n"+ajax.text);
-				}
-			}
-			ajax.send();
-		},[8]).set('onclick',function(){
-			myScript.fast_ajax('<?php echo URLROOT;?>p/delete_message',function(ajax){
-				if(ajax.json){
-					if(ajax.json.info) myScript.show(ajax.json.info);
-					else window.location.href='<?php echo URLROOT ?>home/message';
-				}else{
-					myScript.show('sever error<br/>'+ajax.text);
-				}
-			},{
-				mid:<?php echo $_GET['mid'];?>
-			})
-		},[3,7]);
-	</script>
+	<?php include $system->get_view('home/message.script',false);?>
 </div>
