@@ -39,6 +39,7 @@ padding:2px;
 }
 .menu_box{
 	position: absolute;
+	background: #FFF;
 }
 .menu_box div{
 padding:2px;
@@ -97,10 +98,27 @@ function set_menu(arr,dom){
 				t.onclick=function(){
 					go_to(this);
 				}
-				if(now){
+				t.oncontextmenu=function(ev){//右键标签出菜单
+					var m=this;
+					var cd=$.set('div',$('td')[2]);
+					cd.style.position='absolute';
+					cd.style.top=ev.y+"px";
+					cd.style.left=ev.x+'px';
+					cd.className='menu_box';
+					var off=$.set('div',cd);
+					off.innerHTML='关闭标签';
+					off.onclick=function(){
+						$.remove(m.iframe);
+						$.remove(m);
+						$.remove(cd);
+					}
+					return false;
+				}
+				go_to(t);
+				/*if(now){
 					now.iframe.style.display='none';
 				}
-				now=t;
+				now=t;*/
 			}
 		}
 	}
@@ -188,9 +206,13 @@ function set_menu_function(dom,is_first){
 //创建初始的菜单
 set_menu(menu,$('#menu'));
 function go_to(dom){
-	now.iframe.style.display='none';
+	if(now){
+		now.iframe.style.display='none';
+		now.style.background='';
+	}
 	dom.iframe.style.display='';
 	now=dom;
+	now.style.background='rgba(0,0,0,0.1)';
 }
 function get_list(page,call_back){
 	var ajax=$.ajax();
