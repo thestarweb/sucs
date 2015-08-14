@@ -1,7 +1,7 @@
 <?php
 class admin_server{
-	private $admin_table='admins';
-	private $page_table='admin_pages';
+	private $admin_table='@%_admins';
+	private $page_table='@%_admin_pages';
 	private $system;
 	public function __construct($system){
 		$this->system=$system;

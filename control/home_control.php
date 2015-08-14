@@ -1,6 +1,6 @@
 <?php
 	class home_control{
-		
+		public $system;
 		public function __construct($system){
 			$this->login=new login_server($system);
 			if(($this->uid=$this->login->is_login())===false){
