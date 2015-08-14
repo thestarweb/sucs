@@ -120,6 +120,9 @@
 			$db->u_do_SQL('INSERT INTO `@%_reg_keys`(`key`,`end_time`,`number`,`auto`) VALUES(?,?,?,?)',array($key,$end_time,$number,$auto));
 			return $key;
 		}
+		public function get_reg_key_list(){
+			return $this->system->db()->do_SQL('SELECT * FROM `@%_reg_keys`');
+		}
 		public function get_users_list(){
 			return $this->system->db()->do_SQL('SELECT `uid`,`username`,`sex`,`reg_time`,`reg_ip` FROM `'.self::table.'` where `username` IS NOT NULL');
 		}
