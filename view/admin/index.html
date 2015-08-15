@@ -76,6 +76,7 @@ var menu=<?php echo json_encode($menus);?>;
 //var opening=[];
 var now;
 var t;
+var cd;
 function set_menu(arr,dom){
 	var i;
 	var nd;
@@ -99,18 +100,30 @@ function set_menu(arr,dom){
 					go_to(this);
 				}
 				t.oncontextmenu=function(ev){//右键标签出菜单
+					if(!ev.x) ev.x=ev.clientX;
+					if(!ev.y) ev.y=ev.clientY;
 					var m=this;
-					var cd=$.set('div',$('td')[2]);
+					cd=$.set('div',$('td')[2]);
 					cd.style.position='absolute';
 					cd.style.top=ev.y+"px";
 					cd.style.left=ev.x+'px';
 					cd.className='menu_box';
+					cd.off=function(){
+						$.remove(cd);
+						vd=null;
+					}
 					var off=$.set('div',cd);
 					off.innerHTML='关闭标签';
 					off.onclick=function(){
 						$.remove(m.iframe);
 						$.remove(m);
-						$.remove(cd);
+						cd.off();
+					}
+					var flash=$.set('div',cd);
+					flash.innerHTML='取消';
+					flash.onclick=function(){
+						//m.iframe.window.location.reload();
+						cd.off();
 					}
 					return false;
 				}
@@ -212,7 +225,7 @@ function go_to(dom){
 	}
 	dom.iframe.style.display='';
 	now=dom;
-	now.style.background='rgba(0,0,0,0.1)';
+	now.style.background='rgba(255,255,255,0.5)';
 }
 function get_list(page,call_back){
 	var ajax=$.ajax();
@@ -245,6 +258,7 @@ window.onresize=function(){
 }
 document.onclick=function(){
 	off_all_menu();
+	if(cd) cd.off();
 }
 </script>
 </body>
