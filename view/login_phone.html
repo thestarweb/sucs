@@ -53,7 +53,7 @@
 				//var res=eval(ajax.text);
 				var res=eval('('+decodeURI(ajax.text)+')');
 				if(res['isok']){
-					window.location.href="<?php echo URLROOT;?>home";
+					window.location.href=window.location.hash?window.location.hash.substr(1):"<?php echo URLROOT;?>home";
 				}else{
 					myScript.show('登陆失败<br/>'+res['info']);
 					$('img')[0].chage();
