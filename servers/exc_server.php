@@ -29,7 +29,8 @@ class exc_server{
 		}
 		var_dump($bank);
 	}
-	public function add($uid,$name,$d){
+	public function add($uid,$name,$d){//小心！！使用此函数必须保证$name 的安全性
+		$uid+=0;$d+=0;
 		if(!$this->system->db()->do_SQL('UPDATE `'.self::table.'` SET `'.$name.'`=`'.$name.'`+'.$d.' WHERE `uid`='.$uid)){
 			$this->system->db()->do_SQL('INSERT INTO`'.self::table.'`(`uid`) VALUE('.$uid.')');
 		}

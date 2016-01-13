@@ -74,7 +74,7 @@
 		//返回一个整数（int），0表示无故障，1用户名重复，2表示uid有问题,3表示无匹配邀请码,4不允许的用户组
 		public function reg_key($key,$uid,$usernam,$password,$group){
 			$db=$this->system->db();
-			$db->do_sql('DELETE FROM `reg_keys` WHERE `end_time`<'.time().' OR `number`<1');
+			$db->do_SQL('DELETE FROM `reg_keys` WHERE `end_time`<'.time().' OR `number`<1');
 			$res=$db->u_do_SQL('SELECT `number`,`auto`,`groups` FROM `@%_reg_keys` WHERE `key`=?',array($key));
 			if(!$res) return 3;
 			if($group){
