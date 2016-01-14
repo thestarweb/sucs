@@ -47,6 +47,18 @@ CREATE TABLE IF NOT EXISTS `admin_pages` (
   `src` varchar(200) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `admin_pages`
+--
+
+INSERT INTO `admin_pages` (`id`, `pid`, `title`, `is_menu`, `src`) VALUES
+(2, 0, '用户管理', 1, NULL),
+(10, 2, '用户列表', 0, NULL),
+(11, 2, '在线用户', 0, NULL),
+(3, 0, '消息管理', 0, NULL),
+(12, 2, '邀请码管理', 0, NULL),
+(4, 0, '应用管理', 0, NULL);
+
 -- --------------------------------------------------------
 
 --
