@@ -56,8 +56,9 @@ CREATE TABLE IF NOT EXISTS `admin_pages` (
 CREATE TABLE IF NOT EXISTS `apps` (
   `aid` tinyint(4) NOT NULL,
   `name` varchar(20) NOT NULL DEFAULT '',
-  `urlroot` varchar(100) NOT NULL DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `urlroot` varchar(100) NOT NULL DEFAULT '',
+  `key` char(11) NOT NULL DEFAULT '',
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
