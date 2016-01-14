@@ -5,19 +5,17 @@ class app_server{
 	public function __construct($system){
 		$this->system=$system;
 	}
-	public function is_admit($app_id,$p_time,$md5,$data){
-		if($p_time<(time()-60)){//超时请求
+	public function is_admit($data=''){
+		if(!isset($_POST['p_time'])||!isset($_POST['APP_id'])||!isset($_POST['md5'])||$_POST['p_time']<(time()-30)){//超时请求
 			return false;
 		}
-		$app_id+=0;
-		$res=$this->system->db()->do_SQL('SELECT `urlroot`,`key` FROM `sucs` WHERE `aid`='.$app_id.' LIMIT 1');
+		$_POST['APP_id']+=0;
+		$res=$this->system->db()->do_SQL('SELECT `urlroot`,`key` FROM `'.self::table.'` WHERE `aid`='.$_POST['APP_id'].' LIMIT 1');
 		if($res){
-			$str=$p_time;
-			foreach ($data as $v){
-				$str.=$v;
-			}
-			$str.=$res[0]['key'];
-			if(md5($str)==$md5) return true;
+			header('Access-Control-Allow-Origin: '.$res[0]['urlroot']);
+			header('Access-Control-Allow-Credentials:true');
+			$str=$_POST['p_time'].$data.$res[0]['key'];
+			if(md5($str)==$_POST['md5']) return true;
 		}
 		return false;
 	}
