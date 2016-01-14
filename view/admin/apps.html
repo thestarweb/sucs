@@ -1,0 +1,24 @@
+<table>
+	<tr>
+		<th>id</th>
+		<th>名称</th>
+		<th>urlroot</th>
+		<th>操作</th>
+	</tr>
+<?php foreach($list as $v) {?>
+	<tr>
+		<td><?php echo $v['aid'];?></td>
+		<td><?php echo $v['name'];?></td>
+		<td><?php echo $v['urlroot'];?></td>
+		<td><?php echo $v['key'];?></td>
+	</tr>
+<?php } ?>
+	<tr>
+		<td></td>
+		<form action="<?php echo $system->url_addget('doing','add');?>" method="post">
+		<td><input type="text" name="add_name"/></td>
+		<td><input type="text" name="add_url"/></td>
+		<td><input type="submit" id="add" value="添加"/></td>
+		</form>
+	</tr>
+</table>
