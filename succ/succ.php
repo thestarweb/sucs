@@ -13,6 +13,12 @@ class succ{
 	public function get_js_key(){
 		return $this->js_key;
 	}
+	private $appid;
+	private $appkey;
+	public function set_app_info($i,$k){
+		$this->appid=$i;
+		$this->appkey=$k;
+	}
 	public function succ(){
 		require_once __DIR__.'/usedb.php';$this->link_use=new db_link();
 		$this->js_key=rand(100,999);
@@ -38,9 +44,12 @@ class succ{
 			}
 			var ajax=$.ajax();
 			ajax.ajax.withCredentials = true
-			ajax.page="'.$this->link_use->server_url.'/api";
-			//alert(ajax.page);
-			ajax.data="app=1";
+			ajax.page="'.$this->link_use->server_url.'/api/is_login?";
+			ajax.setCont({
+				APP_id:"'.$this->appid.'",
+				p_time:"'.time().'",
+				md5:"'.md5(time().$this->appkey).'"
+			});
 			ajax.callback=function(ajax){
 				if(ajax.json){
 					suc_u_info=ajax.json;
@@ -59,6 +68,6 @@ class succ{
 		return $this->link_use->islogin($key,$UA);
 	}
 	public function set_key($key){
-		setcookie($this->cooke_name,$key);
+		//setcookie($this->cooke_name,$key);//暂时没有多少作用，注释掉
 	}
 }
