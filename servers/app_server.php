@@ -1,5 +1,6 @@
 <?php
 class app_server{
+	const table='@%_apps';
 	private $system;
 	public function __construct($system){
 		$this->system=$system;
@@ -16,8 +17,14 @@ class app_server{
 				$str.=$v;
 			}
 			$str.=$res[0]['key'];
-			if(md5($str)=$md5) return true;
+			if(md5($str)==$md5) return true;
 		}
 		return false;
+	}
+	public function add($name,$urlroot){
+		$this->system->db()->u_do_SQL('INSERT INTO `'.self::table.'`(`name`,`urlroot`,`key`) VALUE(?,?,?)',array($name,$urlroot,$this->system->rand(11)));
+	}
+	public function get_list(){
+		return $this->system->db()->do_SQL('SELECT `aid`,`name`,`urlroot`,`key` FROM `'.self::table.'`');
 	}
 }
