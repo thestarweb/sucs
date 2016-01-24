@@ -47,9 +47,13 @@
 	}
 	redraw();
 	s.onmousedown=function(ev){
+		ev.x||(ev.x=ev.clientX);
+		ev.y||(ev.y=ev.clientY);
 		c_info={x:ev.x,y:ev.y};
 	}
 	s.onmousemove=function(ev){
+		ev.x||(ev.x=ev.clientX);
+		ev.y||(ev.y=ev.clientY);
 		if(!img_info||!c_info) return;
 		img_info.x+=ev.x-c_info.x;
 		img_info.y+=ev.y-c_info.y;
@@ -77,6 +81,7 @@
 		}
 	}
 	$('#s').onclick=function(ev){
+		ev.x||(ev.x=ev.layerX);
 		this.childNodes[0].style.left=ev.x+"px";
 		img_info.s=(ev.x/20+1)*img_info.s0;
 		redraw();
