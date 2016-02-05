@@ -13,7 +13,7 @@ class succ{
 	public function get_js_key(){
 		return $this->js_key;
 	}
-	public function succ(){
+	public function __construct(){
 		require_once __DIR__.'/usedb.php';$this->link_use=new db_link();
 		$this->js_key=rand(100,999);
 	}
