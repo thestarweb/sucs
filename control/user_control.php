@@ -1,13 +1,5 @@
 <?php
 class user_control{
-	public function __call($uid,$system){
-		var_dump($uid);
-		if($uid+=0){
-			echo $uid.'的信息';
-		}else{
-			echo '不合法';
-		}
-	}
 	public function head_page($system,$uid){
 		header('Content-Type: image/jpeg');
 		//var_dump(file_exists($img=$system[0]->ini_get('imgs_dir').'u_head/0.jpg'));exit;
