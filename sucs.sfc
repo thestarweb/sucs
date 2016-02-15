@@ -1,7 +1,7 @@
 <?php
 			//版本及版权信息
-			define('VERSION','1.1.0.0180');
+			define('VERSION','1.1.0.0182');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2016-01-30');
+			define('MAKE_TIME','2016-02-15');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2016 星星站点 保留所有权利');
 			
