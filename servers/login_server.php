@@ -51,7 +51,7 @@
 					/*记住登陆功能*/
 					if($is_ok&&$remember){
 						$remember_key=$this->system->rand(20);
-						$db->do_SQL('INSERT INTO `'.self::re_table.'`(`key`,`uid`,`end_time`) VALUE(\''.$remember_key.'\','.$res[0]['uid'].','.($time=(time()+3600*30)).')');
+						$db->do_SQL('INSERT INTO `'.self::re_table.'`(`key`,`uid`,`end_time`) VALUE(\''.$remember_key.'\','.$res[0]['uid'].','.($time=(time()+3600*24*7)).')');
 						$rid=$db->do_SQL('SELECT max(`id`) AS `id` FROM `login_remember`');
 						$rid=$rid[0]['id'];
 						setcookie('r_login_key',$remember_key,$time,URLROOT);
@@ -71,6 +71,9 @@
 				if($res=$this->system->db()->do_SQL('SELECT `uid`,`key` FROM `'.self::re_table.'` WHERE `id`='.$_COOKIE['r_login_id'])){
 					if($res[0]['key']==$_COOKIE['r_login_key']){
 						$this->add_login($res[0]['uid']);
+						$new_key=$this->system->rand(20);
+						$this->system->db()->do_SQL('UPDATE `'.self::re_table.'` SET `key`="'.$new_key.'" WHERE `id`='.$_COOKIE['r_login_id'].'`end_time`='.($time=(time()+3600*24*7)));
+						setcookie('r_login_key',$new_key,$time,URLROOT);
 						return $res[0]['uid'];
 					}
 				}
