@@ -266,6 +266,18 @@ CREATE TABLE IF NOT EXISTS `uids` (
   `adder` smallint(6) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `user_egroup`
+--
+
+DROP TABLE IF EXISTS `user_egroup`;
+CREATE TABLE IF NOT EXISTS `user_egroup` (
+ `uid` mediumint(9) NOT NULL,
+ `gid` smallint(6) NOT NULL,
+ KEY `uid` (`uid`,`gid`)
+) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
 
