@@ -33,7 +33,7 @@ class succ{
 				if(!load_array){
 					load_array=[fun];
 				}else{
-					load_array[load_array.arr.length]=fun;
+					load_array[load_array.length]=fun;
 				}
 			}
 			var ajax=$.ajax();
