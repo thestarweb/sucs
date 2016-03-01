@@ -11,7 +11,7 @@
 			$res=$this->system->db()->u_do_SQL('SELECT 
 				`u`.`uid`,`u`.`username`,`u`.`email`,`u`.`reg_time`,`u`.`reg_ip`,`u`.`sex`,`u`.`signature`,`u`.`title`,`u`.`true_name`,`u`.`qq`,`u`.web,
 				`g`.`gname`,`g`.`read_rank`,`g`.`color`,`g`.`use_honor`,`g`.`max_signature`,`g`.`use_title`
-				FROM `'.self::table.'` AS `u` JOIN `group` AS `g` ON `u`.`gid`=`g`.`gid` WHERE `u`.`uid`=?',array($uid));
+				FROM `'.self::table.'` AS `u` LEFT JOIN `group` AS `g` ON `u`.`gid`=`g`.`gid` WHERE `u`.`uid`=?',array($uid));
 			//var_dump($res);
 				return $res?$res[0]:array();
 		}
