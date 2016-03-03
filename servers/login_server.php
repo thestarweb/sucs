@@ -1,6 +1,7 @@
 <?php
 	class login_server{
 		public $system;
+		public $user;
 		const table='@%_logins';
 		const log_table='@%_login_log';
 		const re_table='@%_login_remember';
@@ -88,7 +89,7 @@
 				}
 			}
 			//var_dump($_COOKIE['login_key']);
-			$_SESSION['userinfo']='';
+			unset($_SESSION['userinfo']);
 			return $this->try_relogin();
 		}
 		public function logout(){
@@ -96,17 +97,21 @@
 			setcookie('r_login_id',0,1,URLROOT);
 			$this->system->db()->u_do_SQL('delete from `'.self::table.'` where `key`=?',array($_COOKIE['login_key']));
 			setcookie('login_key','',time()-10,URLROOT);
-			$_SESSION['userinfo']='';
+			unset($_SESSION['userinfo']);
 		}
 		public function get_logins($uid=null){
 			return $this->system->db()->do_SQL('SELECT `id`,`uid`,`username`,`UA` FROM `'.self::table.'`'.($uid===null?'':' WHERE uid='.$uid));
 		}
-		public function get_now_user(){
+		public function get_now_user($flash=false){
 			if(($uid=$this->is_login())!==false){
-				$res=$this->system->db()->do_SQL('SELECT `username` FROM `users` WHERE `uid`='.$uid);
+				//$res=$this->system->db()->do_SQL('SELECT `username` FROM `users` WHERE `uid`='.$uid);
 				//var_dump($res);exit;
-				$res[0]['key']=$_COOKIE['login_key'];
-				return $res[0];
+				if(!isset($_SESSION['userinfo'])||$flash||$_SESSION['userinfo']['key']!=$_COOKIE['login_key']){
+					if(!$this->user) $this->user=new user_server($this->system);
+					$_SESSION['userinfo']=$this->user->get_user_info($uid);
+					$_SESSION['userinfo']['key']=$_COOKIE['login_key'];
+				}
+				return $_SESSION['userinfo'];
 			}else{
 				return array();
 			}
