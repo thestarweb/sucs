@@ -9,9 +9,7 @@
 			}
 			$system->show_head('星星站点用户中心');
 			$this->user=new user_server($system);
-			if(!isset($_SESSION['userinfo'])||!$_SESSION['userinfo']){
-				$_SESSION['userinfo']=$this->user->get_user_info($this->uid);
-			}
+			$this->login->get_now_user();
             //var_dump($_SESSION);
 			$this->system=$system;
 			require_once $system->get_view('home/head');
