@@ -1,10 +1,12 @@
-
 	<script type="text/javascript">
-		//$('#body').innerHTML=myScript.ubb_to_html($('#body').innerHTML,['p','br','a','div']);
-		myScript.marked($('#body').innerHTML,function(html){
+		//解析
+		/*myScript.marked($('#body').innerHTML,function(html){
 			$('#body').innerHTML=html;
-		});
+		});*/
+		myScript.marked_dom($('#body'));
+		//创建输入框
 		var input=$.input('re');
+		//设置按钮功能
 		var button=$('input');
 		button.set('onclick',function(){
 			window.location.href="<?php echo URLROOT;?>home/message";
