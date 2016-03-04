@@ -1,5 +1,6 @@
 <?php
 	class p_control{
+		//处理登陆
 		public function login_page($system){
 			//echo 'SELECT COUNT(*) FROM `logins` WHERE `ip`=\''.$_SERVER['REMOTE_ADDR'].'\' AND `time`>'.(time()-5*60);
 			//var_dump(isset($_POST['remember'])&&$_POST['remember']);exit;
@@ -13,6 +14,7 @@
 			//exit;
 			$system->show_json($login->try_to('name',$_POST['username'],$_POST['password'],isset($_POST['remember'])&&$_POST['remember']));
 		}
+		//处理发送消息
 		public function send_message_page($system){
 			$login=new login_server($system);
 			$uid=$login->is_login();
@@ -20,28 +22,28 @@
 				$geters=explode("\r\n",$_POST['geter']);
 				$geters=array_unique($geters);
 				$errors=array();
-				$ng=array();
+				$m=new message_server($system);
 				$get_uid=$system->db()->prepare('SELECT `uid` FROM `users` WHERE `username`=?');
 				foreach ($geters as $v){
 					if($v){
 						$get_uid->execute(array($v));
 						if($u=$get_uid->fetchAll()){
-							$ng[]=$u[0]['uid'];
+							$m->send_message($uid,$_POST['body'],$u[0]['uid']);
 						}else{
 							$errors[]=$v;
 						}
 					}
 				}
-				$m=new message_server($system);
-				$m->send_messages($uid,$_POST['body'],$ng);
 				$system->show_json(array('info'=>$errors));
 			}
 		}
+		//处理登出
 		public function logout_page($system){
 			$server=new login_server($system);
 			$server->logout();
 			header('location: '.URLROOT.'index/login');
 		}
+		//处理注册
 		//error说明:0表示注册成功，-1 验证码错误，1 用户名已存在
 		public function reg_page($system){
 			$sname=$system->ini_get('reg_ver_ses_name');
@@ -54,6 +56,7 @@
 			$user=new user_server($system);
 			$system->show_json(array('error'=>$user->add_user($_POST['username'],$_POST['password'])));
 		}
+		//处理邀请码注册
 		public function reg_for_key_page($system){
 			$sname=$system->ini_get('reg_ver_ses_name');
 			switch (@$_GET['stp']) {
@@ -85,6 +88,7 @@
 					break;
 			}
 		}
+		//处理删除消息
 		public function delete_message_page($system){
 			if(!isset($_POST['mid'])) $system->show_json(array('info'=>'无法取得消息id'));
 			$login=new login_server($system);
@@ -98,6 +102,7 @@
 			}
 			$system->show_json(array('info'=>'消息不存在或别人的消息'));
 		}
+		//处理修改密码
 		public function chage_password_page($system){
 			if(!isset($_POST['old_password'])||!isset($_POST['new_password'])) $system->show_json(array('info'=>'缺少必要参数'));
 			$login=new login_server($system);
@@ -112,6 +117,7 @@
 				$system->show_json(array('info' =>'原密码错误'));
 			}
 		}
+		//处理上传头像
 		public function save_head_page($system){
 			$login=new login_server($system);
 			$uid=$login->is_login();

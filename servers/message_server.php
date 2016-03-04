@@ -41,6 +41,7 @@ class message_server{
 		//
 	}
 	public function send_messages($sender,$body,$geters){
+		die('接口过旧！！请联系开发人员更新');
 		$t=$this->system->db()->prepare('INSERT INTO `'.self::table.'`(`sender`,`time`,`body`,`geter`) VALUES(?,?,?,?)');
 		foreach ($geters as $v){
 			if($v){
