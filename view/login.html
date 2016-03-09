@@ -36,15 +36,15 @@
 	var inputs = $('input');
 	inputs[4].onclick = function () {
 		if(inputs[0].value===''){
-			myScript.show('您必须输入用户名');
+			myScript.message('无效的登陆','您必须输入用户名','orange');
 			return;
 		}
 		if(inputs[1].value===''){
-			myScript.show('您必须输入密码');
+			myScript.message('无效的登陆','您必须输入密码','orange');
 			return;
 		}
 		if(inputs[2].value===''){
-			myScript.show('您必须输入验证码');
+			myScript.message('无效的登陆','您必须输入验证码','orange');
 			return;
 		}
 		var ajax=myScript.ajax()
@@ -63,11 +63,11 @@
 				if(res['isok']){
 					window.location.href=window.location.hash?window.location.hash.substr(1):"<?php echo URLROOT;?>home";
 				}else{
-					myScript.show('登陆失败<br/>'+res['info']);
+					myScript.message('登陆失败:',res['info'],'red');
 					$('img')[0].chage();
 				}
 			}catch(e){
-				myScript.show('无法识别服务器返回数据，服务器内部可能发生错误<br/>'+ajax.text);
+				myScript.show('无法识别数据，服务器内部可能发生错误',ajax.text);
 			}
 		}
 		ajax.send();
