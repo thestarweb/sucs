@@ -39,7 +39,7 @@
 		if(lock){
 			myScript.message('请稍后',lock==1?'脚本正在和服务器互交哦':':) 提交太快服务器会被玩坏的','green');
 			return;
-		}lock=1;
+		}
 		if(inputs[0].value===''){
 			myScript.message('无效的登陆','您必须输入用户名','orange');
 			return;
@@ -52,6 +52,7 @@
 			myScript.message('无效的登陆','您必须输入验证码','orange');
 			return;
 		}
+		lock=1;
 		var ajax=myScript.ajax()
 		ajax.setCont({
 			'username':inputs[0].value,
