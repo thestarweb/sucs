@@ -26,6 +26,7 @@
 <p>sucs是star user center server（星星用户中心服务器端），星星站点登陆均需要从这里处理</p>
 <br/>
 <script type="text/javascript">
+	var lock=0;
 	$('img')[0].chage = function () {
 		this.src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login&"+Math.random();
 	};
@@ -35,6 +36,10 @@
 	};
 	var inputs = $('input');
 	inputs[4].onclick = function () {
+		if(lock){
+			myScript.message('请稍后',lock==1?'脚本正在和服务器互交哦':':) 提交太快服务器会被玩坏的','green');
+			return;
+		}lock=1;
 		if(inputs[0].value===''){
 			myScript.message('无效的登陆','您必须输入用户名','orange');
 			return;
@@ -69,6 +74,8 @@
 			}catch(e){
 				myScript.show('无法识别数据，服务器内部可能发生错误',ajax.text);
 			}
+			lock=2;
+			setTimeout(function(){lock=0},1000);
 		}
 		ajax.send();
 	};
