@@ -26,6 +26,9 @@ class succ{
 	public function login_page(){
 		return $this->link_use->server_url.'/index/login';
 	}
+	public function head_html($uid){
+		return '<a href="'.$this->link_use->server_url.'/user/info/'.$uid.'" target="_blank"><img src="'.$this->link_use->server_url.'/user/head/'.$uid.'"/></a>';
+	}
 	public function show_script(){
 		echo '<script>
 		(function(){
