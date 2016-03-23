@@ -28,7 +28,6 @@
 			$system->show_head('注册页面');
 			include $system->get_view('reg');
 			$system->show_foot();
-			//echo '<br/><br/><div id="main"><h3>由于现在项目还在测试，存在众多bug，故目前仅支持<a href="reg_for_key">邀请注册</a></h3></div>';
 		}
 		public function reg_for_key_page($system){
 			$sname=$system->ini_get('reg_ver_ses_name');

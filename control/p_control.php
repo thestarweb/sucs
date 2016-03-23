@@ -2,16 +2,12 @@
 	class p_control{
 		//处理登陆
 		public function login_page($system){
-			//echo 'SELECT COUNT(*) FROM `logins` WHERE `ip`=\''.$_SERVER['REMOTE_ADDR'].'\' AND `time`>'.(time()-5*60);
-			//var_dump(isset($_POST['remember'])&&$_POST['remember']);exit;
 			if(!isset($_SESSION['login'])||$_SESSION['login']===''||!isset($_POST['login'])||$_POST['login']!=$_SESSION['login']){
 				$system->show_json(array('isok'=>0,'info'=>'验证码有误'));
 				exit;
 			}
 			$_SESSION['login']='';
 			$login=new login_server($system);
-			//var_dump($_POST);
-			//exit;
 			$system->show_json($login->try_to('name',$_POST['username'],$_POST['password'],isset($_POST['remember'])&&$_POST['remember']));
 		}
 		//处理发送消息

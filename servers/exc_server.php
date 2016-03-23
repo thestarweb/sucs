@@ -27,12 +27,19 @@ class exc_server{
 		foreach($res as $v){
 			$bank[]=array('name'=>$v['Field'],'value'=>$v['Default']);
 		}
-		var_dump($bank);
+		return $bank;
 	}
-	public function add($uid,$name,$d){//小心！！使用此函数必须保证$name 的安全性
+	public function add($uid,$name,$d,$why=''){//小心！！使用此函数必须保证$name 的安全性
 		$uid+=0;$d+=0;
 		if(!$this->system->db()->do_SQL('UPDATE `'.self::table.'` SET `'.$name.'`=`'.$name.'`+'.$d.' WHERE `uid`='.$uid)){
 			$this->system->db()->do_SQL('INSERT INTO`'.self::table.'`(`uid`) VALUE('.$uid.')');
 		}
+	}
+	public function add_s($uid,$excid,$d){//有分析表中字段验证的方案,相对来说安全得多
+		$list=$this->get_all_info();
+		if(isset($list[$excid])) $this->add($uid,$list[$excid]['name'],$d);
+	}
+	public function add_for_login($uid){
+		$this->add_s($uid,0,5);
 	}
 }
