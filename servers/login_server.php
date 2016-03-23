@@ -9,9 +9,10 @@
 			$this->system=$system;
 		}
 		public function add_login($uid,$username=0,$is_ok=1){
+			$uid+=0;
 			$db=$this->system->db();
 			if($username===0){
-				$res=$db->do_SQL('SELECT `username` from `users` WHERE `uid`='.$uid);
+				$res=$db->do_SQL('SELECT `username` from `'.user_server::table.'` WHERE `uid`='.$uid);
 				$username=$res[0]['username'];
 			}
 			//写入登陆日志
@@ -26,7 +27,14 @@
 				setcookie('login_key',$key,0,URLROOT);
 				$_COOKIE['login_key']=$key;
 				$db->u_do_SQL('INSERT INTO `'.self::table.'`(`key`,`time`,`uid`,`username`,`UA`) VALUES(?,?,?,?,?)',array($key,time(),$uid,$username,$_SERVER['HTTP_USER_AGENT']));
-				$db->u_do_SQL('UPDATE `users` SET `last_login_time`=?,`last_login_ip`=? WHERE `uid`=?',array(time(),$_SERVER['REMOTE_ADDR'],$uid));
+				//登陆积分奖励
+				$llt=$db->do_SQL('SELECT `last_login_time` FROM `'.user_server::table.'` WHERE `uid`='.$uid);
+				if(date('Y-m-d',$llt[0]['last_login_time'])!=date('Y-m-d')){
+					$exc=new exc_server($this->system);
+					$exc->add_for_login($uid);
+				}
+				//修改最后登录时间 需要在加积分之后
+				$db->u_do_SQL('UPDATE `'.user_server::table.'` SET `last_login_time`=?,`last_login_ip`=? WHERE `uid`=?',array(time(),$_SERVER['REMOTE_ADDR'],$uid));
 			}
 		}
 		public function try_to($type,$user,$password,$remember=false){
