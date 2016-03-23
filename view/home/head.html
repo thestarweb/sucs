@@ -79,3 +79,12 @@
 	<a href="<?php echo URLROOT;?>home/soft">账号安全</a>
 </div>
 <div class="main_top"></div>
+<script>
+<?php if($exc_change){?>
+$(function(){
+	<?php foreach($exc_change as $v){
+		echo 'myScript.message("',$v['why']?$v['why']:'积分变化','","',$v['name'],$v['number']>0?'增加了':'',$v['number'],'");';
+	}?>
+});
+<?php } ?>
+</script>

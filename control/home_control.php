@@ -9,9 +9,10 @@
 			}
 			$system->show_head('星星站点用户中心');
 			$this->user=new user_server($system);
-			$this->login->get_now_user();
-            //var_dump($_SESSION);
 			$this->system=$system;
+			$exc=new exc_server($this->system);
+			$exc_change=$exc->read_log($this->uid);
+			$this->login->get_now_user($exc_change?true:false);
 			require_once $system->get_view('home/head');
 		}
 		public function __destruct(){
