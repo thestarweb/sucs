@@ -70,6 +70,22 @@ CREATE TABLE IF NOT EXISTS `apps` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `exc_log`
+--
+
+CREATE TABLE IF NOT EXISTS `exc_log` (
+  `timeid` bigint(10) unsigned zerofill NOT NULL,
+  `uid` mediumint(9) NOT NULL,
+  `name` varchar(30) COLLATE utf8_bin NOT NULL,
+  `number` smallint(6) NOT NULL,
+  `why` varchar(50) COLLATE utf8_bin NOT NULL,
+  `isread` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `forbidden_ip`
 --
 
@@ -355,6 +371,13 @@ ALTER TABLE `apps`
 ALTER TABLE `forbidden_ip`
   ADD PRIMARY KEY (`id`),
   ADD KEY `ip` (`ip`);
+
+--
+-- Indexes for table `exc_log`
+--
+ALTER TABLE `exc_log`
+  ADD PRIMARY KEY (`timeid`),
+  ADD KEY `uid` (`uid`);
 
 --
 -- Indexes for table `friends`
