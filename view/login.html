@@ -88,4 +88,39 @@
 			inputs[4].onclick();
 		}
 	}
+
+	//文件拖拽
+	dropbox=$("#body");
+	document.addEventListener("dragenter", function(e){  
+		dropbox.style.borderColor = 'gray';
+
+		dropbox.style.borderColor = 'gray';  
+		dropbox.style.backgroundColor = 'white';  
+	}, false);  
+	document.addEventListener("dragleave", function(e){  
+		dropbox.style.borderColor = 'silver';
+
+		dropbox.style.backgroundColor = 'transparent';  
+		e.stopPropagation();
+		e.preventDefault();
+	}, false);
+	document.addEventListener("dragover", function(e){  
+		e.stopPropagation();
+		e.preventDefault();
+	}, false);
+	document.addEventListener("drop", function(e){  
+		e.stopPropagation();  
+		e.preventDefault();
+		if(e.dataTransfer.files.length==0) return;
+		var fd = new FormData();
+		fd.append('FILE', e.dataTransfer.files[0]);
+		ajax=$.ajax();
+		ajax.page='<?php echo URLROOT;?>p/filelogin';
+		ajax.data=fd;
+		ajax.setHead=false;
+		ajax.callback=function(ajax){
+			alert(ajax.text);
+		}
+		ajax.send();
+	}, false);
 </script>
