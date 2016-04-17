@@ -35,11 +35,9 @@
 		}
 		public function filelogin_page($system){
 			if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
-			$fp=fopen($_FILES['FILE']['tmp_name'],'r');
-			$uid=fgets($fp)+0;
-			if(fgets($fp)=='abc'&&md5_file($_FILES['FILE']['tmp_name'])=='77f49db095ed1185dbc62cc99bc47453') echo 'can';
+			$log=new login_server($system);
+			if($log->file_login($_FILES['FILE']['tmp_name'])) echo 'can';
 			else echo 'cant';
-			fclose($fp);
 		}
 		//处理登出
 		public function logout_page($system){

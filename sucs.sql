@@ -82,6 +82,18 @@ CREATE TABLE IF NOT EXISTS `exc_log` (
   `isread` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `filelogin`
+--
+
+DROP TABLE IF EXISTS `filelogin`;
+CREATE TABLE IF NOT EXISTS `filelogin` (
+  `logid` int(10) unsigned NOT NULL,
+  `key` varchar(10) NOT NULL,
+  `file_md5` varchar(32) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
 
