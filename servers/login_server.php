@@ -89,6 +89,16 @@
 			}
 			return false;
 		}
+		public function file_login($file){
+			//if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
+			$fp=fopen($file,'r');
+			$u_key=fgets($fp)+0;
+			$info=$this->system->db()->do_SQL('SELECT `key`,`file_md5` FROM `@%_filelogin` WHERE `logid`='.$u_key);
+			$res=$info&&fgets($fp)==$info[0]['key']&&md5_file($file)==$info[0]['file_md5'];
+			fclose($fp);
+			$res&&$this->add_login($u_key);
+			return $res;
+		}
 		public function is_login(){
 			if(isset($_COOKIE['login_key'])){
 				$res=$this->system->db()->u_do_SQL('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=? and `UA`=?',array($_COOKIE['login_key'],$_SERVER['HTTP_USER_AGENT']));
