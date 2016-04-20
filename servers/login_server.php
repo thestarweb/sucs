@@ -92,12 +92,15 @@
 		public function file_login($file){
 			//if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
 			$fp=fopen($file,'r');
+			if(fgets($fp)!='SUCS_LOGIN_FILE'."\r\n") return -2;
+			if(fgets($fp)!='FTLE_VERSION=1.1'."\r\n") return 2;
+			if(fgets($fp)<time()) return 3;
 			$u_key=fgets($fp)+0;
 			$info=$this->system->db()->do_SQL('SELECT `key`,`file_md5` FROM `@%_filelogin` WHERE `logid`='.$u_key);
 			$res=$info&&fgets($fp)==$info[0]['key']&&md5_file($file)==$info[0]['file_md5'];
 			fclose($fp);
 			$res&&$this->add_login($u_key);
-			return $res;
+			return !$res;
 		}
 		public function is_login(){
 			if(isset($_COOKIE['login_key'])){
