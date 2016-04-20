@@ -33,11 +33,14 @@
 				$system->show_json(array('info'=>$errors));
 			}
 		}
+		//文件拖拽登陆
 		public function filelogin_page($system){
 			if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
 			$log=new login_server($system);
-			if($log->file_login($_FILES['FILE']['tmp_name'])) echo 'can';
-			else echo 'cant';
+			//echo md5_file($_FILES['FILE']['tmp_name']);
+			$t=$log->file_login($_FILES['FILE']['tmp_name']);
+			if($t) echo '文件匹配失败';
+			else echo 'can';
 		}
 		//处理登出
 		public function logout_page($system){
