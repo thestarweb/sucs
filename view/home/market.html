@@ -1,0 +1,49 @@
+<style>
+.g_list{
+	overflow: hidden;
+}
+	.goods{
+		display: block;
+		width: 32%;
+		margin: 5px;
+		border:1px inset #000;
+		float:left;
+		color: #000;
+	}
+	.goods img{
+		width:98%;
+		height: 200px;
+		margin: 1%;
+	}
+	.goods .g_take{
+		text-align: right;
+	}
+</style>
+<div id="main">
+	<h1>通用商品：</h1>
+	<hr/>
+	<div class="g_list">
+	<?php foreach($goods as $v){ ?>
+		<a href="#" class="goods" title="<?php echo $v['jiesao'];?>">
+			<div>
+				<img src="?" />
+				<h2><?php echo $v['name'];?></h2>
+				<div class="g_take"><?php echo $v['take_type'],':  ',$v['take_number'];?></div>
+			</div>
+		</a>
+	<?php } ?>
+	</div>
+	<br/><br/>
+	<hr/>
+	<h1>用户组专享商品：</h1>
+	<hr/>
+	<?php foreach($goods as $v){ ?>
+	<a href="#" class="goods" title="<?php echo $v['jiesao'];?>">
+		<div>
+			<img src="?" />
+			<h2><?php echo $v['name'];?></h2>
+			<div class="g_take"><?php echo $v['take_type'],':  ',$v['take_number'];?></div>
+		</div>
+	</a>
+	<?php } ?>
+</div>
