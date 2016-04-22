@@ -72,4 +72,9 @@
 		public function change_haad_page($system){
 			include $system->get_view('home/change_head');
 		}
+
+		public function market_page($system){
+			$goods=$system->db()->do_SQL('SELECT * FROM `goods`');
+			include $system->get_view('home/market');
+		}
 	}
