@@ -74,7 +74,11 @@
 		}
 
 		public function market_page($system){
-			$goods=$system->db()->do_SQL('SELECT * FROM `goods`');
+			$market=new market_server($system);
+			$goods=$market->get_public_list();
 			include $system->get_view('home/market');
+		}
+		public function good_page($system,$id){
+			include $system->get_view('home/good');
 		}
 	}
