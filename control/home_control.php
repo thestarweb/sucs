@@ -79,6 +79,8 @@
 			include $system->get_view('home/market');
 		}
 		public function good_page($system,$id){
+			$market=new market_server($system);
+			$info=$market->good_info($id);
 			include $system->get_view('home/good');
 		}
 	}

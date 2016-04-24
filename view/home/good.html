@@ -51,9 +51,9 @@
 			<img src="?" />
 		</div>
 		<div id="g_text">
-			<p id="g_name">name</p>
-			<p id="g_info">info</p>
-			<p id="g_take">50jg</p>
+			<p id="g_name"><?php echo $info['name'];?></p>
+			<p id="g_info"><?php echo $info['jiesao'];?></p>
+			<p id="g_take"><?php echo $info['take_number'],$info['take_type'];?></p>
 		</div>
 	</div>
 	<div id="div_num">数量：<input type="number" value="1"/></div>
