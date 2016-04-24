@@ -24,7 +24,7 @@
 	<hr/>
 	<div class="g_list">
 	<?php foreach($goods as $v){ ?>
-		<a href="#" class="goods" title="<?php echo $v['jiesao'];?>">
+		<a href="<?php echo URLROOT,'home/good/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
 			<div>
 				<img src="?" />
 				<h2><?php echo $v['name'];?></h2>
