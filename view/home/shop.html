@@ -24,7 +24,7 @@
 	<hr/>
 	<div class="g_list">
 	<?php foreach($goods as $v){ ?>
-		<a href="<?php echo URLROOT,'home/good/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
+		<a href="<?php echo URLROOT,'home/goods/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
 			<div>
 				<img src="?" />
 				<h2><?php echo $v['name'];?></h2>
@@ -36,8 +36,8 @@
 	<br/><br/>
 	<hr/>
 	<h1>用户组专享商品：</h1>
-	<hr/>
-	<?php foreach($goods as $v){ ?>
+	<hr/>暂未开放
+	<?php if(false)foreach($goods as $v){ ?>
 	<a href="#" class="goods" title="<?php echo $v['jiesao'];?>">
 		<div>
 			<img src="?" />

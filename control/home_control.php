@@ -73,14 +73,14 @@
 			include $system->get_view('home/change_head');
 		}
 
-		public function market_page($system){
-			$market=new market_server($system);
-			$goods=$market->get_public_list();
-			include $system->get_view('home/market');
+		public function shop_page($system){
+			$shop=new shop_server($system);
+			$goods=$shop->get_public_list();
+			include $system->get_view('home/shop');
 		}
-		public function good_page($system,$id){
-			$market=new market_server($system);
-			$info=$market->good_info($id);
-			include $system->get_view('home/good');
+		public function goods_page($system,$id){
+			$shop=new shop_server($system);
+			$info=$shop->goods_info($id);
+			include $system->get_view('home/goods');
 		}
 	}
