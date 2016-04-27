@@ -43,6 +43,7 @@
 		width: 200px;
 		height: 50px;
 		line-height: 50px;
+		cursor:pointer;
 	}
 </style>
 <div id="main">
@@ -56,7 +57,29 @@
 			<p id="g_take"><?php echo $info['take_number'],$info['take_type'];?></p>
 		</div>
 	</div>
-	<div id="div_num">数量：<input type="number" value="1"/></div>
+	<div id="div_num">数量：<input id="buynum" type="number" value="1"/></div>
 	<div id="buy">立即购买</div>
 	<br/>
 </div>
+<script>
+	$("#buynum").onchange=function(ev){
+		if(this.value===''&&this.value<1){
+			myScript.message('无法设置商品的值'+this.value,'商品数量至少为1');
+			this.value=1;
+		}
+	}
+	$('#buy').onclick=function(){
+		var b_nu=$('#buynum').value;
+		if(b_nu<1){
+			myScript.message('无法设置商品的值'+this.value,'商品数量至少为1');
+			return;
+		}
+		var ajax=$.ajax();
+		ajax.page='#';
+		ajax.data='buy='+b_nu;
+		ajax.callback=function(ajax){
+			alert(ajax.text);
+		}
+		ajax.send();
+	}
+</script>

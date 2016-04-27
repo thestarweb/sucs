@@ -80,6 +80,10 @@
 		}
 		public function goods_page($system,$id){
 			$shop=new shop_server($system);
+			if(isset($_POST['buy'])){
+				ob_clean();
+				var_dump($_POST);return;
+			}
 			$info=$shop->goods_info($id);
 			include $system->get_view('home/goods');
 		}
