@@ -78,7 +78,29 @@
 		ajax.page='#';
 		ajax.data='buy='+b_nu;
 		ajax.callback=function(ajax){
-			alert(ajax.text);
+			if(ajax.json){
+				var e_info='';
+				switch (ajax.json.error){
+					case 0:
+						window.location.reload(true);
+					case 1:
+						e_info='余额不足';
+						break;
+					case 2:
+						e_info='没有购买的权限';
+						break;
+					case 3:
+						e_info='参数有误';
+						break;
+					case -1:
+						e_info='商品不存在';
+						break;
+					case -2:
+						e_info='商品购买脚本丢失';
+						break;
+				}
+				myScript.message('购买失败',e_info);
+			}else alert(ajax.text);
 		}
 		ajax.send();
 	}
