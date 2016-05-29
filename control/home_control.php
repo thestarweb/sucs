@@ -1,5 +1,6 @@
 <?php
 	class home_control{
+		public 	$stop=0;
 		public $system;
 		public function __construct($system){
 			$this->login=new login_server($system);
@@ -16,7 +17,7 @@
 			require_once $system->get_view('home/head');
 		}
 		public function __destruct(){
-			$this->system->show_foot();
+			$this->stop||$this->system->show_foot();
 		}
 		public function index_page($system){
 			$user=$_SESSION['userinfo'];
@@ -81,8 +82,8 @@
 		public function goods_page($system,$id){
 			$shop=new shop_server($system);
 			if(isset($_POST['buy'])){
-				ob_clean();
-				var_dump($_POST);return;
+				$s=new shop_server($system);$this->stop=1;
+				$system->show_json(array('error'=>$s->buy($id,$this->uid,$_POST['buy'])));
 			}
 			$info=$shop->goods_info($id);
 			include $system->get_view('home/goods');

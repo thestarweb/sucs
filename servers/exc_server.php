@@ -32,15 +32,25 @@ class exc_server{
 	}
 	public function add($uid,$name,$d,$why=''){//小心！！使用此函数必须保证$name 的安全性
 		$uid+=0;$d+=0;
-		if(!$this->system->db()->do_SQL('UPDATE `'.self::table.'` SET `'.$name.'`=`'.$name.'`+'.$d.' WHERE `uid`='.$uid)){
+		if(!$last=$this->system->db()->do_SQL('SELECT `'.$name.'` FROM `'.self::table.'` WHERE `uid`='.$uid)){
 			$this->system->db()->do_SQL('INSERT INTO`'.self::table.'`(`uid`) VALUE('.$uid.')');
-			$this->system->db()->do_SQL('UPDATE `'.self::table.'` SET `'.$name.'`=`'.$name.'`+'.$d.' WHERE `uid`='.$uid);
+			$last=$this->system->db()->do_SQL('SELECT `'.$name.'` FROM `'.self::table.'` WHERE `uid`='.$uid);
 		}
+		if($last[0][$name]+$d<0){
+			return 0;
+		}
+		$this->system->db()->do_SQL('UPDATE `'.self::table.'` SET `'.$name.'`=`'.$name.'`+'.$d.' WHERE `uid`='.$uid);
 		$this->system->db()->u_do_SQL('INSERT INTO `'.self::log_table.'`(`timeid`,`uid`,`name`,`number`,`why`) VALUE(?,?,?,?,?)',array(time().rand(10000,99999),$uid,$name,$d,$why));
+		return 1;
 	}
 	public function add_s($uid,$excid,$d,$why){//有分析表中字段验证的方案,相对来说安全得多
 		$list=$this->get_all_info();
-		if(isset($list[$excid])) $this->add($uid,$list[$excid]['name'],$d,$why);
+		if(isset($list[$excid])) return $this->add($uid,$list[$excid]['name'],$d,$why);
+		else foreach($list as $v){
+			if($v['name']==$excid) return $this->add($uid,$excid,$d,$why);
+		}
+		return 0;
+		//if(in_array($, haystack)) return $this->add($uid,$list[$excid]['name'],$d,$why);
 	}
 	public function add_for_login($uid){
 		$this->add_s($uid,0,5,'登陆奖励');
