@@ -10,7 +10,7 @@
 		float:left;
 		color: #000;
 	}
-	.goods img{
+	.goods img,.goods canvas{
 		width:98%;
 		height: 200px;
 		margin: 1%;
@@ -26,7 +26,7 @@
 	<?php foreach($goods as $v){ ?>
 		<a href="<?php echo URLROOT,'home/goods/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
 			<div>
-				<img src="?" />
+				<div><img src="?" /></div>
 				<h2><?php echo $v['name'];?></h2>
 				<div class="g_take"><?php echo $v['take_type'],':  ',$v['take_number'];?></div>
 			</div>
@@ -47,3 +47,18 @@
 	</a>
 	<?php } ?>
 </div>
+<script>
+	$('.goods img').set('onerror',function(){
+		this.style.display='none';
+		var c=myScript.set_dom('canvas',this.parentNode);
+		var p=c.getContext('2d');
+		p.fillStyle="#08F";
+		p.fillRect(0,0,c.width,c.height);
+		p.fillStyle="orange";
+		p.textAlign='center';
+		var s=(c.width-20)/myScript.$get('h2',this.parentNode.parentNode)[0].innerHTML.length;
+		if(s>c.height*0.8) s=c.height*0.8;
+		p.font=s+"px Arial";
+		p.fillText(myScript.$get('h2',this.parentNode.parentNode)[0].innerHTML,c.width/2,c.height*0.4+s/2,c.width);
+	})
+</script>

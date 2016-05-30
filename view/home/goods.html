@@ -13,7 +13,7 @@
 		width:280px;
 		height: 200px;
 	}
-	#good_info img{
+	#good_info img,#good_info canvas{
 		width:100%;
 		height: 100%;
 	}
@@ -62,6 +62,19 @@
 	<br/>
 </div>
 <script>
+	$('#g_img img')[0].onerror=function(){
+		this.style.display='none';
+		var c=myScript.set_dom('canvas',this.parentNode);
+		var p=c.getContext('2d');
+		p.fillStyle="#08F";
+		p.fillRect(0,0,c.width,c.height);
+		p.fillStyle="orange";
+		p.textAlign='center';
+		var s=(c.width-20)/$("#g_name").innerHTML.length;
+		if(s>c.height*0.8) s=c.height*0.8;
+		p.font=s+"px Arial";
+		p.fillText($("#g_name").innerHTML,c.width/2,c.height*0.4+s/2,c.width);
+	}
 	$("#buynum").onchange=function(ev){
 		if(this.value===''&&this.value<1){
 			myScript.message('无法设置商品的值'+this.value,'商品数量至少为1');
