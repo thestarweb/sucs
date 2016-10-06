@@ -4,4 +4,5 @@
 			define('VERSION_INFO',VERSION);
 			define('MAKE_TIME','2016-05-30');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2016 星星站点 保留所有权利');
+			$this->cfgs['reg_ver_ses_name']=0;
 			
