@@ -26,7 +26,11 @@
 		}
 		public function reg_page($system){
 			$system->show_head('注册页面');
-			include $system->get_view('reg');
+			if($system->ini_get('use_key_reg_oney')){
+				include $system->get_view('cant_reg');
+			}else{
+				include $system->get_view('reg');
+			}
 			$system->show_foot();
 		}
 		public function reg_for_key_page($system){
