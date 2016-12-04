@@ -1,30 +1,19 @@
-<style>
-	#body{
-		width:400px;
-		/*position:absolute;*/
-		margin-left:-200px;
-		left:50%;
-		margin-top:11px;
-	}
-	p{
-		text-align:center;
-	}
-</style>
-<div id="body">
-	<h1>请先登录</h1>
-	<hr/>
-	<div>
+<link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>login.css" />
+<div id="HDiv1">
+	<div id="title_box">
+		<h1>星星站点</h1>
+		<h2>用户中心——登陆</h2>
+	</div>
+	<div id="login_box">
+		<h4>将登陆文件拖拽到这里可以实现文件拖拽登陆哦</h4><br/><hr/><br/>
 		<p>用户名：<input type="text" size="20"/></p>
 		<p>密　码：<input type="password" size="20"/></p>
-		<p>验证码：<img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input type="number" size="1" maxlength="3"/>
+		<p>验证码：<img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input class="nu" type="number" size="1" maxlength="3"/>
 		</p>
-		<p><input type="checkbox"/>记住登陆　　　　　<input type="button" value="登陆"/></p>
-		<p>还没有账号？<input type="button" value="立刻注册一个"/></p>
-	</div>
+		<div><input type="checkbox"/>记住登陆</div>
+		<p><input type="button" value="登陆"/></p>
+		<div><a href="<?php echo URLROOT;?>index/reg">注册</a></div>
 </div>
-<br/><br/>
-<p>sucs是star user center server（星星用户中心服务器端），星星站点登陆均需要从这里处理</p>
-<br/>
 <script type="text/javascript">
 	var lock=0;
 	function login_lock(){
@@ -89,17 +78,14 @@
 		}
 		ajax.send();
 	};
-	inputs[5].onclick=function(){
-		window.location.href="<?php echo URLROOT;?>index/reg";
-	};
-	$('#body').onkeydown=function(ev){
+	$('#login_box').onkeydown=function(ev){
 		if(ev.keyCode==13){
 			inputs[4].onclick();
 		}
 	}
 
 	//文件拖拽
-	dropbox=$("#body");
+	dropbox=$("#login_box");
 	document.addEventListener("dragenter", function(e){  
 		dropbox.style.borderColor = 'gray';
 
