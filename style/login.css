@@ -1,0 +1,40 @@
+body{
+	margin: 0 auto;
+	width: 900px;
+}
+#HDiv1{
+	margin-top:90px;
+	overflow: hidden;
+}
+#title_box{
+	width: 280px;
+	left:40px;
+	float: left;
+	top:90px;
+}
+#title_box h2,#title_box h1{
+	text-align: left;
+	font-family: "华文行楷";	
+}
+#login_box{
+	width:380px;
+	height: 290px;
+	border-radius:10px;
+	background: #FFF;
+	margin-left:50%;
+	left: 20px;
+	padding: 20px;
+	text-align: center;
+}
+#login_box p{
+	font-size: 20px;
+	line-height: 45px;
+}
+#login_box p input{
+	height: 29px;
+	border-radius: 5px;
+	width: 230px;	
+}
+#login_box .nu{
+	width: 165px;
+}
