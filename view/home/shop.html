@@ -4,39 +4,41 @@
 }
 	.goods{
 		display: block;
-		width: 32%;
+		width: 31.6%;
 		margin: 5px;
 		border:1px inset #000;
 		float:left;
 		color: #000;
 	}
 	.goods img,.goods canvas{
-		width:98%;
-		height: 200px;
-		margin: 1%;
+		width:230px;
+		height:150px;
+	}
+	.goods .g_img_div{
+		padding: 1% 3px;
 	}
 	.goods .g_take{
 		text-align: right;
 	}
 </style>
 <div id="main">
-	<h1>通用商品：</h1>
-	<hr/>
-	<div class="g_list">
-	<?php foreach($goods as $v){ ?>
-		<a href="<?php echo URLROOT,'home/goods/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
-			<div>
-				<div><img src="?" /></div>
-				<h2><?php echo $v['name'];?></h2>
-				<div class="g_take"><?php echo $v['take_type'],':  ',$v['take_number'];?></div>
-			</div>
-		</a>
-	<?php } ?>
+	<div class="block">
+		<h1>通用商品：</h1>
+		<div class="g_list">
+<?php foreach($goods as $v){ ?>
+			<a href="<?php echo URLROOT,'home/goods/',$v['gid'];?>" class="goods" title="<?php echo $v['jiesao'];?>">
+				<div>
+					<div class="g_img_div"><img src="?" /></div>
+					<h2><?php echo $v['name'];?></h2>
+					<div class="g_take"><?php echo $v['take_type'],':  ',$v['take_number'];?></div>
+				</div>
+			</a>
+<?php } ?>
+		</div>
 	</div>
-	<br/><br/>
-	<hr/>
-	<h1>用户组专享商品：</h1>
-	<hr/>暂未开放
+	<div class="block">
+		<h1>用户组专享商品：</h1>
+		<hr/>暂未开放
 	<?php if(false)foreach($goods as $v){ ?>
 	<a href="#" class="goods" title="<?php echo $v['jiesao'];?>">
 		<div>
@@ -46,7 +48,8 @@
 		</div>
 	</a>
 	<?php } ?>
-</div>
+		</div>
+	</div>
 <script>
 	$('.goods img').set('onerror',function(){
 		this.style.display='none';
