@@ -20,7 +20,7 @@ body{
 	width:380px;
 	height: 290px;
 	border-radius:10px;
-	background: #FFF;
+	background: rgba(255,255,255,0.8);
 	margin-left:50%;
 	left: 20px;
 	padding: 20px;
