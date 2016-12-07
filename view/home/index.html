@@ -1,22 +1,70 @@
-<div id="main" class="block">
+<style>
+	.block{
+		width: 43%;
+		float: left;
+	}
+	#main{
+		overflow: hidden;
+	}
+	table{
+		text-align: center;
+		border: 1px solid #000;
+		margin: 0;
+		padding: 0;
+	}
+	table td,table th{
+		border: 1px solid #000;
+		padding: 8px;margin: 0;
+	}
+	#messages .t1{
+		width: 34%;
+		display: inline-block;
+		text-align: center;
+	}
+	#messages .t2{
+		width: 21%;
+		display: inline-block;
+	}
+	#messages .t3{
+		width: 42%;
+		display: inline-block;
+	}
+</style>
+<div id="main">
 	<h1>欢迎回来</h1>
-	<hr/>
-<?php if($messages){ ?>
-	<h2>您有<?php echo count($messages) ?>条未读消息</h2>
-	<div id="messages">
-<?php foreach($messages as $v){?>
-		<div>
-			<?php echo $v['sender']; ?>(<?php echo date('Y-m-d h:m:s',$v['time']);?>):
-			<span><?php echo mb_substr($v['body'],0,25,'utf-8'); ?>...</span>
-			<a href="<?php echo URLROOT.'home/message?mid='.$v['mid']?>">点击查看</a>
-		</div>
-<?php } ?>
-	</div>
-<?php } ?>
-	<h2>最近登陆记录</h2>
+	<div class="block">
+		<h2>最近登陆记录</h2>
+		<p class="beizhu">如果有非本人登陆，请注意修改密码</p>
+		<p class="beizhu">如果有被反复尝试使用错误密码登陆，需要注意账户安全，有必要请联系管理员封禁尝试使用穷举法破解密码者的IP</p>
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<th>登陆时间</th>
+				<th>登陆ip</th>
+				<th>登陆状态</th>
+			</tr>
 <?php foreach($login_his as $v){?>
-	<div>
-	<?php echo date('Y-m-d h:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
-	</div>
+		<tr>
+			<td><?php echo date('Y-m-d h:m:s',$v['time']);?></td>
+			<td><?php echo $v['ip']; ?></td>
+			<td><?php echo $v['is_true']?'成功':'失败';?></td>
+		</tr>
 <?php }?>
+		</table>
+	</div>
+	<div class="block">
+		<h2>未读消息</h2>
+<?php if($messages){?>
+		<div id="messages">
+<?php foreach($messages as $v){?>
+			<a href="<?php echo URLROOT.'home/message?mid='.$v['mid']?>">
+				<span class="t1"><?php echo date('Y-m-d h:m:s',$v['time']);?></span>
+				<span class="t2"><?php echo $v['sender']; ?></span>
+				<span class="t3"><?php echo mb_substr($v['body'],0,10,'utf-8'); ?>...</span>
+			</a>
+<?php } ?>
+		</div>
+<?php }else{?>
+		<p class="beizhu">没有未读消息</p>
+<?php } ?>
+	</div>
 </div>
