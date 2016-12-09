@@ -1,0 +1,32 @@
+#main{
+	margin-top:20px;
+	text-align: center;
+}
+.button_div{
+	text-align: center;
+}
+.button_div a{
+	height: 10px;
+	color: #000;
+	border: 1px solid #000;
+	background: #CCC;
+	border-radius: 4px;
+	margin: 5px;
+	padding: 8px;
+	line-height: 10px;
+	display: inline-block;
+}
+.info_input{
+	line-height: 40px;
+	font-size: 15px;
+}
+.info_input input{
+	height: 22px;
+	border-radius: 5px;
+	width: 230px;	
+	padding:0 5px;
+	margin: 2px;
+}
+#add{
+	width: 165px;
+}
