@@ -1,22 +1,24 @@
-<div style="height:110px;"></div>
-<div id="main">
-	<h2>
+<link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>reg.css" />
+<div id="main" class="block">
+	<h1>
 		请填写下列信息完成注册
-	</h2>
-<div style="margin:0 110px;">
-	<h3>有邀请码？<a href="reg_for_key">前往邀请注册</a></h3>
-	<h3>已经有帐号？<a href="./">前往登录页面</a></h3>
-	用&nbsp;户&nbsp;名&nbsp;<input type="text" id="username"/><br/>
-	密　　码<input type="password" id="password1"/><br/>
-	确认密码<input type="password" id="password2"/><br/>
-	<img src=""/>
-	=<input type="text" maxlength="3" size="3" id="add"/>
-	<input type="button" value="检验并提交" onclick="up()"/>
-</div>
+	</h1>
+	<div class="button_div">
+		<a href="<?php echo URLROOT;?>index/reg_for_key">使用邀请码注册</a>
+		<a href="<?php echo URLROOT;?>index/login">直接登陆</a>
+	</div>
+	<div  class="info_input">
+		用&nbsp;户&nbsp;名&nbsp;<input type="text" id="username"/><br/>
+		密　　码<input type="password" id="password1"/><br/>
+		确认密码<input type="password" id="password2"/><br/>
+		验&nbsp;证&nbsp;码&nbsp;<img src=""/>
+		=<input type="number" maxlength="3" size="3" id="add"/>
+	</div>
+	<div class="button_div"><a onclick="up()" href="#">检验并提交</a></div>
 </div>
 <script>
 $('img')[0].onclick=function(){
-	this.src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>&"+Math.rand
+	this.src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>&"+Math.random();
 }
 $('img')[0].onclick();
 function up(){
