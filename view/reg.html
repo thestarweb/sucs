@@ -21,23 +21,29 @@ $('img')[0].onclick=function(){
 	this.src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>&"+Math.random();
 }
 $('img')[0].onclick();
+lock=false;
 function up(){
+		if(lock){
+			myScript.message('请勿频繁提交','脚本正在和服务器交互，请勿频繁提交','orange');
+			return;
+		}
 		if(!$('#username').value){
-			myScript.show('您必须输入您的用户名');
+			myScript.message('缺少信息','您必须输入您的用户名','orange');
 			return;
 		}
 		if(!$('#password1').value){
-			myScript.show('您必须设置您的密码');
+			myScript.message('缺少信息','您必须设置您的密码','orange');
 			return;
 		}
 		if($('#password1').value!=$('#password2').value){
-			myScript.show('你两次输入的密码不一致，请检查');
+			myScript.message('信息错误','你两次输入的密码不一致，请检查','#DD2');
 			return;
 		}
 		if(!$('#add').value){
-			myScript.show('您必须输入验证码');
+			myScript.show('缺少信息','您必须输入验证码','orange');
 			return;
 		}
+		lock=true;
 		var ajax=$.ajax();
 		ajax.page='<?php echo URLROOT;?>p/reg';
 		ajax.setCont({
@@ -46,6 +52,7 @@ function up(){
 			'add':$('#add').value
 		});
 		ajax.callback=function(ajax){
+			lock=false;
 			if(ajax.json){
 				if(ajax.json.error){
 					switch (ajax.json.error){
@@ -59,7 +66,7 @@ function up(){
 						var info='未知的错误代码'+ajax.json.error;
 						break;
 					}
-					myScript.show(info);
+					myScript.message('注册失败',info,'red');
 					$('img')[0].onclick()
 				}else{
 					myScript.show('注册成功').onoff=function(){
@@ -71,5 +78,8 @@ function up(){
 			}
 		}
 		ajax.send();
+	}
+	window.onkeydown=function(ev){
+		if(ev.keyCode==13) up();
 	}
 </script>
