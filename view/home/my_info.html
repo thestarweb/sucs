@@ -31,7 +31,13 @@
 		</div>
 		<div>
 			<div class="left">扩展用户组</div>
-			<div class="lright">XXX<br/>hello<br/>world<br/>test</div>
+			<div class="lright">
+<?php if($egroups)foreach($egroups as $v){?>
+				<p style="color:#<?php echo $v['color'];?>"><?php echo $v['gname'];?></p>
+<?php }else{?>
+				<p class="beizhu">没有扩展用户组</p>
+<?php } ?>
+			</div>
 		</div>
 		<div>
 			<div class="left">自定义头衔</div>
