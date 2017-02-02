@@ -56,6 +56,7 @@
 
 		public function  info_page($system){
 			$user=$_SESSION['userinfo'];
+			$egroups=$this->user->get_egroups($user['uid']);
 			$exc_server=new exc_server($system);
 			$exc=$exc_server->get_by_uid($user['uid']);
 			include $system->get_view('home/my_info');

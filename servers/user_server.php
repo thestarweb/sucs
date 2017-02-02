@@ -4,6 +4,7 @@
 	*/
 	class user_server{
 		const table='@%_users';
+		const egroup_table='@%_user_egroup';
 		public function __construct($system){
 			$this->system=$system;
 		}
@@ -18,6 +19,15 @@
 		public $message_type=array('已删除','未读','已读');
 		public function get_usernme_by_uid($uid){
 			//
+		}
+		/**
+			此方法用于返回用户的扩展用户组
+			@uid 用户的uid
+			return 扩展用户组数组
+		*/
+		public function get_egroups($uid){
+			$uid+=0;
+			return $this->system->db()->exec('SELECT `g`.`gid`,`g`.`gname`,`g`.`color` FROM `'.self::egroup_table.'` AS `u` JOIN `'.group_server::table.'` AS `g` ON `u`.`gid`=`g`.`gid` WHERE `u`.`uid`='.$uid);
 		}
 		public function get_history_login($uid){
 			return $this->system->db()->u_do_SQL('SELECT `ip`,`time`,`is_true` FROM `'.login_server::log_table.'` WHERE uid=? ORDER BY `time` DESC limit 0,5',array($uid));
@@ -126,6 +136,7 @@
 		public function get_users_list(){
 			return $this->system->db()->do_SQL('SELECT `uid`,`username`,`sex`,`reg_time`,`reg_ip` FROM `'.self::table.'` where `username` IS NOT NULL');
 		}
+
 		public function change_password($uid,$new_password){
 			$s=$this->system->rand(6);
 			$this->system->db()->u_do_SQL('UPDATE `'.self::table.'` SET `password`=?,`s`=? WHERE `uid`=?',array(sha1(sha1($new_password).$s),$s,$uid));
