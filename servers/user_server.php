@@ -18,6 +18,7 @@
 			此方法用于返还用户信息（不含扩展用户组）
 			@uid int 用户uid
 			return array 用户信息（用户不存在则返回空数组）
+				【用户uid（uid）、用户名（username）、邮箱（email）、注册时间（reg_time），注册ip（reg_ip）等】
 		*/
 		public function get_user_info($uid){
 			$res=$this->system->db()->u_exec('SELECT 
@@ -112,7 +113,11 @@
 				return 'key和uid不匹配';
 			}
 		}
-		//匹配邀请码
+		/**
+			此方法用于匹配邀请码
+			@key string 邀请码
+			return mix（邀请买不存在返回false|存在则返回信息数组【允许自增长uid（auto）、可用特殊组（groups）】）
+		*/
 		public function match_reg_key($key){
 			$this->system->db()->exec('DELETE FROM `@%_reg_keys` WHERE `end_time`<'.time().' OR `number`<1');
 			$res=$this->system->db()->u_exec('SELECT `auto`,`groups` FROM `@%_reg_keys` WHERE `key`=?',array($key));
