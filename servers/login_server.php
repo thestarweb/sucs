@@ -104,6 +104,8 @@
 						return $res[0]['uid'];
 					}
 				}
+				setcookie('r_login_key','',0);
+				setcookie('r_login_id','',0);
 			}
 			return false;
 		}
