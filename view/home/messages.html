@@ -56,7 +56,7 @@
 <?php foreach ($mlist as $v){?>
 			<div class="message" mid="<?php echo $v['mid']; ?>" onclick="select(this)">
 				<div class="m1"><input type="checkbox" class="check"></div>
-				<div class="m2"><?php echo date('Y-m-d h:m:s',$v['time']);?></div>
+				<div class="m2"><?php echo date('Y-m-d H:m:s',$v['time']);?></div>
 				<div class="m3"><?php echo $v['sender']; ?></div>
 				<div class="m4"><?php echo $v['geter']; ?></div>
 				<div class="m5"><?php echo mb_substr($v['body'],0,30,'utf-8'); ?></div>

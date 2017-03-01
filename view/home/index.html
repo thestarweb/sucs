@@ -44,7 +44,7 @@
 			</tr>
 <?php foreach($login_his as $v){?>
 		<tr>
-			<td><?php echo date('Y-m-d h:m:s',$v['time']);?></td>
+			<td><?php echo date('Y-m-d H:m:s',$v['time']);?></td>
 			<td><?php echo $v['ip']; ?></td>
 			<td><?php echo $v['is_true']?'成功':'失败';?></td>
 		</tr>

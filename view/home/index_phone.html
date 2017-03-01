@@ -16,7 +16,7 @@
 	<h2>历史登陆记录</h2>
 <?php foreach($login_his as $v){?>
 	<div>
-	<?php echo date('Y-m-d h:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
+	<?php echo date('Y-m-d H:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
 	</div>
 <?php }?>
 </div>
