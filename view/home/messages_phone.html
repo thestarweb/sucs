@@ -19,7 +19,7 @@
 <?php foreach ($mlist as $v){?>
 			<tr>
 				<td><input type="checkbox"></td>
-				<td><?php echo date('Y-m-d h:m:s',$v['time']);?></td>
+				<td><?php echo date('Y-m-d H:m:s',$v['time']);?></td>
 				<td><?php echo $v['sender']; ?>/<?php echo $v['geter']; ?></td>
 				<td><?php echo mb_substr($v['body'],0,30,'utf-8'); ?></td>
 				<td><?php echo $v['type']&1==1?'已读':'未读'; ?></td>
