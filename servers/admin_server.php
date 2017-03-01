@@ -9,10 +9,10 @@ class admin_server{
 	public function get_list($id,$uid=0){
 		$id+=0;
 		if($uid==0){
-			$res=$this->system->db()->do_SQL('SELECT `id`,`title`,`is_menu`,`src` FROM `'.$this->page_table.'` WHERE `pid`='.$id);
+			$res=$this->system->db()->exec('SELECT `id`,`title`,`is_menu`,`src` FROM `'.$this->page_table.'` WHERE `pid`='.$id);
 		}else{
 			$uid+=0;//echo $uid.'--';exit;
-			$res=$this->system->db()->do_SQL('SELECT `page`.`id`,`page`.`title`,`page`.`is_menu`,`page`.`src` FROM `'.$this->page_table.'` AS `page` JOIN `'.$this->admin_table.'` AS `admin` ON `page`.`id`=`admin`.`pid` WHERE `page`.`pid`='.$id.' AND `admin`.`uid`='.$uid);
+			$res=$this->system->db()->exec('SELECT `page`.`id`,`page`.`title`,`page`.`is_menu`,`page`.`src` FROM `'.$this->page_table.'` AS `page` JOIN `'.$this->admin_table.'` AS `admin` ON `page`.`id`=`admin`.`pid` WHERE `page`.`pid`='.$id.' AND `admin`.`uid`='.$uid);
 	//	var_dump($res);
 		}
 		foreach($res as &$v){
@@ -24,16 +24,16 @@ class admin_server{
 		if($uid===false) return false;
 		if($uid==0){
 			if($id==0)return 1;
-			$res=$this->system->db()->do_SQL('SELECT `is_menu` FROM `'.$this->page_table.'` AS `p` WHERE `id`='.$id);
+			$res=$this->system->db()->exec('SELECT `is_menu` FROM `'.$this->page_table.'` AS `p` WHERE `id`='.$id);
 			if($res){
 				return $res[0]['is_menu']+1;
 			}
 		}else{
 			$uid+=0;$id+=0;
 			if($id==0){
-				return $this->system->db()->do_SQL('SELECT `id` FROM `'.$this->admin_table.'` WHERE `uid`='.$uid.' LIMIT 1')?2:false;
+				return $this->system->db()->exec('SELECT `id` FROM `'.$this->admin_table.'` WHERE `uid`='.$uid.' LIMIT 1')?2:false;
 			}
-			$res=$this->system->db()->do_SQL('SELECT `p`.`is_menu` FROM `'.$this->admin_table.'` AS `a` JOIN `'.$this->page_table.'` AS `p` ON `a`.`pid`=`p`.`id` WHERE `a`.`uid`='.$uid.' AND `p`.`id`='.$id);
+			$res=$this->system->db()->exec('SELECT `p`.`is_menu` FROM `'.$this->admin_table.'` AS `a` JOIN `'.$this->page_table.'` AS `p` ON `a`.`pid`=`p`.`id` WHERE `a`.`uid`='.$uid.' AND `p`.`id`='.$id);
 			if($res){
 				return $res[0]['is_menu']+1;
 			}
@@ -46,9 +46,9 @@ class admin_server{
 		$uid+=0;
 		$db=$this->system->db();
 		//清除旧记录
-		$db->do_SQL('UPDATE `'.$this->admin_table.'` SET `type`=0 WHERE `type`!=1 AND `uid`='.$uid);
+		$db->exec('UPDATE `'.$this->admin_table.'` SET `type`=0 WHERE `type`!=1 AND `uid`='.$uid);
 		//查询已经授权的列
-		$res=$db->do_SQL('SELECT `a`.`pid` AS `id`,`p`.`is_menu` FROM `'.$this->admin_table.'` AS `a` LEFT JOIN `'.$this->page_table.'` AS `p` ON `a`.`pid`=`p`.`id` WHERE `a`.`type`=1 AND `a`.`uid`='.$uid);
+		$res=$db->exec('SELECT `a`.`pid` AS `id`,`p`.`is_menu` FROM `'.$this->admin_table.'` AS `a` LEFT JOIN `'.$this->page_table.'` AS `p` ON `a`.`pid`=`p`.`id` WHERE `a`.`type`=1 AND `a`.`uid`='.$uid);
 		$list=array();$new=array();
 		//需要的连接
 		var_dump($res);
@@ -59,7 +59,7 @@ class admin_server{
 		//遍历所以子项
 		var_dump($list);
 		while($item=array_pop($list)){
-			$res=$db->do_SQL('SELECT `id`,`is_menu` FROM `'.$this->page_table.'` WHERE `pid`='.$item['id']);
+			$res=$db->exec('SELECT `id`,`is_menu` FROM `'.$this->page_table.'` WHERE `pid`='.$item['id']);
 			foreach($res as $v){
 				//$this->add($uid,$v['id'],2);
 				array_push($new,array($v['id'],2));
@@ -67,10 +67,10 @@ class admin_server{
 			}
 		}
 		//写入新记录
-		$res=$db->do_SQL('SELECT `id` FROM `'.$this->admin_table.'` WHERE `type`=0 LIMIT '.count($new));
+		$res=$db->exec('SELECT `id` FROM `'.$this->admin_table.'` WHERE `type`=0 LIMIT '.count($new));
 		while($id=array_pop($res)){
 			$insert=array_pop($new);
-			$db->do_SQL('UPDATE `'.$this->admin_table.'` SET `uid`='.$uid.',`pid`='.$insert[0].',`type`='.$insert[1].' WHERE `id`='.$id['id']);
+			$db->exec('UPDATE `'.$this->admin_table.'` SET `uid`='.$uid.',`pid`='.$insert[0].',`type`='.$insert[1].' WHERE `id`='.$id['id']);
 		}
 		$str='INSERT INTO `'.$this->admin_table.'`(`uid`,`pid`,`type`) VALUE';
 		if($new){
@@ -83,11 +83,11 @@ class admin_server{
 				}
 				$str.='('.$uid.','.$v[0].','.$v[1].')';
 			}
-			$db->do_SQL($str);
+			$db->exec($str);
 		}
 	}
 	public function add($uid,$pid,$type=1){
 		$uid+=0;$pid+=0;$type+=0;
-		//$this->system->db()->do_SQL('INSERT INTO `'.$this->admin_page.'`(`uid`,`pid`,`type`) VALUE(logologo
+		//$this->system->db()->exec('INSERT INTO `'.$this->admin_page.'`(`uid`,`pid`,`type`) VALUE(logologo
 	}
 }
