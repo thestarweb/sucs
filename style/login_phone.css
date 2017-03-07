@@ -1,0 +1,34 @@
+p,h1{
+	text-align:center;
+	margin:5px auto;
+}
+p,input{
+	line-height:30px;
+	font-size:16px;
+}
+p img{
+	margin-bottom:-4px;
+}
+input{
+	border-radius:5px;
+}
+#regbutton{
+	background:#BBB;
+	color:#05B;
+	border:1px solid #05B;
+}
+#main{
+	margin-top:20px;
+}
+h2{
+	
+}
+.button{
+	line-height:39px;
+	width:280px;
+	background:#05B;
+	color:#BBB;
+	border-radius:5px;
+	display:block;
+	margin:5px auto;
+}

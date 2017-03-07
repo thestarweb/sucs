@@ -1,31 +1,5 @@
-<style>
-	p,h1{
-		text-align:center;
-		margin:5px auto;
-	}
-	p,input{
-		line-height:30px;
-		font-size:16px;
-	}
-	p img{
-		margin-bottom:-4px;
-	}
-	input{
-		border-radius:5px;
-	}
-	#loginbutton,#regbutton{
-		line-height:39px;
-		width:280px;
-		background:#05B;
-		color:#BBB;
-		border-radius:5px;
-	}
-	#regbutton{
-		background:#BBB;
-		color:#05B;
-		border:1px solid #05B;
-	}
-</style><div id="body">
+<link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>login_phone.css" />
+<div id="body">
 	<h1>请先登录</h1>
 	<hr/>
 	<div>
@@ -34,8 +8,8 @@
 		<p>验证码：<img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input type="number" size="1" maxlength="3" style="width:160px;"/>
 		</p>
 		<p><input type="checkbox"/>记住登陆</p>
-		<p id="loginbutton">登　　录</p>
-		<p id="regbutton">注　　册</p>
+		<p id="loginbutton" class="button">登　　录</p>
+		<p id="regbutton" class="button">注　　册</p>
 	</div>
 </div>
 <br/><br/>
