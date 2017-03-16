@@ -11,79 +11,11 @@
 		<p>验证码：<img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input class="nu" type="number" size="1" maxlength="3"/>
 		</p>
 		<div><input type="checkbox"/>记住登陆</div>
-		<p><input type="button" value="登陆"/></p>
+		<p><input type="button" value="登陆" id="loginbutton"/></p>
 		<div><a href="<?php echo URLROOT;?>index/reg">注册</a></div>
 </div>
+<?php include $system->get_view('script/login');?>
 <script type="text/javascript">
-	var lock=0;
-	function login_lock(){
-		if(lock){
-			myScript.message('请稍后',lock==1?'脚本正在和服务器互交哦':':) 提交太快服务器会被玩坏的','green');
-			return true;
-		}
-		lock=1;
-		return false;
-	}
-	function login_ok(){
-		window.location.href=window.location.hash?window.location.hash.substr(1):"<?php echo URLROOT;?>home";
-	}
-	function login_error(){
-			lock=2;
-			setTimeout(function(){lock=0},5000);
-	}
-	$('img')[0].chage = function () {
-		this.src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login&"+Math.random();
-	};
-	$('img')[0].onclick = function () {
-		this.chage();
-	};
-	var inputs = $('input');
-	inputs[4].onclick = function () {
-		if(inputs[0].value===''){
-			myScript.message('无效的登陆','您必须输入用户名','orange');
-			return;
-		}
-		if(inputs[1].value===''){
-			myScript.message('无效的登陆','您必须输入密码','orange');
-			return;
-		}
-		if(inputs[2].value===''){
-			myScript.message('无效的登陆','您必须输入验证码','orange');
-			return;
-		}
-		if(login_lock()) return;
-		var ajax=myScript.ajax()
-		ajax.setCont({
-			'username':inputs[0].value,
-			'password': inputs[1].value,
-			'login': inputs[2].value,
-			'remember':inputs[3].checked?1:0
-		});
-		ajax.page = '<?php echo URLROOT;?>p/login';
-		ajax.callback = function (ajax) {
-			//alert(ajax.text);
-			try{
-				//var res=eval(ajax.text);
-				var res=eval('('+decodeURI(ajax.text)+')');
-				if(res['isok']){
-					login_ok();
-				}else{
-					myScript.message('登陆失败:',res['info'],'red');
-					$('img')[0].chage();
-				}
-			}catch(e){
-				myScript.show('无法识别数据，服务器内部可能发生错误',ajax.text);
-			}
-			login_error();
-		}
-		ajax.send();
-	};
-	$('#login_box').onkeydown=function(ev){
-		if(ev.keyCode==13){
-			inputs[4].onclick();
-		}
-	}
-
 	//文件拖拽
 	dropbox=$("#login_box");
 	document.addEventListener("dragenter", function(e){  
