@@ -167,7 +167,8 @@
 				return array 登录文件信息的二维数组
 		*/
 		public function get_loginfile_info($uid=null){
-			return $this->system->db()->exec('SELECT `logid`,`add_time`,`end_time` FROM `'.self::file_table.'`'.($uid===null?'':' WHERE uid='.$uid));
+			$uid+=0;
+			return $this->system->db()->exec('SELECT `logid`,`add_time`,`end_time` FROM `'.self::file_table.'`'.($uid===null?'':' WHERE `uid`='.$uid.' or `add_time`=0&&`logid`='.$uid));
 		}
 		/**
 			用于读取当前用户的信息（session缓存）
