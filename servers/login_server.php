@@ -5,6 +5,7 @@
 		const table='@%_logins';
 		const log_table='@%_login_log';
 		const re_table='@%_login_remember';
+		const file_table='@%_filelogin';
 		public function __construct($system){
 			$this->system=$system;
 		}
@@ -159,6 +160,14 @@
 		*/
 		public function get_logins($uid=null){
 			return $this->system->db()->exec('SELECT `id`,`uid`,`username`,`UA` FROM `'.self::table.'`'.($uid===null?'':' WHERE uid='.$uid));
+		}
+		/**
+				获取用户的用于登录的文件信息
+				@uid int 指定用户id（可选）
+				return array 登录文件信息的二维数组
+		*/
+		public function get_loginfile_info($uid=null){
+			return $this->system->db()->exec('SELECT `logid`,`add_time`,`end_time` FROM `'.self::file_table.'`'.($uid===null?'':' WHERE uid='.$uid));
 		}
 		/**
 			用于读取当前用户的信息（session缓存）
