@@ -27,6 +27,16 @@
 		</div>
 <?php }?>
 	</div>
+	<div class="block">
+		<h2>我的登录文件</h2>
+		<table>
+<?php foreach($login_file as $v){?>
+			<tr>
+			<td><?php echo $v['logid'];?></td><td><?php echo date('Y-m-d H:m:s',$v['add_time']);?></td><td><?php echo date('Y-m-d H:m:s',$v['end_time']);?></td>
+			</tr>
+<?php }?>
+		</table>
+	</div>
 	<div class="change_pass block">
 		<h2>修改密码</h2>
 		<p class="beizhu">*该功能目前可能不稳定，如非必要请谨慎使用</p>
