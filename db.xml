@@ -1,0 +1,165 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<!--本文件用于安装/更新数据库，同时兼具数据字典功能，程序读取是，不会对数据进行有效性验证，请勿随意改动-->
+<db>
+	<table name="admins">
+		<structure type="mediumint" name="id" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="mediumint" name="uid" key="true" attributes="UNSIGNED" default="0"/>
+		<structure type="tinyint" name="pid" attributes="UNSIGNED" default="0"/>
+		<structure type="tinyint" name="type" attributes="UNSIGNED" default="1"/>
+	</table>
+	<table name="admin_pages">
+		<structure type="smallint" name="id" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="smallint" name="pid"/>
+		<structure type="varchar(10)" name="title"/>
+		<structure type="tinyint" name="is_menu"/>
+		<structure type="varchar(200)" name="src" null="true"/>
+	</table>
+	<table name="apps">
+		<structure type="tinyint" name="aid" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="varchar(20)" name="name" default=""/>
+		<structure type="varchar(100)" name="urlroot" default=""/>
+	</table>
+	<table name="exc_log">
+		<structure name="timeid" attributes="unsigned zerofill" type="bigint(10)"/>
+		<structure name="uid" type="mediumint(9)"/>
+		<structure name="name" type="varchar(30)"/>
+		<structure name="number" type="smallint(6)"/>
+		<structure name="why" type="varchar(50)"/>
+		<structure name="isread" type="tinyint(1)" default="0"/>
+		<index name="uid" type="INDEX">uid</index>
+	</table>
+	<table name="filelogin">
+		<structure name="logid" attributes="unsigned" type="int"/>
+		<structure name="uid" attributes="unsigned" type="mediumint"/>
+		<structure name="key" type="varchar(10)"/>
+		<structure name="file_md5" type="varchar(32)"/>
+		<structure name="add_time" attributes="unsigned" type="int" default="0"/>
+		<structure name="end_time" attributes="unsigned" type="int" default="0"/>
+		<index name="uid" type="INDEX">uid</index>
+	</table>
+	<table name="forbidden_ip">
+		<structure type="tinyint" name="id" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="mediumint" name="adder" attributes="UNSIGNED" default="0"/>
+		<structure type="varchar(15)" name="ip"/>
+		<structure type="int" name="time" attributes="UNSIGNED" default="0"/>
+		<structure type="varchar(50)" name="why"/>
+		<index name="ip" type="INDEX">ip</index>
+	</table>
+	<table name="friends">
+		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
+		<structure type="mediumint" name="fid" attributes="UNSIGNED"/>
+		<structure type="tinyint" name="type"/>
+		<index type="UNIQUE" name="a_to_b">uid,fid</index>
+	</table>
+	<table name="goods">
+		<structure name="gid" auto_increment="true" attributes="unsigned" type="smallint(5)"/>
+		<structure name="need_type" type="tinyint(4)"/>
+		<structure name="need" type="varchar(200)" default=""/>
+		<structure name="take_type" type="varchar(10)"/>
+		<structure name="take_number" type="int(11)"/>
+		<structure name="name" type="varchar(20)"/>
+		<structure name="jiesao" type="varchar(200)" default=""/>
+		<structure name="script" attributes="unsigned" type="smallint(5)"/>
+		<structure name="cs" type="varchar(100)" default=""/>
+	</table>
+	<table name="group">
+		<structure type="tinyint" name="gid" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="varchar(15)" name="gname" default="普通用户"/>
+		<structure type="tinyint" name="read_rank" default="10"/>
+		<structure type="char(6)" name="color" default="000000"/>
+		<structure type="tinyint" name="use_honor"  default="0"/>
+		<structure type="smallint" name="max_signature" attributes="UNSIGNED" default="0"/>
+		<structure type="tinyint" name="use_title" default="0"/>
+		<structure type="tinyint" name="isvip" default="0"/>
+		<structure type="smallint" name="get" default="0"/>
+	</table>
+	<table name="logins">
+		<structure type="int" name="id" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="varchar(10)" name="key" default=""/>
+		<structure type="int" name="time" attributes="UNSIGNED" default="0"/>
+		<structure type="mediumint" name="uid"/>
+		<structure type="varchar(10)" name="username" default=""/>
+		<structure type="varchar(500)" name="UA" default=""/>
+		<structure type="varchar(15)" name="ip" default=""/>
+		<index name="key" type="UNIQUE">key</index>
+	</table>
+	<table name="login_log" engine="MEMORY">
+		<structure type="int" name="time" attributes="UNSIGNED"/><!--用时间做主键确实不是个好主意，不过我们这里做的是中小型的数据库，所以两个用户同时登陆的可能性几乎可以忽略，不过这个问题以后还是要修复一下-->
+		<structure type="varchar(15)" name="ip" default=""/>
+		<structure type="mediumint" name="uid" attributes="UNSIGNED" null="true"/>
+		<structure type="varchar(10)" name="username" null="true"/>
+		<structure type="varchar(500)" name="HTTP_USER_AGENT" default=""/>
+		<structure type="tinyint" name="is_true" default="0"/>
+		<index name="uid" type="INDEX">uid</index>
+	</table>
+	<table name="login_remember">
+		<structure type="smallint" name="id" attributes="UNSIGNED"/>
+		<structure type="char(20)" name="key"/>
+		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
+		<structure type="int" name="end_time"/>
+	</table>
+	<table name="message">
+		<structure name="mid" auto_increment="true" attributes="unsigned" type="int(10)"/>
+		<structure name="sender" attributes="unsigned" type="mediumint(8)" default="0"/>
+		<structure name="geter" type="smallint(6)"/>
+		<structure name="time" attributes="unsigned" type="int(10)" default="0"/>
+		<structure name="body" type="varchar(1000)"/>
+		<structure name="type" type="tinyint(4)" default="0"/>
+		<index name="sender" type="INDEX">sender</index>
+		<index name="geter" type="INDEX">geter</index>
+	</table>
+	<table name="place">
+		<structure type="smallint" name="id" attributes="UNSIGNED"/>
+		<structure type="char(3)" name="name"/>
+		<structure type="smallint" name="pid" attributes="UNSIGNED"/>
+	</table>
+	<table name="reg_keys">
+		<structure type="varchar(100)" name="key"/>
+		<structure type="int" name="end_time" default="0"/>
+		<structure type="tinyint" name="number" attributes="UNSIGNED" default="1"/>
+		<structure type="tinyint" name="auto" default="1"/>
+		<structure type="varchar(500)" name="groups" null="true"/>
+	</table>
+	<table name="system">
+		<structure type="varchar(20)" name="key" default=""/>
+		<structure type="varchar(100)" name="value" null="true"/>
+	</table>
+	<table name="uids">
+		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
+		<structure type="varchar(10)" name="key" null="true"/>
+		<structure type="tinyint" name="group" attributes="UNSIGNED" null="true"/>
+		<structure type="smallint" name="adder" default="0"/>
+		<index name="key" type="INDEX">key</index>
+	</table>
+	<table name="user_egroup">
+		<structure type="mediumint" name="uid"/>
+		<structure type="smallint" name="gid"/>
+	</table>
+	<table name="users">
+		<structure type="mediumint" name="uid" auto_increment="true" attributes="UNSIGNED"/>
+		<structure type="varchar(10)" name="username" default=""/>
+		<structure type="char(40)" name="password" />
+		<structure type="char(6)" name="s"/>
+		<structure type="tinyint" name="gid"/>
+		<structure type="varchar(50)" name="email" null="true"/>
+		<structure type="int" name="reg_time" default="0" attributes="UNSIGNED"/>
+		<structure type="varchar(15)" name="reg_ip" default="127.0.0.1"/>
+		<structure type="int" name="last_login_time" null="true" attributes="UNSIGNED"/>
+		<structure type="varchar(15)" name="last_login_ip" null="true"/>
+		<structure type="tinyint" name="sex" default="0"/>
+		<structure type="varchar(2000)" name="signature" null="true"/>
+		<structure type="varchar(20)" name="title" null="true"/>
+		<structure type="varchar(10)" name="true_name" null="true"/>
+		<structure type="int" name="qq" null="true" attributes="UNSIGNED"/>
+		<structure type="varchar(50)" name="web" null="true"/>
+		<index name="username" type="UNIQUE">username</index>
+	</table>
+	<table name="user_exc">
+		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
+		<structure type="int" name="经验" default="0"/>
+		<structure name="威望" type="int" default="0"/>
+		<structure name="铜钱" type="int" default="5"/>
+		<structure name="元宝" type="int" default="0"/>
+		<structure name="贡献" type="int" default="0"/>
+	</table>
+</db>
