@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+	<head></head>
+	<body style="width:320px;height:180px">
+		<h1 style="color:#<?php echo $user['color'];?>"><?php echo $user['username'];?></h1>
+		<p>注册时间:<?php echo date('Y-m-d H:m:s',$user['reg_time']);?></p>
+		<?php var_dump($user); ?>
+	</body>
+</html>
