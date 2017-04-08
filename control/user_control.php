@@ -22,4 +22,12 @@ class user_control{
 		include $system->get_view('user_info');
 		$system->show_foot();
 	}
+	public function card_page($system,$uid){
+		$uid+=0;
+		$user_server=new user_server($system);
+		$user=$user_server->get_user_info($uid);
+		if($user){
+			include $system->get_view('card',false);
+		}
+	}
 }
