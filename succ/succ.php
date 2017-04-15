@@ -27,45 +27,10 @@ class succ{
 		return $this->link_use->server_url.'/index/login';
 	}
 	public function head_html($uid){
-		return '<a href="'.$this->link_use->server_url.'/user/info/'.$uid.'" target="_blank"><img src="'.$this->link_use->server_url.'/user/head/'.$uid.'"/></a>';
+		include __DIR__.'/view/user_head.html';
 	}
 	public function show_script(){
-		echo '<script>
-		(function(){
-			var suc_u_info;
-			var load_array;
-			window.suc_u_load=function(fun,key){
-				if(key!='.$this->js_key.') return;
-				if(suc_u_info){
-					fun(suc_u_info);return;
-				}
-				if(!load_array){
-					load_array=[fun];
-				}else{
-					load_array[load_array.length]=fun;
-				}
-			}
-			var ajax=$.ajax();
-			ajax.withCredentials = true;
-			ajax.page="'.$this->link_use->server_url.'/api/is_login?";
-			ajax.setCont({
-				APP_id:"'.$this->appid.'",
-				p_time:"'.time().'",
-				md5:"'.md5(time().$this->appkey).'"
-			});
-			ajax.callback=function(ajax){
-				if(ajax.json){
-					suc_u_info=ajax.json;
-					for(var i in load_array){
-						load_array[i](suc_u_info);
-					}
-				}else{
-					alert("sucs error：\n"+ajax.text);
-				}
-			}
-			ajax.send();
-		})();
-		</script>';
+		include __DIR__.'/view/main_script.html';
 	}
 	public function is_login($key,$UA){
 		return $this->link_use->islogin($key,$UA);
