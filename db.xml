@@ -18,6 +18,7 @@
 		<structure type="tinyint" name="aid" auto_increment="true" attributes="UNSIGNED"/>
 		<structure type="varchar(20)" name="name" default=""/>
 		<structure type="varchar(100)" name="urlroot" default=""/>
+		<structure type="char(11)" name="key"/>
 	</table>
 	<table name="exc_log">
 		<structure name="timeid" attributes="unsigned zerofill" type="bigint(10)"/>
@@ -73,7 +74,7 @@
 		<structure type="tinyint" name="isvip" default="0"/>
 		<structure type="smallint" name="get" default="0"/>
 	</table>
-	<table name="logins">
+	<table name="logins" engine="MEMORY">
 		<structure type="int" name="id" auto_increment="true" attributes="UNSIGNED"/>
 		<structure type="varchar(10)" name="key" default=""/>
 		<structure type="int" name="time" attributes="UNSIGNED" default="0"/>
@@ -83,7 +84,7 @@
 		<structure type="varchar(15)" name="ip" default=""/>
 		<index name="key" type="UNIQUE">key</index>
 	</table>
-	<table name="login_log" engine="MEMORY">
+	<table name="login_log">
 		<structure type="int" name="time" attributes="UNSIGNED"/><!--用时间做主键确实不是个好主意，不过我们这里做的是中小型的数据库，所以两个用户同时登陆的可能性几乎可以忽略，不过这个问题以后还是要修复一下-->
 		<structure type="varchar(15)" name="ip" default=""/>
 		<structure type="mediumint" name="uid" attributes="UNSIGNED" null="true"/>
