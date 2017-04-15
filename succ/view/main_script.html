@@ -1,0 +1,56 @@
+<script>
+(function(){
+	var suc_u_info;
+	var load_array;
+	window.suc_u_load=function(fun,key){
+		if(key!=<?php echo $this->js_key;?>) return;
+		if(suc_u_info){
+			fun(suc_u_info);return;
+		}
+		if(!load_array){
+			load_array=[fun];
+		}else{
+			load_array[load_array.length]=fun;
+		}
+	}
+	var ajax=$.ajax();
+	ajax.withCredentials = true;
+	ajax.page="<?php echo $this->link_use->server_url;?>/api/is_login?";
+	ajax.setCont({
+		APP_id:"<?php echo $this->appid;?>",
+		p_time:"<?php echo time();?>",
+		md5:"<?php echo md5(time().$this->appkey);?>"
+	});
+	ajax.callback=function(ajax){
+		if(ajax.json){
+			suc_u_info=ajax.json;
+			for(var i in load_array){
+				load_array[i](suc_u_info);
+			}
+		}else{
+			alert("sucs error：\n"+ajax.text);
+		}
+	}
+	ajax.send();
+	var card_iframe=document.createElement("iframe");
+	card_iframe.style.display="none";
+	card_iframe.style.zIndex=1000;
+	card_iframe.style.position="fixed";
+	card_iframe.setAttribute("frameborder",0);
+	card_iframe.style.width="325px";
+	card_iframe.style.height="185px";
+	card_base_URL="<?php echo $this->link_use->server_url;?>/user/card/";
+	document.body.appendChild(card_iframe);
+	window.succ={
+		show_card:function(uid,x,y){
+			card_iframe.src=card_base_URL+uid;
+			card_iframe.style.top=(y+5)+"px";
+			card_iframe.style.left=(x+5)+"px";
+			card_iframe.style.display="";
+		},
+		hidden_card:function(){
+			card_iframe.style.display="none";
+		}
+	}
+})();
+</script>
