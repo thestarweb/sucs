@@ -30,9 +30,9 @@
 		<index name="uid" type="INDEX">uid</index>
 	</table>
 	<table name="filelogin">
-		<structure name="logid" attributes="unsigned" type="int"/>
+		<structure name="logid" attributes="unsigned" type="int" auto_increment="true" />
 		<structure name="uid" attributes="unsigned" type="mediumint"/>
-		<structure name="key" type="varchar(10)"/>
+		<structure name="key" type="varchar(128)"/>
 		<structure name="file_md5" type="varchar(32)"/>
 		<structure name="add_time" attributes="unsigned" type="int" default="0"/>
 		<structure name="end_time" attributes="unsigned" type="int" default="0"/>

@@ -40,11 +40,11 @@
 				<td><?php echo date('Y-m-d H:m:s',$v['add_time']);?></td>
 				<td><?php echo $v['end_time']==0?'永久有效':($v['end_time']>time()?('将于：'.date('Y-m-d H:m:s',$v['end_time']).'失效'):'已失效');?></td>
 				<td></td>
-				<td><?php if($v['add_time']==0) echo '这是旧版的登陆文件';?></td>
+				<td><?php if($v['add_time']==0) echo '旧版登陆文件，等待删除';?></td>
 			</tr>
 <?php }?>
 		</table>
-		<p class="beizhu">*旧版登陆文件（会在末尾标出）存在一定缺陷，但因新方案还未完全确定，且需要一个过度期，目前暂时保留继续使用，将来会不再支持</p>
+		<p class="beizhu">*旧版登陆文件已经不能继续使用了，但是仍然可能会在列表中显示，在下次更新后，您可以选择进行删除</p>
 	</div>
 	<div class="change_pass block">
 		<h2>修改密码</h2>
