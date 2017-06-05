@@ -6,6 +6,9 @@
 		const log_table='@%_login_log';
 		const re_table='@%_login_remember';
 		const file_table='@%_filelogin';
+		private static $file_start='SUCS_LOGIN_FILE';
+		private static $file_version_string='FTLE_VERSION=';
+		private static $file_key_length=128;
 		public function __construct($system){
 			$this->system=$system;
 		}
@@ -113,20 +116,42 @@
 		/**
 			文件登陆专用函数（由于和以前的登陆方式完全不同所以单独设立函数）
 			@file string 登陆时上传的文件路径
-			return mix
+			return int 匹配失败的位置（匹配成功则登陆并返回0）
 		*/
 		public function file_login($file){
 			//if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
 			$fp=fopen($file,'r');
-			if(fgets($fp)!='SUCS_LOGIN_FILE'."\r\n") return -2;
-			if(fgets($fp)!='FTLE_VERSION=1.1'."\r\n") return 2;
-			if(fgets($fp)<time()) return 3;
-			$u_key=fgets($fp)+0;
-			$info=$this->system->db()->exec('SELECT `key`,`file_md5` FROM `@%_filelogin` WHERE `logid`='.$u_key);
-			$res=$info&&fgets($fp)==$info[0]['key']&&md5_file($file)==$info[0]['file_md5'];
+			if(fgets($fp)!=self::$file_start."\r\n") return -2;
+			if(fgets($fp)!=self::$file_version_string.'2.0'."\r\n")return 2;
+			$fid=fgets($fp)+0;
+			$u_key=fgets($fp);
+			if(strlen($u_key)!=self::$file_key_length) return 3;
+			$info=$this->system->db()->exec('SELECT `key`,`file_md5`,`end_time`,`uid` FROM `@%_filelogin` WHERE `logid`='.$fid);
+			$res=$info&&time()<$info[0]['end_time']&&$u_key==$info[0]['key']&&md5_file($file)==$info[0]['file_md5'];
 			fclose($fp);
-			$res&&$this->add_login($u_key);
-			return !$res;
+			$res&&$this->add_login($info[0]['uid']);
+			return $res?0:4;
+		}
+		/**
+			本函数用于创建登陆文件
+			@uid int 需要创建登陆文件的用户uid
+			@end_time int 失效时间
+			return void
+		*/
+		public function create_loginfile($uid,$end_time){
+			$uid+=0;
+			$key=$this->system->rand(self::$file_key_length);
+			$this->system->db()->exec('INSERT INTO `@%_filelogin`(`uid`,`key`,`file_md5`,`add_time`,`end_time`) VALUE('.$uid.',\''.$key.'\',0,'.time().','.$end_time.')');
+			$fid=$this->system->db()->exec('SELECT max(`logid`) AS `fid` FROM `@%_filelogin`');
+			header('Content-type:  application/octet-stream');
+			header('Content-Disposition:  attachment;  filename='.$uid.'.slogin');
+			$string=self::$file_start."\r\n";
+			$string.=self::$file_version_string.'2.0'."\r\n";
+			$string.=$fid[0]['fid']."\r\n";
+			$string.=$key;
+			$md5=md5($string);
+			$this->system->db()->exec('UPDATE `@%_filelogin` SET `file_md5`=\''.$md5.'\'');
+			echo $string;
 		}
 		/**
 			用于检测用户是否登陆（会尝试检测记住登陆信息）

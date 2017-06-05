@@ -1,8 +1,8 @@
 <?php
 			//版本及版权信息
-			define('VERSION','1.1.6.0239');
+			define('VERSION','1.2.0.0242');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2017-04-15');
+			define('MAKE_TIME','2017-06-05');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2017 星星站点 保留所有权利');
 			$this->cfgs['reg_ver_ses_name']='reg_nu';
 			
