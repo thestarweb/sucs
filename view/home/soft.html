@@ -40,7 +40,7 @@
 				<td><?php echo date('Y-m-d H:m:s',$v['add_time']);?></td>
 				<td><?php echo $v['end_time']==0?'永久有效':($v['end_time']>time()?('将于：'.date('Y-m-d H:m:s',$v['end_time']).'失效'):'已失效');?></td>
 				<td></td>
-				<td><?php if($v['add_time']==0) echo '旧版登陆文件，等待删除';?></td>
+				<td><input type="button" value="　删除　" onclick="del_loginfile(<?php echo $v['logid'];?>)"/><?php if($v['add_time']==0) echo '（旧版登陆文件）';?></td>
 			</tr>
 <?php }?>
 		</table>
@@ -48,34 +48,32 @@
 	</div>
 	<div class="change_pass block">
 		<h2>修改密码</h2>
-		<p class="beizhu">*该功能目前可能不稳定，如非必要请谨慎使用</p>
-		原始密码<input type="password"/><br/>
-		&nbsp;新 密 码 <input type="password"/><br/>
-		确认密码<input type="password"/><br/>
-		<input type="button" value="更改密码"/>
+		原始密码<input type="password" id="old_pass"/><br/>
+		&nbsp;新 密 码 <input type="password" id="new_pass"/><br/>
+		确认密码<input type="password" id="new_pass_2"/><br/>
+		<input type="button" value="更改密码" onclick="chage_password()"/>
 	</div>
 	<script>
 		var UA_c=$('.UA_c');
 		for (var i = UA_c.length - 1; i >= 0; i--) {
 			UA_c[i].innerHTML='运行在'+myScript.get_os(UA_c[i].innerHTML)+'上的'+myScript.get_browser(UA_c[i].innerHTML);
 		};
-		var is=$('input');
-		is[3].onclick=function(){
-			if(!is[0].value){myScript.show('请输入原始密码');return;}
-			if(!is[1].value){myScript.show('请输入新密码');return;}
-			if(is[1].value!=is[2].value){myScript.show('两次输入密码不一致');return;}
+		function chage_password(){
+			if(!$('#old_pass').value){myScript.show('请输入原始密码');return;}
+			if(!$('#new_pass').value){myScript.show('请输入新密码');return;}
+			if($('#new_pass').value!=$('#new_pass_2').value){myScript.show('两次输入密码不一致');return;}
 			var ajax=$.ajax();
 			ajax.page='<?php echo URLROOT;?>p/chage_password';
 			ajax.setCont({
-				old_password:is[0].value,
-				new_password:is[1].value
+				old_password:$('#old_pass').value,
+				new_password:$('#new_pass').value
 			});
 			ajax.callback=function(ajax){
 				if(ajax.json){
 					if(ajax.json.info){
 						myScript.show(ajax.json.info);
 					}else{
-						myScript.show('修改成功')
+						window.location.reload(true);
 					}
 				}else{
 					myScript.show('SERVER REEOR<br/>'+ajax.text);
@@ -83,5 +81,17 @@
 			}
 			ajax.send();
 		}
+		function del_loginfile(fid){
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/del_loginfile';
+			ajax.data="fid="+fid;
+			ajax.callback=function(ajax){
+				window.location.reload(true);
+			}
+			ajax.send();
+		}
+<?php if(isset($_SESSION['reset_pass_ok'])){ unset($_SESSION['reset_pass_ok']);?>
+		myScript.message('密码修改成功','同时，其他登陆的设备已强制下线','green');
+<?php } ?>
 	</script>
 </div>

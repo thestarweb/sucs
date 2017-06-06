@@ -141,6 +141,23 @@
 			return $res?0:4;
 		}
 		/**
+			本函数用于删除登陆文件
+			@fid int
+			@f bool 是否强制删除（非强制删除时只能删除当前账号下的数据）
+			return void
+		*/
+		public function del_loginfile($fid,$f=false){
+			$fid+=0;
+			if(!$f){
+				$info=$this->system->db()->exec('SELECT `uid`,`add_time` FROM `@%_filelogin` WHERE `logid`='.$fid);
+				$uid=$this->is_login();
+				if($info[0]['uid']!=$uid){
+					if($info[0]['add_time']!=0||$fid!=$uid) return;
+				}
+			}
+			$this->system->db()->exec('DELETE FROM `@%_filelogin` WHERE `logid`='.$fid);
+		}
+		/**
 			本函数用于创建登陆文件
 			@uid int 需要创建登陆文件的用户uid
 			@end_time int 失效时间
