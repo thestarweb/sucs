@@ -6,9 +6,9 @@
 		const log_table='@%_login_log';
 		const re_table='@%_login_remember';
 		const file_table='@%_filelogin';
-		private static $file_start='SUCS_LOGIN_FILE';
-		private static $file_version_string='FTLE_VERSION=';
-		private static $file_key_length=128;
+		const file_start='SUCS_LOGIN_FILE';
+		const file_version_string='FTLE_VERSION=';
+		const file_key_length=128;
 		public function __construct($system){
 			$this->system=$system;
 		}
@@ -121,11 +121,19 @@
 		public function file_login($file){
 			//if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>'未能得到文件'));
 			$fp=fopen($file,'r');
-			if(fgets($fp)!=self::$file_start."\r\n") return -2;
-			if(fgets($fp)!=self::$file_version_string.'2.0'."\r\n")return 2;
+			if(fgets($fp)!=self::file_start."\r\n") return -2;
+
+			$v=fgets($fp);
+			if(strpos($v,self::file_version_string)!==0)return 2;
+			$v=substr($v,strlen(self::file_version_string));
+
 			$fid=fgets($fp)+0;
+
+			if($v=="2.1\r\n") fgets($fp);//s
+			else if($v!="2.0\r\n") return 2;
+
 			$u_key=fgets($fp);
-			if(strlen($u_key)!=self::$file_key_length) return 3;
+			if(strlen($u_key)!=self::file_key_length) return 3;
 			$info=$this->system->db()->exec('SELECT `key`,`file_md5`,`end_time`,`uid` FROM `@%_filelogin` WHERE `logid`='.$fid);
 			$res=$info&&time()<$info[0]['end_time']&&$u_key==$info[0]['key']&&md5_file($file)==$info[0]['file_md5'];
 			fclose($fp);
@@ -140,14 +148,15 @@
 		*/
 		public function create_loginfile($uid,$end_time){
 			$uid+=0;
-			$key=$this->system->rand(self::$file_key_length);
-			$this->system->db()->exec('INSERT INTO `@%_filelogin`(`uid`,`key`,`file_md5`,`add_time`,`end_time`) VALUE('.$uid.',\''.$key.'\',0,'.time().','.$end_time.')');
+			$key=$this->system->rand(self::file_key_length);
+			$this->system->db()->exec('INSERT INTO `@%_filelogin`(`uid`,`key`,`file_md5`,`version`,`add_time`,`end_time`) VALUE('.$uid.',\''.$key.'\',0,\'2.1\','.time().','.$end_time.')');
 			$fid=$this->system->db()->exec('SELECT max(`logid`) AS `fid` FROM `@%_filelogin`');
 			header('Content-type:  application/octet-stream');
 			header('Content-Disposition:  attachment;  filename='.$uid.'.slogin');
-			$string=self::$file_start."\r\n";
-			$string.=self::$file_version_string.'2.0'."\r\n";
+			$string=self::file_start."\r\n";
+			$string.=self::file_version_string.'2.1'."\r\n";
 			$string.=$fid[0]['fid']."\r\n";
+			$string.=md5(time()+rand(0,99999)).$this->system->rand(50)."\r\n";
 			$string.=$key;
 			$md5=md5($string);
 			$this->system->db()->exec('UPDATE `@%_filelogin` SET `file_md5`=\''.$md5.'\'');

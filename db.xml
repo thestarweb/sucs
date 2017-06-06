@@ -34,6 +34,7 @@
 		<structure name="uid" attributes="unsigned" type="mediumint"/>
 		<structure name="key" type="varchar(128)"/>
 		<structure name="file_md5" type="varchar(32)"/>
+		<structure name="version" type="char(3)" null="true"/>
 		<structure name="add_time" attributes="unsigned" type="int" default="0"/>
 		<structure name="end_time" attributes="unsigned" type="int" default="0"/>
 		<index name="uid" type="INDEX">uid</index>
