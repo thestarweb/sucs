@@ -117,10 +117,18 @@
 				$user=new user_server($system);
 				$user->change_password($uid,$_POST['new_password']);
 				$login->clean_outher_login($uid);
+				$_SESSION['reset_pass_ok']=1;
 				$system->show_json(array('info'=>''));
 			}else{
 				$system->show_json(array('info' =>'原密码错误'));
 			}
+		}
+		//处理删除登陆文件
+		public function del_loginfile_page($system){
+			echo 2333;
+			if(!isset($_POST['fid'])) exit;
+			$login=new login_server($system);
+			$login->del_loginfile($_POST['fid']);
 		}
 		//处理上传头像
 		public function save_head_page($system){
