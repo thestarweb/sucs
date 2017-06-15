@@ -2,3 +2,4 @@ cfg.ini
 error.log
 *.temp
 control/test_control.php
+control/update.lock
