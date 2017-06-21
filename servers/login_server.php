@@ -60,13 +60,16 @@
 			if(@$_SESSION['black_list']>5){
 				return array('server_version'=>VERSION,'isok'=>0,'info'=>'抱歉，由于您频繁尝试登陆，本次会话已被系统拉入黑名单！');
 			}
-			$db=$this->system->db();
-			$res=$db->u_exec('SELECT COUNT(*) as t FROM `'.self::log_table.'` WHERE `ip`=? AND `time`>? AND `is_true`=0',array($_SERVER['REMOTE_ADDR'],time()-5*60));
+			$system=$this->system;
+			$max_time=$system->ini_get('max_try_login_time');
+			$max_time_in=$system->ini_get('max_try_login_time_in');
+			$db=$system->db();
+			$res=$db->u_exec('SELECT COUNT(*) as t FROM `'.self::log_table.'` WHERE `ip`=? AND `time`>? AND `is_true`=0',array($_SERVER['REMOTE_ADDR'],time()-$max_time_in*60));
 			$t=@$res[0]['t'];
-			if($t<5){//还未超过特定时间内的登陆上限（含本次）
+			if($t<$max_time){//还未超过特定时间内的登陆上限（含本次）
 				if($type=='name') $res=$db->u_exec('SELECT `uid`,`password`,`username`,`s` FROM `users` WHERE `username`=?',array($user));
 				elseif($type=='uid') $res=$db->u_exec('SELECT `uid`,`password`,`username`,`s` FROM `users` WHERE `uid`=?',array($user));
-				else return array('isok'=>0,'info'=>'未知或不被支持的登陆方式');
+				else return array('isok'=>0,'info'=>$system->lang('errors',5));
 				if(!$res){
 					$res=array(array());
 					$res[0]['uid']=($type=='uid')?$user:null;
@@ -77,7 +80,7 @@
 					$is_ok=sha1(sha1($password).$res[0]['s'])==$res[0]['password']?1:0;
 					/*记住登陆功能*/
 					if($is_ok&&$remember){
-						$remember_key=$this->system->rand(20);
+						$remember_key=$system->rand(20);
 						$db->exec('INSERT INTO `'.self::re_table.'`(`key`,`uid`,`end_time`) VALUE(\''.$remember_key.'\','.$res[0]['uid'].','.($time=(time()+3600*24*7)).')');
 						$rid=$db->exec('SELECT max(`id`) AS `id` FROM `login_remember`');
 						$rid=$rid[0]['id'];
@@ -86,10 +89,10 @@
 					}
 				}
 				$this->add_login($res[0]['uid'],$res[0]['username'],$is_ok);
-				return array('isok'=>$is_ok,'info'=>$is_ok?'':'抱歉，您的用户名密码有误，还有'.(5-$t-1).'次机会');
+				return array('isok'=>$is_ok,'info'=>$is_ok?'':$system->lang('errors',3,[$max_time_in-$t-1]));
 			}else{//禁止登陆
 				isset($_SESSION['black_list'])?$_SESSION['black_list']++:$_SESSION['black_list']=1;
-				return array('server_version'=>VERSION,'isok'=>0,'info'=>'已达登陆次数上限，请五分钟后再试');
+				return array('server_version'=>VERSION,'isok'=>0,'info'=>$system->lang('errors',4,[$max_time_in,$max_time]));
 			}
 		}
 		/**
