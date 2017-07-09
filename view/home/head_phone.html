@@ -62,13 +62,15 @@
 		<div class="l">sucs</div>
 		<div class="r">
 			<img src="<?php echo URLROOT.'user/head/'.$_SESSION['userinfo']['uid']; ?>" alt="user_head" id="user_head"/>
-			<?php echo $_SESSION['userinfo']['username'];?>[<a href="<?php echo URLROOT;?>p/logout">退出</a>]
+			<?php echo $_SESSION['userinfo']['username'];?>[<a href="<?php echo URLROOT;?>p/logout"><?php echo $system->lang('home','logout');?></a>]
 		</div>
 	</div>
 </div>
 <br/><br/>
 <div id="dh">
-	<a href="<?php echo URLROOT;?>home/friends">好友列表</a>
-	<a href="<?php echo URLROOT;?>home/message">消息/通知列表</a>
-	<a href="<?php echo URLROOT;?>home/info">个人资料</a>
+	<a href="<?php echo URLROOT;?>home/friends"><?php echo $system->lang('home','friends');?></a>
+	<a href="<?php echo URLROOT;?>home/message"><?php echo $system->lang('home','message');?></a>
+	<a href="<?php echo URLROOT;?>home/info"><?php echo $system->lang('home','info');?></a>
+	<a href="<?php echo URLROOT;?>home/soft"><?php echo $system->lang('home','soft');?></a>
+	<a href="<?php echo URLROOT;?>home/shop"><?php echo $system->lang('home','shop');?></a>
 </div>

@@ -1,0 +1,33 @@
+<?php
+$l=[
+	'logout'=>'退出',
+	'welcome'=>'欢迎来到星星站点用户中心',
+	'score_change'=>'积分变化',
+
+	'friends'=>'好友列表',
+	'message'=>'消息/通知列表',
+	'info'=>'个人资料',
+	'soft'=>'账号安全',
+	'shop'=>'积分市场',
+
+	'back'=>'欢迎回来',
+	'nearby_login'=>'最近登陆记录',
+	'login_time'=>'登陆时间',
+	'login_ip'=>'登陆ip',
+	'login_state'=>'登陆状态',
+	'login_state_succeed'=>'登陆成功',
+	'login_state_fail'=>'登陆失败',
+
+	'sex'=>'性别',
+	'true_name'=>'姓名',
+	'group'=>'用户组',
+	'egroup'=>'扩展用户组',
+	'udtitle'=>'自定义头衔',//user-defined title
+	'QQ'=>'QQ号',
+	'reg_ip'=>'注册IP',
+	'reg_time'=>'注册时间',
+	'birthday'=>'生日',
+	'score'=>'积分',
+
+	'creat_loginfile'=>'创建登陆文件',
+];
