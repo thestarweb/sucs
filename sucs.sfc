@@ -1,8 +1,8 @@
 <?php
 			//版本及版权信息
-			define('VERSION','1.2.2.0248');
+			define('VERSION','1.3.0.0250');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2017-06-15');
+			define('MAKE_TIME','2017-07-09');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2017 星星站点 保留所有权利');
 			$this->cfgs['reg_ver_ses_name']='reg_nu';
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
