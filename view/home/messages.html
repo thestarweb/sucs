@@ -34,24 +34,22 @@
 	}
 </style>
 <div id="main" class="block">
-	<h1>消息列表</h1>
+	<h1><?php echo $system->lang('home','message_list');?></h1>
 	<div>
-		<p class="beizhu">*删除功能已经开发完毕，同时为了保证站点消息功能运行速度，我们不定期在消息表内数据达一定量时清理，总要消息请自行备份。</p>
-		<p class="beizhu">*消息的发送储存都是明文进行的，请勿发送敏感信息</p>
 		<br/>
 		<select id="dosth">
-			<option value="a">--请选择操作--</option>
-			<option value="delete">删除</option>
-			<option value="a">标记为已读</option>
+			<option value="a">--<?php echo $system->lang('home','select_option');?>--</option>
+			<option value="delete"><?php echo $system->lang('home','delete');?></option>
+			<option value="a"><?php echo $system->lang('home','marked_as'),$system->lang('home','read');?></option>
 		</select>
-		<input type="button" value="发表消息" class="send"/>
+		<input type="button" value="<?php echo $system->lang('home','send_message');?>" class="send"/>
 			<div>
 				<div class="m1">　</div>
-				<div class="m2">时间</div>
-				<div class="m3">发送者</div>
-				<div class="m4">接收者</div>
-				<div class="m5">内容</div>
-				<div class="m6">状态</div>
+				<div class="m2"><?php echo $system->lang('home','time');?></div>
+				<div class="m3"><?php echo $system->lang('home','sender');?></div>
+				<div class="m4"><?php echo $system->lang('home','geter');?></div>
+				<div class="m5"><?php echo $system->lang('home','content');?></div>
+				<div class="m6"><?php echo $system->lang('home','state');?></div>
 			</div>
 <?php foreach ($mlist as $v){?>
 			<div class="message" mid="<?php echo $v['mid']; ?>" onclick="select(this)">
@@ -60,7 +58,7 @@
 				<div class="m3"><?php echo $v['sender']; ?></div>
 				<div class="m4"><?php echo $v['geter']; ?></div>
 				<div class="m5"><?php echo mb_substr($v['body'],0,30,'utf-8'); ?></div>
-				<div class="m6"><?php echo $v['type']&1==1?'已读':'未读'; ?></div>
+				<div class="m6"><?php echo $v['type']&1==1?$system->lang('home','read'):$system->lang('home','unreed'); ?></div>
 			</div>
 <?php } ?>
 	</div>
@@ -88,7 +86,7 @@
 			switch(this.value){
 				case 'delete':
 					if (messageBox) return;
-					messageBox=myScript.show('确定要删除这些消息吗<br/><br/>　　<input type="button" value=" 是 " onclick="messageBox.istrue=true;messageBox.off();"/>　　<input type="button" value=" 否 " onclick="messageBox.off();"/>');
+					messageBox=myScript.show('<?php echo $system->lang('home','confirm_delete_message');?><br/><br/>　　<input type="button" value=" <?php echo $system->lang('home','yes');?> " onclick="messageBox.istrue=true;messageBox.off();"/>　　<input type="button" value=" <?php echo $system->lang('home','no');?> " onclick="messageBox.off();"/>');
 					messageBox.onoff=function(){
 						if(this.istrue){
 							var c=$('.check');
