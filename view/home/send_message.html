@@ -1,8 +1,8 @@
 <div id="main" class="block">
-	<p>接收者：<span id="geters"></span><input type="text" /><input type="button" value="添加"></p>
-	<p>输入完毕后请点击添加，按回车也可以添加哦</p>
+	<p><?php echo $system->lang('home','geter');?>：<span id="geters"></span><input type="text" /><input type="button" value="<?php echo $system->lang('home','add');?>"></p>
+	<p class="beizhu">输入完毕后请点击添加，按回车也可以添加哦</p>
 	<div id="input"></div>
-	<input type="button" value="发送"/>
+	<input type="button" value="<?php echo $system->lang('home','send');?>"/>
 </div>
 <script type="text/javascript">
 	var input=$.input('input',800,400);
