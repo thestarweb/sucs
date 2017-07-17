@@ -52,6 +52,11 @@ $l=[
 	'confirm_delete_message'=>'你确定要删除这些消息吗？',
 	'add'=>'添加',
 	'send'=>'发送',
+	'cant_add_geter'=>'无法添加接收者',
+	'cant_add_twice'=>'请勿重复添加',
+	'cant_send'=>'无法发送',
+	'must_add_geter'=>'必须添加接收者',
+	'must_add_content'=>'必须填写内容',
 	'reply'=>'回复',
 	'append'=>'追加一条',
 
