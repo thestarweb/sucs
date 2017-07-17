@@ -13,7 +13,7 @@
 		var c=document.getElementById('geters').childNodes;
 		for (var i=0;i<c.length;i++) {
 			if(c[i].innerHTML==this.value){
-				myScript.show('您不能重复添加同一接收人');
+				myScript.message('<?php echo $system->lang('home','cant_add_geter');?>','<?php echo $system->lang('home','cant_add_twice');?>','red');
 				return;
 			}
 		};
@@ -61,11 +61,11 @@
 			gets+=c[i].innerHTML+"\r\n";
 		};
 		if(!gets){
-			myScript.show('必须输入接收人');
+			myScript.message('<?php echo $system->lang('home','cant_send');?>','<?php echo $system->lang('home','must_add_geter');?>','red');
 			return;
 		}
 		if(input.get()==''){
-			myScript.show('您必须输入内容');
+			myScript.message('<?php echo $system->lang('home','cant_send');?>','<?php echo $system->lang('home','must_add_content');?>','red');
 			return
 		}
 		var ajax=new $.ajax();
