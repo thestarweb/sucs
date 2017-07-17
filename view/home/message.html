@@ -6,28 +6,28 @@
 </style>
 <div id="main" class="block">
 	<div class="b">
-		<input type="button" value="<<|返回"/>
+		<input type="button" value="<<|<?php echo $system->lang('home','return');?>"/>
 		<input type="button" value="举报(正在逐步支持中)"/>
 		<input type="button" value="加入黑名单（后续增加支持）"/>
-		<input type="button" value="删除"/>
+		<input type="button" value="<?php echo $system->lang('home','delete');?>"/>
 	</div>
 	<hr/>
-	<div class="marginLR">发送者：<a href="#"><?php echo $messages['sender'];?></a>　接收者：<a href="#"><?php echo $messages['geter'];?></a></div>
-	<div class="marginLR">发送时间：<?php echo date('Y-m-d H:m:s',$messages['time']);?></div>
+	<div class="marginLR"><?php echo $system->lang('home','sender');?>：<a href="#"><?php echo $messages['sender'];?></a>　<?php echo $system->lang('home','geter');?>：<a href="#"><?php echo $messages['geter'];?></a></div>
+	<div class="marginLR"><?php echo $system->lang('home','time');?>：<?php echo date('Y-m-d H:m:s',$messages['time']);?></div>
 	<hr/>
 	<br/><br/>
 	<div id="body" class="marginLR"><?php echo $messages['body'];?></div>
 	<br/><br/>
 	<hr/>
 	<div class="b">
-		<input type="button" value="<<|返回"/>
+		<input type="button" value="<<|<?php echo $system->lang('home','return');?>"/>
 		<input type="button" value="举报(正在逐步支持中)"/>
 		<input type="button" value="加入黑名单（后续增加支持）"/>
-		<input type="button" value="删除"/>
+		<input type="button" value="<?php echo $system->lang('home','delete');?>"/>
 	</div>
 	<hr/>
 	<div id="re" class="marginLR"></div>
-	　<input type="button" value="<?php echo $messages['sender_id']==$this->uid?'追加一条':'快速回复';?>"/>
+	　<input type="button" value="<?php echo $messages['sender_id']==$this->uid?$system->lang('home','append'):$system->lang('home','reply');?>"/>
 	<br/><br/>
 	<?php include $system->get_view('home/message.script',false);?>
 </div>
