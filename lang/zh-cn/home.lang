@@ -3,6 +3,12 @@ $l=[
 	'logout'=>'退出',
 	'welcome'=>'欢迎来到星星站点用户中心',
 	'score_change'=>'积分变化',
+	'yes'=>'是',
+	'no'=>'否',
+
+	'time'=>'时间',
+	'state'=>'状态',
+	'delete'=>'删除',
 
 	'friends'=>'好友列表',
 	'message'=>'消息/通知列表',
@@ -28,6 +34,18 @@ $l=[
 	'reg_time'=>'注册时间',
 	'birthday'=>'生日',
 	'score'=>'积分',
+
+	'message_list'=>'消息列表',
+	'sender'=>'发送者',
+	'geter'=>'接收者',
+	'content'=>'内容',
+	'state'=>'状态',
+	'read'=>'已读',
+	'unread'=>'未读',
+	'send_message'=>'发消息',
+	'select_option'=>'请选择操作',
+	'marked_as'=>'标记为',
+	'confirm_delete_message'=>'你确定要删除这些消息吗？',
 
 	'creat_loginfile'=>'创建登陆文件',
 ];
