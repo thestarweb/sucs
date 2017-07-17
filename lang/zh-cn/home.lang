@@ -25,6 +25,9 @@ $l=[
 	'login_state_fail'=>'登陆失败',
 
 	'sex'=>'性别',
+	'male'=>'男',
+	'female'=>'女',
+	'not_set'=>'--',
 	'true_name'=>'姓名',
 	'group'=>'用户组',
 	'egroup'=>'扩展用户组',
