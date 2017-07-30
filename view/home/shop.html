@@ -23,7 +23,7 @@
 </style>
 <div id="main">
 	<div class="block">
-		<h1>通用商品：</h1>
+		<h1><?php echo $system->lang('home','goods_for_all');?></h1>
 		<div class="g_list">
 <?php foreach($goods as $v){ ?>
 			<a href="<?php echo URLROOT,'home/goods/',$v['gid'];?>" class="goods" title="<?php echo $v['ginfo'];?>">
@@ -37,7 +37,7 @@
 		</div>
 	</div>
 	<div class="block">
-		<h1>用户组专享商品：</h1>
+		<h1><?php echo $system->lang('home','goods_for_group');?></h1>
 		<hr/>暂未开放
 	<?php if(false)foreach($goods as $v){ ?>
 	<a href="#" class="goods" title="<?php echo $v['ginfo'];?>">

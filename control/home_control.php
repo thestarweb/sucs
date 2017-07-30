@@ -85,7 +85,8 @@
 			$shop=new shop_server($system);
 			if(isset($_POST['buy'])){
 				$s=new shop_server($system);$this->stop=1;
-				$system->show_json(array('error'=>$s->buy($id,$this->uid,$_POST['buy'])));
+				$error=$s->buy($id,$this->uid,$_POST['buy']);
+				$system->show_json(array('error'=>$error,'error_info'=>$system->lang('errors',$error)));
 			}
 			$info=$shop->goods_info($id);
 			include $system->get_view('home/goods');
