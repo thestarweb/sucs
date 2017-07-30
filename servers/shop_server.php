@@ -48,7 +48,7 @@ class shop_server{
 					$bfile=$this->system->ini_get('controls_dir').'goods/by_'.$gid.'.php';
 					if(!file_exists($bfile)) return 1005;
 					$exc=new exc_server($this->system);
-					if($exc->add_s($uid,$g_info['take_type'],-$g_info['take_number']*$num,$this->system->lang('home','buy.info',array($num,$g_info['name'])))){
+					if($exc->add_s($uid,$g_info['take_type'],-$g_info['take_number']*$num,$this->system->lang('home','buy.message',array($num,$g_info['name'])))){
 						include $bfile;
 						return 0;
 					}else{
