@@ -60,5 +60,14 @@ $l=[
 	'reply'=>'回复',
 	'append'=>'追加一条',
 
+	'goods_for_all'=>'通用商品：',
+	'goods_for_group'=>'用户组专享商品：',
+	'number'=>'数量：',
+	'buy'=>'购买',
+	'buy.error'=>'购买失败',
+	'buy.message'=>'购买 %0 个 %1',
+	'buy.worry_mumber'=>'无法设置商品的值：',
+	'buy.min_value'=>'商品数量至少为1',
+
 	'creat_loginfile'=>'创建登陆文件',
 ];
