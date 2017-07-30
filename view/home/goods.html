@@ -76,7 +76,7 @@
 		p.fillText($("#g_name").innerHTML,c.width/2,c.height*0.4+s/2,c.width);
 	}
 	$("#buynum").onchange=function(ev){
-		if(this.value===''&&this.value<1){
+		if(this.value===''||this.value<1){
 			myScript.message('<?php echo $system->lang('home','buy.worry_mumber');?>'+this.value,'<?php echo $system->lang('home','buy.min_value');?>');
 			this.value=1;
 		}

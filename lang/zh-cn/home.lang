@@ -65,7 +65,7 @@ $l=[
 	'number'=>'数量：',
 	'buy'=>'购买',
 	'buy.error'=>'购买失败',
-	'buy.message'=>'购买 %0 个 %1',
+	'buy.message'=>'购买&nbsp;%0&nbsp;个&nbsp;%1',
 	'buy.worry_mumber'=>'无法设置商品的值：',
 	'buy.min_value'=>'商品数量至少为1',
 
