@@ -1,0 +1,18 @@
+<?php
+$l=[
+	'username'=>'用户名：',
+	'password'=>'密　码：',
+	'verification'=>'验证码：',
+	'remember'=>'记住登陆',
+	'worrylogin'=>'无效的登陆',
+	'loginerror'=>'登陆失败',
+	'register'=>'注册',
+	'login'=>'登陆',
+	'sucs'=>'星星站点用户中心',
+	'require.username'=>'必须输入用户名',
+	'require.password'=>'必须输入密码',
+	'require.verification'=>'必须输入验证码',
+	'wait'=>'请稍后',
+	'wait.server'=>'脚本正在和服务器互交哦',
+	'wait.cd'=>':) 提交太快服务器会被玩坏的',
+];

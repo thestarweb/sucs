@@ -2,7 +2,7 @@
 	var lock=0;
 	function login_lock(){
 		if(lock){
-			myScript.message('请稍后',lock==1?'脚本正在和服务器互交哦':':) 提交太快服务器会被玩坏的','green');
+			myScript.message('<?php echo $system->lang('login','wait');?>',lock==1?'<?php echo $system->lang('login','wait.server');?>':'<?php echo $system->lang('login','wait.cd');?>','green');
 			return true;
 		}
 		lock=1;
@@ -24,15 +24,15 @@
 	var inputs = $('input');
 	$("#loginbutton").onclick = function () {
 		if(inputs[0].value===''){
-			myScript.message('无效的登陆','您必须输入用户名','orange');
+			myScript.message('<?php echo $system->lang('login','worrylogin');?>','<?php echo $system->lang('login','require.username');?>','orange');
 			return;
 		}
 		if(inputs[1].value===''){
-			myScript.message('无效的登陆','您必须输入密码','orange');
+			myScript.message('<?php echo $system->lang('login','worrylogin');?>','<?php echo $system->lang('login','require.password');?>','orange');
 			return;
 		}
 		if(inputs[2].value===''){
-			myScript.message('无效的登陆','您必须输入验证码','orange');
+			myScript.message('<?php echo $system->lang('login','worrylogin');?>','<?php echo $system->lang('login','require.verification');?>','orange');
 			return;
 		}
 		if(login_lock()) return;
@@ -48,11 +48,12 @@
 			//alert(ajax.text);
 			try{
 				//var res=eval(ajax.text);
-				var res=eval('('+decodeURI(ajax.text)+')');
+				//var res=eval('('+decodeURI(ajax.text)+')');
+				var res=ajax.json;
 				if(res['isok']){
 					login_ok();
 				}else{
-					myScript.message('登陆失败:',res['info'],'red');
+					myScript.message('<?php echo $system->lang('login','loginerror');?>:',res['info'],'red');
 					$('img')[0].chage();
 				}
 			}catch(e){
