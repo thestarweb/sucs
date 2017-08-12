@@ -1,39 +1,39 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>reg.css" />
 <div style="height:110px;"></div>
 <div id="main" class="block">
-	<h2>这里是邀请注册页面</h2>
+	<h2><?php echo $system->lang('login','register.key.inputinfo');?></h2>
 	<div id="ui1">
-		<p class="button_div"><a href="<?php echo URLROOT;?>index/reg">点我返回普通注册界面</a><a href="<?php echo URLROOT;?>index/reg">点我去登陆界面</a></p>
+		<p class="button_div"><a href="<?php echo URLROOT;?>index/reg"><?php echo $system->lang('login','register.normal');?></a><a href="<?php echo URLROOT;?>index/reg"><?php echo $system->lang('login','login');?></a></p>
 		<div class="info_input">
-			邀请码：<input type="text" id="key"/><span class="beizhu">邀请码区分大小写</span>
+			<?php echo $system->lang('login','register.key.name');?><input type="text" id="key"/><span class="beizhu">邀请码区分大小写</span>
 			<br/>
-				验证码：
+				<?php echo $system->lang('login','verification');?>
 				<img src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>"/>=
 				<input type="text" maxlength="3" size="3" id="add"/>　　　　　　　
 		</div>
-		<div  class="button_div"><a onclick="test_key()">检查邀请码</a></div>
+		<div  class="button_div"><a onclick="test_key()"><?php echo $system->lang('login','register.key.check');?></a></div>
 		<p class="beizhu">验证完邀请码后会显示你能用的uid及其他特权，选择并完善用户信息后即可完成注册</p>
 	</div>
 	<div id="ui2" style="display:none;">
-		<div class="beizhu">您的邀请码已经通过验证，您需要完成以下信息完成注册</div>
+		<div class="beizhu"><?php echo $system->lang('login','register.key.inputinfo2');?></div>
 		<div class="info_input">
 			<div class="info_input">
 					u&nbsp;i&nbsp;d&nbsp;：
 					<select id="uid">
 					</select>
 				<br/>
-					用户组：
+					<?php echo $system->lang('login','group');?>
 					<select id="group">
 						<option value="auto">默认</option>
 					</select>
 				<br/>
-				用&nbsp;户&nbsp;名&nbsp;<input type="text" id="username"/>
+				<?php echo $system->lang('login','register.username');?><input type="text" id="username"/>
 				<br/>
-				密　　码<input type="password" id="password1"/>
+				<?php echo $system->lang('login','register.password');?><input type="password" id="password1"/>
 				<br/>
-				确认密码<input type="password" id="password2"/>
+				<?php echo $system->lang('login','register.password2');?><input type="password" id="password2"/>
 			</div>
-			<p class="button_div"><a onclick="up()"/>注册</a></p>
+			<p class="button_div"><a onclick="up()"/><?php echo $system->lang('login','register');?></a></p>
 		</div>
 	</div>
 	<div id="ui3" style="display:none;">
@@ -97,7 +97,7 @@
 	//第一次提交函数
 	function test_key(){
 		if($("#add").value==""){
-			myScript.message("错误","你必须填写验证码",'#BB0');
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.verification');?>','#BB0');
 			return;
 		}
 		var ajax=$.ajax();
@@ -110,15 +110,15 @@
 	//第二次提交
 	function up(){
 		if(!$('#username').value){
-			myScript.message("错误",'您必须输入您的用户名',"#BB0");
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.usernem');?>',"#BB0");
 			return;
 		}
 		if(!$('#password1').value){
-			myScript.show("错误",'您必须设置您的密码',"#BB0");
+			myScript.show('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.password');?>',"#BB0");
 			return;
 		}
 		if($('#password1').value!=$('#password2').value){
-			myScript.show("错误",'你两次输入的密码不一致，请检查',"#BB0");
+			myScript.show('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','register.password_worry');?>',"#BB0");
 			return;
 		}
 		var ajax=$.ajax();
@@ -136,7 +136,7 @@
 				if(ajax.json.error){
 					myScript.show(ajax.json.error);
 				}else{
-					myScript.show('注册成功')
+					myScript.show('<?php echo $system->lang('login','register.succeed');?>')
 				}
 			}else{
 				myScript.show(ajax.text);
