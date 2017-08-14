@@ -66,11 +66,11 @@
 			echo '糟糕，这个功能还没有弄好';
 		}
 
-		public function soft_page($system){
+		public function safe_page($system){
 			$login_his=$this->user->get_history_login($this->uid);
 			$login_c=$this->login->get_logins($this->uid);
 			$login_file=$this->login->get_loginfile_info($this->uid);
-			include $system->get_view('home/soft');
+			include $system->get_view('home/safe');
 		}
 		public function change_haad_page($system){
 			include $system->get_view('home/change_head');

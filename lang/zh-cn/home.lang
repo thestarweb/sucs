@@ -69,5 +69,6 @@ $l=[
 	'buy.worry_mumber'=>'无法设置商品的值：',
 	'buy.min_value'=>'商品数量至少为1',
 
+	'login_history'=>'登陆历史',
 	'creat_loginfile'=>'创建登陆文件',
 ];
