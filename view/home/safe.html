@@ -5,11 +5,17 @@
 	.UA_c{
 		width: 600px;
 	}
+	table{
+		margin: 0 auto;
+	}
+	td{
+		padding: 2px 15px;
+	}
 </style>
 <div id="main">
-	<h1>星星站点安全中心</h1>
+	<h1><?php echo $system->lang('home','safe_page');?></h1>
 	<div class="block">
-		<h2>当前在线客户端</h2>
+		<h2><?php echo $system->lang('home','login_clients');?></h2>
 		<p class="beizhu">*目前浏览器和系统识别可能有bug，同时UA也可能是伪造的</p>
 		<table>
 <?php foreach($login_c as $v){?>
@@ -21,37 +27,46 @@
 	</div>
 	<div class="block">
 		<h2><?php echo $system->lang('home','login_history');?></h2>
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<th><?php echo $system->lang('home','login_time');?></th>
+				<th><?php echo $system->lang('home','login_ip');?></th>
+				<th><?php echo $system->lang('home','login_state');?></th>
+			</tr>
 <?php foreach($login_his as $v){?>
-		<div>
-		<?php echo date('Y-m-d H:m:s',$v['time']);?>：在ip地址为<?php echo $v['ip']; ?>的电脑上登录<?php echo $v['is_true']?'成功':'失败';?>
-		</div>
+		<tr>
+			<td><?php echo date('Y-m-d H:m:s',$v['time']);?></td>
+			<td><?php echo $v['ip']; ?></td>
+			<td><?php echo $v['is_true']?$system->lang('home','login_state_succeed'):$system->lang('home','login_state_fail');?></td>
+		</tr>
 <?php }?>
+		</table>
 	</div>
 	<div class="block">
-		<h2>我的登录文件</h2>
+		<h2><?php echo $system->lang('home','my_loginfile');?></h2>
 		<table>
 			<tr>
-				<th>创建时间</th>
-				<th>状态</th>
-				<th>操作<th>
+				<th><?php echo $system->lang('home','create_time');?></th>
+				<th><?php echo $system->lang('home','state');?></th>
+				<th><?php echo $system->lang('home','option');?><th>
 			</td>
 <?php foreach($login_file as $v){?>
 			<tr>
 				<td><?php echo date('Y-m-d H:m:s',$v['add_time']);?></td>
-				<td><?php echo $v['end_time']==0?'永久有效':($v['end_time']>time()?('将于：'.date('Y-m-d H:m:s',$v['end_time']).'失效'):'已失效');?></td>
+				<td><?php echo $v['end_time']==0?'永久有效':($v['end_time']>time()?$system->lang('home','loginfile.useable',[date('Y-m-d H:m:s',$v['end_time'])]):$system->lang('home','loginfile.invalid'));?></td>
 				<td></td>
-				<td><input type="button" value="　删除　" onclick="del_loginfile(<?php echo $v['logid'];?>)"/><?php if($v['add_time']==0) echo '（旧版登陆文件）';?></td>
+				<td><input type="button" value="　<?php echo $system->lang('home','delete');?>　" onclick="del_loginfile(<?php echo $v['logid'];?>)"/><?php if($v['add_time']==0) echo '（旧版登陆文件）';?></td>
 			</tr>
 <?php }?>
 		</table>
 		<p class="beizhu">*旧版登陆文件已经不能继续使用了，但是仍然可能会在列表中显示，在下次更新后，您可以选择进行删除</p>
 	</div>
 	<div class="change_pass block">
-		<h2>修改密码</h2>
-		原始密码<input type="password" id="old_pass"/><br/>
-		&nbsp;新 密 码 <input type="password" id="new_pass"/><br/>
-		确认密码<input type="password" id="new_pass_2"/><br/>
-		<input type="button" value="更改密码" onclick="chage_password()"/>
+		<h2><?php echo $system->lang('home','change_pass');?></h2>
+		<?php echo $system->lang('home','old_pass');?><input type="password" id="old_pass"/><br/>
+		<?php echo $system->lang('home','new_pass');?><input type="password" id="new_pass"/><br/>
+		<?php echo $system->lang('home','re_pass');?><input type="password" id="new_pass_2"/><br/>
+		<input type="button" value="<?php echo $system->lang('home','change_pass');?>" onclick="chage_password()"/>
 	</div>
 	<script>
 		var UA_c=$('.UA_c');
@@ -59,9 +74,9 @@
 			UA_c[i].innerHTML='运行在'+myScript.get_os(UA_c[i].innerHTML)+'上的'+myScript.get_browser(UA_c[i].innerHTML);
 		};
 		function chage_password(){
-			if(!$('#old_pass').value){myScript.show('请输入原始密码');return;}
-			if(!$('#new_pass').value){myScript.show('请输入新密码');return;}
-			if($('#new_pass').value!=$('#new_pass_2').value){myScript.show('两次输入密码不一致');return;}
+			if(!$('#old_pass').value){myScript.message('<?php echo $system->lang('home','need_info');?>','<?php echo $system->lang('home','old_pass');?>','orange');return;}
+			if(!$('#new_pass').value){myScript.message('<?php echo $system->lang('home','need_info');?>','<?php echo $system->lang('home','new_pass');?>','orange');return;}
+			if($('#new_pass').value!=$('#new_pass_2').value){myScript.message('<?php echo $system->lang('home','worry_info');?>','<?php echo $system->lang('home','new_pass_worry');?>','orange');return;}
 			var ajax=$.ajax();
 			ajax.page='<?php echo URLROOT;?>p/chage_password';
 			ajax.setCont({
@@ -91,7 +106,7 @@
 			ajax.send();
 		}
 <?php if(isset($_SESSION['reset_pass_ok'])){ unset($_SESSION['reset_pass_ok']);?>
-		myScript.message('密码修改成功','同时，其他登陆的设备已强制下线','green');
+		myScript.message('<?php echo $system->lang('home','change_pass.succeed');?>','<?php echo $system->lang('home','change_pass.info');?>','green');
 <?php } ?>
 	</script>
 </div>
