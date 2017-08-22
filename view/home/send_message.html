@@ -5,41 +5,43 @@
 	<input type="button" value="<?php echo $system->lang('home','send');?>"/>
 </div>
 <script type="text/javascript">
-	var input=$.input('input',800,400);
+	var input=$.input('input',window.innerWidth>800?800:window.innerWidth*0.99,400);
 	$('input').set('add',function(){
 		if(this.value===''){
 			return;
 		}
 		var c=document.getElementById('geters').childNodes;
-		for (var i=0;i<c.length;i++) {
-			if(c[i].innerHTML==this.value){
+		for (var i=0;i<c.length;i++) {console.log(c[i]);
+			if(c[i].childNodes[0].innerHTML==this.value){
 				myScript.message('<?php echo $system->lang('home','cant_add_geter');?>','<?php echo $system->lang('home','cant_add_twice');?>','red');
 				return;
 			}
 		};
 		var t=$.set('span',$('#geters'));
-		t.innerHTML=this.value;
+		var html='<span style="background:';
 		//t.style.background='rgb('+Math.random()*255+','+Math.random()*255+','+Math.random()*255+')';
 		//t.style.background='rgb(2,2,2)';
 		switch (parseInt(Math.random()*5)){
 			case 0:
 			case 5:
-				t.style.background='rgb(255,255,255)';
+				html+='rgb(255,255,255)';
 				break;
 			case 1:
-				t.style.background='rgb(255,0,0)';
+				html+='rgb(255,0,0)';
 				break;
 			case 2:
-				t.style.background='rgb(0,255,0)';
+				html+='rgb(0,255,0)';
 				break;
 			case 3:
-				t.style.background='rgb(100,100,255)';
+				html+='rgb(100,100,255)';
 				break;
 			case 4:
-				t.style.background='rgb(255,255,0)';
+				html+='rgb(255,255,0)';
 				break;
 		}
-		t.style.margin='5px';
+		html+=';">'+this.value+'</span> ';
+		t.innerHTML=html;
+		t.style.margin='1px';
 		t.onclick=function(){
 			myScript.show('<br/>此功能还未正式实现',300,70,'你确定要删除这个接收人吗？');
 		}
@@ -58,7 +60,7 @@
 		var gets='';
 		var c=document.getElementById('geters').childNodes;
 		for (var i=0;i<c.length;i++) {
-			gets+=c[i].innerHTML+"\r\n";
+			gets+=c[i].firstChild.innerHTML+"\r\n";
 		};
 		if(!gets){
 			myScript.message('<?php echo $system->lang('home','cant_send');?>','<?php echo $system->lang('home','must_add_geter');?>','red');
