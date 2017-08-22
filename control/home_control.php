@@ -25,10 +25,10 @@
 			$m=new message_server($system);
 			$messages=$m->get_message_list($user['uid'],true,true);
 			$login_his=$this->user->get_history_login($user['uid']);
-			require_once $system->get_view('home/index');
+			require_once $system->get_view('home/index',false);
 		}
 		public function send_message_page($system){
-			require_once $system->get_view('home/send_message');
+			require_once $system->get_view('home/send_message',false);
 		}
 		public function message_page($system){
             		$m=new message_server($system);
@@ -50,7 +50,7 @@
 				exit;
 			}else{
 				$mlist=$m->get_message_list($_SESSION['userinfo']['uid']);
-				require_once $system->get_view('home/messages');
+				require_once $system->get_view('home/messages',false);
 			}
 		}
 
@@ -59,7 +59,7 @@
 			$egroups=$this->user->get_egroups($user['uid']);
 			$exc_server=new exc_server($system);
 			$exc=$exc_server->get_by_uid($user['uid']);
-			include $system->get_view('home/my_info');
+			include $system->get_view('home/my_info',false);
 		}
 
 		public function friends_page($system){
