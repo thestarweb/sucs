@@ -50,7 +50,7 @@
 		ajax.callback=function(ajax){
 			if(ajax.text=='can') login_ok();
 			else{
-				myScript.message('<?php echo $system->lang('login','loginerrror');?>',ajax.text,'red');
+				myScript.message('<?php echo $system->lang('login','loginerror');?>',ajax.text,'red');
 				login_error();
 			}
 		}

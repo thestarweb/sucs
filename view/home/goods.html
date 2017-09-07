@@ -1,24 +1,34 @@
 <style>
+<?php if($system->on_phone()){ ?>
+	#g_img{
+		width:100%;
+	}
+	#g_text{
+		height: 80px;
+		margin: 2px;
+	}
+<?php }else{ ?>
 	#good_info{
 		overflow: hidden;
 		margin: 10px auto;
 		width: 800px
+	}
+	#g_img{
+		width:280px;
+		height: 200px;
 	}
 	#good_info div{
 		float: left;
 		margin: 10px;
 		height: 200px;
 	}
-	#g_img{
-		width:280px;
-		height: 200px;
+	#g_text{
+		width: 480px;
 	}
+<?php } ?>
 	#good_info img,#good_info canvas{
 		width:100%;
 		height: 100%;
-	}
-	#g_text{
-		width: 480px;
 	}
 	#g_name{
 		color: red;
