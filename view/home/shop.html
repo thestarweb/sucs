@@ -2,6 +2,18 @@
 .g_list{
 	overflow: hidden;
 }
+<?php if($system->on_phone()){ ?>
+	.goods{
+		display: block;
+		width: 95.5%;
+		margin: 2%;
+		border:1px inset #000;
+		color: #000;
+	}
+	.goods img,.goods canvas{
+		width:100%;
+	}
+<?php }else{ ?>
 	.goods{
 		display: block;
 		width: 31.6%;
@@ -14,6 +26,7 @@
 		width:230px;
 		height:150px;
 	}
+<?php } ?>
 	.goods .g_img_div{
 		padding: 1% 3px;
 	}
@@ -51,6 +64,12 @@
 		</div>
 	</div>
 <script>
+<?php if($system->on_phone()){ ?>
+	var t=$('.goods img');
+	for(i=0;i<t.length;i++){
+		t[i].style.height=(parseInt(t[i].parentNode.offsetWidth)*150/230)+"px";
+	}
+<?php } ?>
 	$('.goods img').set('onerror',function(){
 		this.style.display='none';
 		var c=myScript.set_dom('canvas',this.parentNode);

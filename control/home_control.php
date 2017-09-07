@@ -40,7 +40,7 @@
 							$m->set_message_is_red($messages['mid']);
 						}
 					}
-					require_once $system->get_view('home/message');return;
+					require_once $system->get_view('home/message',false);return;
 				}
 				echo '你要查看的消息不存在或已被删除';
 			}elseif(isset($_GET['send'])&&null!=$_POST['body']&&null!=$_POST['geter']){
@@ -70,7 +70,7 @@
 			$login_his=$this->user->get_history_login($this->uid);
 			$login_c=$this->login->get_logins($this->uid);
 			$login_file=$this->login->get_loginfile_info($this->uid);
-			include $system->get_view('home/safe');
+			include $system->get_view('home/safe',false);
 		}
 		public function change_haad_page($system){
 			include $system->get_view('home/change_head');
@@ -79,7 +79,7 @@
 		public function shop_page($system){
 			$shop=new shop_server($system);
 			$goods=$shop->get_public_list();
-			include $system->get_view('home/shop');
+			include $system->get_view('home/shop',false);
 		}
 		public function goods_page($system,$id){
 			$shop=new shop_server($system);
@@ -89,6 +89,6 @@
 				$system->show_json(array('error'=>$error,'error_info'=>$system->lang('errors',$error)));
 			}
 			$info=$shop->goods_info($id);
-			include $system->get_view('home/goods');
+			include $system->get_view('home/goods',false);
 		}
 	}
