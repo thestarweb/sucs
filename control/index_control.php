@@ -57,7 +57,7 @@
 					break;
 				default:
 					$system->show_head('邀请注册');
-					require_once $system->get_view('reg_key');
+					require_once $system->get_view('reg_key',false);
 					break;
 			}
 		}
