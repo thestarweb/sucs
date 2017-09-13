@@ -1,15 +1,45 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>reg.css" />
+<?php if($system->on_phone()){ ?>
+<style>
+	.info_input{
+		line-height: 10px;
+	}
+	.info_input input{
+		line-height: 19px;
+	}
+	.beizhu{
+		line-height: 11px;
+		color: #555;
+		font-size: 9px;
+	}
+	#key{
+		width: 150px;
+	}
+	#add{
+		width: 80px;
+	}
+	#zhanwei{
+		display: none;
+	}
+	#ui2 input{
+		width: 150px;
+	}
+	#ui2 select{
+		width: 160px;
+	}
+</style>
+<?php } ?>
 <div style="height:110px;"></div>
 <div id="main" class="block">
 	<h2><?php echo $system->lang('login','register.key.inputinfo');?></h2>
 	<div id="ui1">
 		<p class="button_div"><a href="<?php echo URLROOT;?>index/reg"><?php echo $system->lang('login','register.normal');?></a><a href="<?php echo URLROOT;?>index/reg"><?php echo $system->lang('login','login');?></a></p>
 		<div class="info_input">
-			<?php echo $system->lang('login','register.key.name');?><input type="text" id="key"/><span class="beizhu">邀请码区分大小写</span>
+			<?php echo $system->lang('login','register.key.name');?><input type="text" id="key"/><?php if($system->on_phone()) echo '<br/>';?><span class="beizhu">邀请码区分大小写</span>
 			<br/>
 				<?php echo $system->lang('login','verification');?>
 				<img src="<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>"/>=
-				<input type="text" maxlength="3" size="3" id="add"/>　　　　　　　
+				<input type="text" maxlength="3" size="3" id="add"/><span id="zhanwei">　　　　　　　</span>
 		</div>
 		<div  class="button_div"><a onclick="test_key()"><?php echo $system->lang('login','register.key.check');?></a></div>
 		<p class="beizhu">验证完邀请码后会显示你能用的uid及其他特权，选择并完善用户信息后即可完成注册</p>
@@ -114,11 +144,11 @@
 			return;
 		}
 		if(!$('#password1').value){
-			myScript.show('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.password');?>',"#BB0");
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.password');?>',"#BB0");
 			return;
 		}
 		if($('#password1').value!=$('#password2').value){
-			myScript.show('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','register.password_worry');?>',"#BB0");
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','register.password_worry');?>',"#BB0");
 			return;
 		}
 		var ajax=$.ajax();
@@ -136,7 +166,10 @@
 				if(ajax.json.error){
 					myScript.show(ajax.json.error);
 				}else{
-					myScript.show('<?php echo $system->lang('login','register.succeed');?>')
+					var l=myScript.show('<?php echo $system->lang('login','register.succeed');?>');
+					l.onoff=function(){
+						window.location.href='<?php echo URLROOT;?>';
+					}
 				}
 			}else{
 				myScript.show(ajax.text);

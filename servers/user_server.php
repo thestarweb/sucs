@@ -145,7 +145,7 @@
 				}else{
 					//echo $username;
 					if($t=$this->add_user($usernam,$password,null,$group)){
-						return t;
+						return $t;
 					}
 					//return 0;
 				}
