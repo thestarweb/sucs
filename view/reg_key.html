@@ -73,6 +73,7 @@
 <script>
 	$('img')[0].onclick=function(){
 		this.src='<?php echo URLROOT; ?>img/addition.php?name=<?php echo $system->ini_get('reg_ver_ses_name');?>&t='+Math.random();
+		$('#add').value='';
 	}
 	var info=[];
 	var ver;//暂存验证码
@@ -89,9 +90,9 @@
 	function cb1(ajax){
 		if(ajax.json){
 			if(ajax.json.error){
-				$('input')[0].value='';
+				if(ajax.json.error!=1) $('input')[0].value='';
 				$('img')[0].onclick();
-				myScript.message('验证失败','服务器没有发现匹配您邀请码的uid。。。','#F00');
+				myScript.message('验证失败',ajax.json.info,'#F00');
 				return;
 			}
 			to_ui2();
@@ -140,7 +141,7 @@
 	//第二次提交
 	function up(){
 		if(!$('#username').value){
-			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.usernem');?>',"#BB0");
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.username');?>',"#BB0");
 			return;
 		}
 		if(!$('#password1').value){
@@ -164,7 +165,7 @@
 		ajax.callback=function(ajax){
 			if(ajax.json){
 				if(ajax.json.error){
-					myScript.show(ajax.json.error);
+					myScript.message('<?php echo $system->lang('login','register.error');?>',ajax.json.info,'orange');
 				}else{
 					var l=myScript.show('<?php echo $system->lang('login','register.succeed');?>');
 					l.onoff=function(){
@@ -177,4 +178,15 @@
 		}
 		ajax.send();
 	}
+	$('#ui1').onkeyup=function(ev){
+		if(ev.keyCode==13){
+			test_key();
+		}
+	}
+	$('#ui2').onkeyup=function(ev){
+		if(ev.keyCode==13){
+			up();
+		}
+	}
+
 </script>
