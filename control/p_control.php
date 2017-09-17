@@ -68,7 +68,7 @@
 				case '1':
 						if(@!$_SESSION[$sname]||$_POST[$sname]!=$_SESSION[$sname]){
 							$_SESSION[$sname]='';
-							echo '验证码错误';
+							$system->show_json(array('error'=>1,'info'=>$system->lang('errors',1)));
 							exit;
 						}
 						$user=new user_server($system);
@@ -76,20 +76,20 @@
 							$_SESSION[$sname.'_1']=$_SESSION[$sname];
 							$_SESSION['reg_key']=$_POST['key'];
 						}else{
-							$res=array('error'=>1);
+							$res=array('error'=>203,'info'=>$system->lang('errors',203));
 						}
 						$_SESSION[$sname]='';
 						$system->show_json($res);
 					break;
 				case '2':
 						if(@!$_SESSION[$sname.'_1']||$_POST[$sname]!=$_SESSION[$sname.'_1']){
-							$_SESSION[$sname]='';
-							echo '验证码错误';
-							exit;
+							$error=1;
+						}else{
+							$user=new user_server($system);
+							$error=$user->reg_key($_SESSION['reg_key'],$_POST['uid'],$_POST['username'],$_POST['password'],$_POST['group']=='auto'?'':$_POST['group']);
+							if($error) $error+=200;
 						}
-						$user=new user_server($system);
-						$error=$user->reg_key($_SESSION['reg_key'],$_POST['uid'],$_POST['username'],$_POST['password'],$_POST['group']=='auto'?'':$_POST['group']);
-						$system->show_json(array('error'=>$error));
+						$system->show_json(array('error'=>$error,'info'=>$system->lang('errors',$error)));
 					break;
 			}
 		}
@@ -125,7 +125,6 @@
 		}
 		//处理删除登陆文件
 		public function del_loginfile_page($system){
-			echo 2333;
 			if(!isset($_POST['fid'])) exit;
 			$login=new login_server($system);
 			$login->del_loginfile($_POST['fid']);
