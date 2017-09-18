@@ -106,7 +106,6 @@
 		public function add_user_for_key($username,$password,$uid,$key){
 			$db=$this->system->db();
 			$gid=$db->u_exec('SELECT `group` FROM `@%_uids` WHERE `uid`=? AND `key`=?',array($uid,$key));
-			//var_dump($gid);exit;
 			if(array_key_exists(0,$gid)){
 				return $this->add_user($username,$password,$uid,$gid[0]['group']);
 			}else{
