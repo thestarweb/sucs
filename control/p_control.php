@@ -55,11 +55,13 @@
 			//var_dump($_SESSION,$_POST);exit;
 			if(!isset($_SESSION[$sname])||!$_SESSION[$sname]||$_POST['add']!=$_SESSION[$sname]){
 				$_SESSION[$sname]='';
-				$system->show_json(array('error'=>-1));
-				exit;
+				$error=1;
+			}else{
+				$user=new user_server($system);
+				$error=$user->add_user($_POST['username'],$_POST['password']);
+				if($error!=0) $error+=200;
 			}
-			$user=new user_server($system);
-			$system->show_json(array('error'=>$user->add_user($_POST['username'],$_POST['password'])));
+			$system->show_json(array('error'=>$error,'info'=>$system->lang('errors',$error)));
 		}
 		//处理邀请码注册
 		public function reg_for_key_page($system){

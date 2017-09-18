@@ -32,5 +32,8 @@ $l=[
 	'register.normal'=>'普通注册',
 	'register.key.name'=>'邀请码：',
 	'register.key.check'=>'检测邀请码',
+	'register.key.error'=>'验证失败',
+	'register.key.auto'=>'自动',
+	'register.key.nouid'=>'该邀请码匹配的uid全部用完，请联系管理员处理',
 	'group'=>'用户组：',
 ];

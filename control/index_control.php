@@ -8,12 +8,6 @@
 				header('location: '.URLROOT.'index/login');
 			}
 		}
-		public function myScript_page($system){
-			header("Content-type:text/javascript");
-			//require_once 
-			//header('location: '.$system->ini_get('my_script_path'));
-			echo 'alert("接口过旧，请联系管理员更新页面")';
-		}
 		public function login_page($system){
 			$login=new login_server($system);
 			if($login->is_login()!==false){
@@ -58,6 +52,7 @@
 				default:
 					$system->show_head('邀请注册');
 					require_once $system->get_view('reg_key',false);
+					$system->show_foot();
 					break;
 			}
 		}

@@ -92,7 +92,7 @@
 			if(ajax.json.error){
 				if(ajax.json.error!=1) $('input')[0].value='';
 				$('img')[0].onclick();
-				myScript.message('验证失败',ajax.json.info,'#F00');
+				myScript.message('<?php echo $system->lang('login','register.key.error');?>',ajax.json.info,'#F00');
 				return;
 			}
 			to_ui2();
@@ -101,7 +101,7 @@
 			if(ajax.json.auto){
 				is_in=true;
 				t=$.set('option',uid);
-				t.innerHTML='自动';
+				t.innerHTML='<?php echo $system->lang('login','register.key.auto');?>';
 				t.value='auto';
 			}
 			for(i in ajax.json.uids){
@@ -117,7 +117,7 @@
 			if(!is_in){
 				$('#main').innerHTML=temp;
 				$('input')[0].value=info['key'];
-				myScript.message('邀请码已失效','此邀请码可用的uid已全部用完','orange');
+				myScript.message('<?php echo $system->lang('login','register.key.error');?>','<?php echo $system->lang('login','register.key.nouid');?>','orange');
 				return;
 			}
 		}else{

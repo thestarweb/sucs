@@ -28,7 +28,7 @@ function up(){
 			return;
 		}
 		if(!$('#username').value){
-			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.usernem');?>','orange');
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.username');?>','orange');
 			return;
 		}
 		if(!$('#password1').value){
@@ -55,18 +55,7 @@ function up(){
 			lock=false;
 			if(ajax.json){
 				if(ajax.json.error){
-					switch (ajax.json.error){
-						case -1:
-						var info='验证码错误';
-						break;
-						case 1:
-						var info='用户名已存在，请换一个';
-						break;
-						default:
-						var info='未知的错误代码'+ajax.json.error;
-						break;
-					}
-					myScript.message('<?php echo $system->lang('login','register.error');?>',info,'red');
+					myScript.message('<?php echo $system->lang('login','register.error');?>',ajax.json.info,'red');
 					$('img')[0].onclick()
 				}else{
 					myScript.show('<?php echo $system->lang('login','register.succeed');?>').onoff=function(){
@@ -79,7 +68,7 @@ function up(){
 		}
 		ajax.send();
 	}
-	window.onkeydown=function(ev){
+	window.onkeyup=function(ev){
 		if(ev.keyCode==13) up();
 	}
 </script>
