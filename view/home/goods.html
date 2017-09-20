@@ -1,24 +1,34 @@
 <style>
+<?php if($system->on_phone()){ ?>
+	#g_img{
+		width:100%;
+	}
+	#g_text{
+		height: 80px;
+		margin: 2px;
+	}
+<?php }else{ ?>
 	#good_info{
 		overflow: hidden;
 		margin: 10px auto;
 		width: 800px
+	}
+	#g_img{
+		width:280px;
+		height: 200px;
 	}
 	#good_info div{
 		float: left;
 		margin: 10px;
 		height: 200px;
 	}
-	#g_img{
-		width:280px;
-		height: 200px;
+	#g_text{
+		width: 480px;
 	}
+<?php } ?>
 	#good_info img,#good_info canvas{
 		width:100%;
 		height: 100%;
-	}
-	#g_text{
-		width: 480px;
 	}
 	#g_name{
 		color: red;
@@ -57,8 +67,8 @@
 			<p id="g_take"><?php echo $info['take_number'],$info['take_type'];?></p>
 		</div>
 	</div>
-	<div id="div_num">数量：<input id="buynum" type="number" value="1"/></div>
-	<div id="buy">立即购买</div>
+	<div id="div_num"><?php echo $system->lang('home','number');?><input id="buynum" type="number" value="1"/></div>
+	<div id="buy"><?php echo $system->lang('home','buy');?></div>
 	<br/>
 </div>
 <script>
@@ -76,15 +86,15 @@
 		p.fillText($("#g_name").innerHTML,c.width/2,c.height*0.4+s/2,c.width);
 	}
 	$("#buynum").onchange=function(ev){
-		if(this.value===''&&this.value<1){
-			myScript.message('无法设置商品的值'+this.value,'商品数量至少为1');
+		if(this.value===''||this.value<1){
+			myScript.message('<?php echo $system->lang('home','buy.worry_mumber');?>'+this.value,'<?php echo $system->lang('home','buy.min_value');?>');
 			this.value=1;
 		}
 	}
 	$('#buy').onclick=function(){
 		var b_nu=$('#buynum').value;
 		if(b_nu<1){
-			myScript.message('无法设置商品的值'+this.value,'商品数量至少为1');
+			myScript.message('<?php echo $system->lang('home','buy.worry_mumber');?>'+this.value,'<?php echo $system->lang('home','buy.min_value');?>');
 			return;
 		}
 		var ajax=$.ajax();
@@ -92,27 +102,9 @@
 		ajax.data='buy='+b_nu;
 		ajax.callback=function(ajax){
 			if(ajax.json){
-				var e_info='';
-				switch (ajax.json.error){
-					case 0:
-						window.location.reload(true);
-					case 1:
-						e_info='余额不足';
-						break;
-					case 2:
-						e_info='没有购买的权限';
-						break;
-					case 3:
-						e_info='参数有误';
-						break;
-					case -1:
-						e_info='商品不存在';
-						break;
-					case -2:
-						e_info='商品购买脚本丢失';
-						break;
-				}
-				myScript.message('购买失败',e_info);
+				if(ajax.json.error==0) window.location.reload(true);
+				var e_info=ajax.json.error_info;
+				myScript.message('<?php echo $system->lang('home','buy.error');?>',e_info);
 			}else alert(ajax.text);
 		}
 		ajax.send();

@@ -1,0 +1,112 @@
+<style>
+	.change_pass{
+		text-align: center;
+	}
+	.UA_c{
+		width: 600px;
+	}
+	table{
+		margin: 0 auto;
+	}
+	td{
+		padding: 2px 15px;
+	}
+</style>
+<div id="main">
+	<h1><?php echo $system->lang('home','safe_page');?></h1>
+	<div class="block">
+		<h2><?php echo $system->lang('home','login_clients');?></h2>
+		<p class="beizhu">*目前浏览器和系统识别可能有bug，同时UA也可能是伪造的</p>
+		<table>
+<?php foreach($login_c as $v){?>
+			<tr>
+			<td class="UA_c"><?php echo $v['UA'];?></td><td>下线</td>
+			</tr>
+<?php }?>
+		</table>
+	</div>
+	<div class="block">
+		<h2><?php echo $system->lang('home','login_history');?></h2>
+		<table border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<th><?php echo $system->lang('home','login_time');?></th>
+				<th><?php echo $system->lang('home','login_ip');?></th>
+				<th><?php echo $system->lang('home','login_state');?></th>
+			</tr>
+<?php foreach($login_his as $v){?>
+		<tr>
+			<td><?php echo date('Y-m-d H:m:s',$v['time']);?></td>
+			<td><?php echo $v['ip']; ?></td>
+			<td><?php echo $v['is_true']?$system->lang('home','login_state_succeed'):$system->lang('home','login_state_fail');?></td>
+		</tr>
+<?php }?>
+		</table>
+	</div>
+	<div class="block">
+		<h2><?php echo $system->lang('home','my_loginfile');?></h2>
+		<table>
+			<tr>
+				<th><?php echo $system->lang('home','create_time');?></th>
+				<th><?php echo $system->lang('home','state');?></th>
+				<th><?php echo $system->lang('home','option');?><th>
+			</td>
+<?php foreach($login_file as $v){?>
+			<tr>
+				<td><?php echo date('Y-m-d H:m:s',$v['add_time']);?></td>
+				<td><?php echo $v['end_time']==0?'永久有效':($v['end_time']>time()?$system->lang('home','loginfile.useable',[date('Y-m-d H:m:s',$v['end_time'])]):$system->lang('home','loginfile.invalid'));?></td>
+				<td></td>
+				<td><input type="button" value="　<?php echo $system->lang('home','delete');?>　" onclick="del_loginfile(<?php echo $v['logid'];?>)"/><?php if($v['add_time']==0) echo '（旧版登陆文件）';?></td>
+			</tr>
+<?php }?>
+		</table>
+		<p class="beizhu">*旧版登陆文件已经不能继续使用了，但是仍然可能会在列表中显示，在下次更新后，您可以选择进行删除</p>
+	</div>
+	<div class="change_pass block">
+		<h2><?php echo $system->lang('home','change_pass');?></h2>
+		<?php echo $system->lang('home','old_pass');?><input type="password" id="old_pass"/><br/>
+		<?php echo $system->lang('home','new_pass');?><input type="password" id="new_pass"/><br/>
+		<?php echo $system->lang('home','re_pass');?><input type="password" id="new_pass_2"/><br/>
+		<input type="button" value="<?php echo $system->lang('home','change_pass');?>" onclick="chage_password()"/>
+	</div>
+	<script>
+		var UA_c=$('.UA_c');
+		for (var i = UA_c.length - 1; i >= 0; i--) {
+			UA_c[i].innerHTML='运行在'+myScript.get_os(UA_c[i].innerHTML)+'上的'+myScript.get_browser(UA_c[i].innerHTML);
+		};
+		function chage_password(){
+			if(!$('#old_pass').value){myScript.message('<?php echo $system->lang('home','need_info');?>','<?php echo $system->lang('home','old_pass');?>','orange');return;}
+			if(!$('#new_pass').value){myScript.message('<?php echo $system->lang('home','need_info');?>','<?php echo $system->lang('home','new_pass');?>','orange');return;}
+			if($('#new_pass').value!=$('#new_pass_2').value){myScript.message('<?php echo $system->lang('home','worry_info');?>','<?php echo $system->lang('home','new_pass_worry');?>','orange');return;}
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/chage_password';
+			ajax.setCont({
+				old_password:$('#old_pass').value,
+				new_password:$('#new_pass').value
+			});
+			ajax.callback=function(ajax){
+				if(ajax.json){
+					if(ajax.json.info){
+						myScript.show(ajax.json.info);
+					}else{
+						window.location.reload(true);
+					}
+				}else{
+					myScript.show('SERVER REEOR<br/>'+ajax.text);
+				}
+			}
+			ajax.send();
+		}
+		function del_loginfile(fid){
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/del_loginfile';
+			ajax.data="fid="+fid;
+			ajax.callback=function(ajax){
+				window.location.reload(true);
+			}
+			ajax.send();
+		}
+<?php if(isset($_SESSION['reset_pass_ok'])){ unset($_SESSION['reset_pass_ok']);?>
+		myScript.message('<?php echo $system->lang('home','change_pass.succeed');?>','<?php echo $system->lang('home','change_pass.info');?>','green');
+<?php } ?>
+	</script>
+</div>

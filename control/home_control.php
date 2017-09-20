@@ -25,10 +25,10 @@
 			$m=new message_server($system);
 			$messages=$m->get_message_list($user['uid'],true,true);
 			$login_his=$this->user->get_history_login($user['uid']);
-			require_once $system->get_view('home/index');
+			require_once $system->get_view('home/index',false);
 		}
 		public function send_message_page($system){
-			require_once $system->get_view('home/send_message');
+			require_once $system->get_view('home/send_message',false);
 		}
 		public function message_page($system){
             		$m=new message_server($system);
@@ -40,7 +40,7 @@
 							$m->set_message_is_red($messages['mid']);
 						}
 					}
-					require_once $system->get_view('home/message');return;
+					require_once $system->get_view('home/message',false);return;
 				}
 				echo '你要查看的消息不存在或已被删除';
 			}elseif(isset($_GET['send'])&&null!=$_POST['body']&&null!=$_POST['geter']){
@@ -50,7 +50,7 @@
 				exit;
 			}else{
 				$mlist=$m->get_message_list($_SESSION['userinfo']['uid']);
-				require_once $system->get_view('home/messages');
+				require_once $system->get_view('home/messages',false);
 			}
 		}
 
@@ -59,18 +59,18 @@
 			$egroups=$this->user->get_egroups($user['uid']);
 			$exc_server=new exc_server($system);
 			$exc=$exc_server->get_by_uid($user['uid']);
-			include $system->get_view('home/my_info');
+			include $system->get_view('home/my_info',false);
 		}
 
 		public function friends_page($system){
 			echo '糟糕，这个功能还没有弄好';
 		}
 
-		public function soft_page($system){
+		public function safe_page($system){
 			$login_his=$this->user->get_history_login($this->uid);
 			$login_c=$this->login->get_logins($this->uid);
 			$login_file=$this->login->get_loginfile_info($this->uid);
-			include $system->get_view('home/soft');
+			include $system->get_view('home/safe',false);
 		}
 		public function change_haad_page($system){
 			include $system->get_view('home/change_head');
@@ -79,15 +79,16 @@
 		public function shop_page($system){
 			$shop=new shop_server($system);
 			$goods=$shop->get_public_list();
-			include $system->get_view('home/shop');
+			include $system->get_view('home/shop',false);
 		}
 		public function goods_page($system,$id){
 			$shop=new shop_server($system);
 			if(isset($_POST['buy'])){
 				$s=new shop_server($system);$this->stop=1;
-				$system->show_json(array('error'=>$s->buy($id,$this->uid,$_POST['buy'])));
+				$error=$s->buy($id,$this->uid,$_POST['buy']);
+				$system->show_json(array('error'=>$error,'error_info'=>$system->lang('errors',$error)));
 			}
 			$info=$shop->goods_info($id);
-			include $system->get_view('home/goods');
+			include $system->get_view('home/goods',false);
 		}
 	}

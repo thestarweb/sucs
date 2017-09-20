@@ -1,20 +1,20 @@
 <link rel="stylesheet" type="text/css" href="<?php echo $system->ini_get('styles_url');?>reg.css" />
 <div id="main" class="block">
 	<h1>
-		请填写下列信息完成注册
+		<?php echo $system->lang('login','register.inputinfo');?>
 	</h1>
 	<div class="button_div">
-		<a href="<?php echo URLROOT;?>index/reg_for_key">使用邀请码注册</a>
-		<a href="<?php echo URLROOT;?>index/login">直接登陆</a>
+		<a href="<?php echo URLROOT;?>index/reg_for_key"><?php echo $system->lang('login','register.key');?></a>
+		<a href="<?php echo URLROOT;?>index/login"><?php echo $system->lang('login','login');?></a>
 	</div>
 	<div  class="info_input">
-		用&nbsp;户&nbsp;名&nbsp;<input type="text" id="username"/><br/>
-		密　　码<input type="password" id="password1"/><br/>
-		确认密码<input type="password" id="password2"/><br/>
-		验&nbsp;证&nbsp;码&nbsp;<img src=""/>
+		<?php echo $system->lang('login','register.username');?><input type="text" id="username"/><br/>
+		<?php echo $system->lang('login','register.password');?><input type="password" id="password1"/><br/>
+		<?php echo $system->lang('login','register.password2');?><input type="password" id="password2"/><br/>
+		<?php echo $system->lang('login','register.verification');?><img src=""/>
 		=<input type="number" maxlength="3" size="3" id="add"/>
 	</div>
-	<div class="button_div"><a onclick="up()" href="#">检验并提交</a></div>
+	<div class="button_div"><a onclick="up()" href="#"><?php echo $system->lang('login','register.submit');?></a></div>
 </div>
 <script>
 $('img')[0].onclick=function(){
@@ -24,23 +24,23 @@ $('img')[0].onclick();
 lock=false;
 function up(){
 		if(lock){
-			myScript.message('请勿频繁提交','脚本正在和服务器交互，请勿频繁提交','orange');
+			myScript.message('<?php echo $system->lang('login','wait');?>','<?php echo $system->lang('login','wait.server');?>','orange');
 			return;
 		}
 		if(!$('#username').value){
-			myScript.message('缺少信息','您必须输入您的用户名','orange');
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.username');?>','orange');
 			return;
 		}
 		if(!$('#password1').value){
-			myScript.message('缺少信息','您必须设置您的密码','orange');
+			myScript.message('<?php echo $system->lang('login','worry_info');?>','<?php echo $system->lang('login','require.password');?>','orange');
 			return;
 		}
 		if($('#password1').value!=$('#password2').value){
-			myScript.message('信息错误','你两次输入的密码不一致，请检查','#DD2');
+			myScript.message('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','register.password_worry');?>','#DD2');
 			return;
 		}
 		if(!$('#add').value){
-			myScript.show('缺少信息','您必须输入验证码','orange');
+			myScript.show('<?php echo $system->lang('login','need_info');?>','<?php echo $system->lang('login','require.verification');?>','orange');
 			return;
 		}
 		lock=true;
@@ -55,21 +55,10 @@ function up(){
 			lock=false;
 			if(ajax.json){
 				if(ajax.json.error){
-					switch (ajax.json.error){
-						case -1:
-						var info='验证码错误';
-						break;
-						case 1:
-						var info='用户名已存在，请换一个';
-						break;
-						default:
-						var info='未知的错误代码'+ajax.json.error;
-						break;
-					}
-					myScript.message('注册失败',info,'red');
+					myScript.message('<?php echo $system->lang('login','register.error');?>',ajax.json.info,'red');
 					$('img')[0].onclick()
 				}else{
-					myScript.show('注册成功').onoff=function(){
+					myScript.show('<?php echo $system->lang('login','register.succeed');?>').onoff=function(){
 						location.href='<?php echo URLROOT;?>';
 					};
 				}
@@ -79,7 +68,7 @@ function up(){
 		}
 		ajax.send();
 	}
-	window.onkeydown=function(ev){
+	window.onkeyup=function(ev){
 		if(ev.keyCode==13) up();
 	}
 </script>

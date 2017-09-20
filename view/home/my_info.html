@@ -11,56 +11,56 @@
 	</style>
 	<br/>
 	<div id="names">
-		<div><img src="<?php echo URLROOT.'user/head/'.$_SESSION['userinfo']['uid']; ?>" alt="头像" onmouseout="this.nextSibling.style.display='none';" onmouseover="this.nextSibling.style.display='';" onclick="window.location.href='change_haad';"><p style="display:none;" id="change_head">修改头像</p></div>
+		<div><img src="<?php echo URLROOT.'user/head/'.$_SESSION['userinfo']['uid']; ?>" alt="<?php echo $system->lang('home','head');?>" onmouseout="this.nextSibling.style.display='none';" onmouseover="this.nextSibling.style.display='';" onclick="window.location.href='change_haad';"><p style="display:none;" id="change_head"><?php echo $system->lang('home','change_head');?></p></div>
 		　<?php echo $user['username'];?>
 	</div>
 	<div id="main" class="block">
 	<br/><br/>
 	<div class="info">
 		<div>
-			<div class="left">性别</div>
-			<div class="lright"><?php echo $user['sex']?($user['sex']==1?'男':'女'):'保密';?></div>
+			<div class="left"><?php echo $system->lang('home','sex');?></div>
+			<div class="lright"><?php echo $user['sex']?($user['sex']==1?$system->lang('home','male'):$system->lang('home','female')):$system->lang('home','not_set');?></div>
 		</div>
 		<div>
-			<div class="left">真实姓名</div>
-			<div class="lright"><?php echo $user['true_name']?$user['true_name']:'未填写';?></div>
+			<div class="left"><?php echo $system->lang('home','true_name');?></div>
+			<div class="lright"><?php echo $user['true_name']?$user['true_name']:'-';?></div>
 		</div>
 		<div>
-			<div class="left">主用户组</div>
+			<div class="left"><?php echo $system->lang('home','group');?></div>
 			<div class="lright"><?php echo $user['gname']?$user['gname']:'　';?></div>
 		</div>
 		<div>
-			<div class="left">扩展用户组</div>
+			<div class="left"><?php echo $system->lang('home','egroup');?></div>
 			<div class="lright">
 <?php if($egroups)foreach($egroups as $v){?>
 				<p style="color:#<?php echo $v['color'];?>"><?php echo $v['gname'];?></p>
 <?php }else{?>
-				<p class="beizhu">没有扩展用户组</p>
+				<p class="beizhu"><?php echo $system->lang('home','not_set');?></p>
 <?php } ?>
 			</div>
 		</div>
 		<div>
-			<div class="left">自定义头衔</div>
-			<div class="lright"><?php echo $user['title']?$user['title']:'未填写';?></div>
+			<div class="left"><?php echo $system->lang('home','udtitle');?></div>
+			<div class="lright"><?php echo $user['title']?$user['title']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
-			<div class="left">QQ</div>
-			<div class="lright"><?php echo $user['qq']?$user['qq']:'还未设置';?></div>
+			<div class="left"><?php echo $system->lang('home','QQ');?></div>
+			<div class="lright"><?php echo $user['qq']?$user['qq']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
-			<div class="left">注册ip</div>
+			<div class="left"><?php echo $system->lang('home','reg_ip');?></div>
 			<div class="lright"><?php echo $user['reg_ip'];?></div>
 		</div>
 		<div>
-			<div class="left">注册时间</div>
+			<div class="left"><?php echo $system->lang('home','reg_time');?></div>
 			<div class="lright"><?php echo date('Y-m-d H:m:s',$user['reg_time']);?></div>
 		</div>
 		<div>
-			<div class="left">生日</div>
-			<div class="lright"><?php echo isset($user['barth'])?$user['barth']:'未填写';?></div>
+			<div class="left"><?php echo $system->lang('home','birthday');?></div>
+			<div class="lright"><?php echo isset($user['barth'])?$user['barth']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
-			<div class="left">积分</div>
+			<div class="left"><?php echo $system->lang('home','score');?></div>
 			<div class="lright">&nbsp;</div>
 		</div>
 		<?php foreach($exc as $k=>$v){ ?>
