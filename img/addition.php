@@ -33,21 +33,21 @@
 		//使用随机颜色在画布的随机位置绘制直线
 		imageline($image,$startx,$starty,$startx+rand(-4,4),$starty+rand(-2,2),$color[rand(0,$max_color_num)]);
 	}
-
+	$fount=__DIR__.'/arial.ttf';
 	//将第一个数绘制到画布
-	imagettftext($image,rand(14,16),rand(-5,5),rand(-2,0),rand(16,19),$color[rand(0,$max_color_num)],'arial.ttf',$number1);
+	imagettftext($image,rand(14,16),rand(-5,5),rand(-2,0),rand(16,19),$color[rand(0,$max_color_num)],$fount,$number1);
 	//判断运算符
 	if($operator==0){
 		//加法
 		$_SESSION[$name]=$number1+$number2;//将结果保存至session
-		imagettftext($image,rand(16,18),rand(-5,5),rand(18,20),rand(16,19),$color[rand(0,$max_color_num)],'arial.ttf','+');
+		imagettftext($image,rand(16,18),rand(-5,5),rand(18,20),rand(16,19),$color[rand(0,$max_color_num)],$fount,'+');
 	}else{
 		//减法（详细同上）
 		$_SESSION[$name]=$number1-$number2;
-		imagettftext($image,rand(24,25),rand(-5,5),rand(18,20),rand(16,19),$color[rand(0,$max_color_num)],'arial.ttf','-');
+		imagettftext($image,rand(24,25),rand(-5,5),rand(18,20),rand(16,19),$color[rand(0,$max_color_num)],$fount,'-');
 	}
 	//绘制第二个数
-	imagettftext($image,rand(14,16),rand(-5,5),rand(28,30),rand(16,19),$color[rand(0,$max_color_num)],'arial.ttf',$number2);
+	imagettftext($image,rand(14,16),rand(-5,5),rand(28,30),rand(16,19),$color[rand(0,$max_color_num)],$fount,$number2);
 
 	header("Content-type:image/png");//这句话用于修改http协议的头部，让浏览器知道这是一张图片
 	imagepng($image);//将图片输出
