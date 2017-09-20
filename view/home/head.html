@@ -64,27 +64,27 @@
 </style>
 <div id="head">
 	<div>
-		<div class="l">欢迎来到星星站点用户中心</div>
+		<div class="l"><?php echo $system->lang('home','welcome');?></div>
 		<div class="r">
 			<img src="<?php echo URLROOT.'user/head/'.$_SESSION['userinfo']['uid']; ?>" alt="user_head" id="user_head"/>
-			<?php echo $_SESSION['userinfo']['username'];?>[<a href="<?php echo URLROOT;?>p/logout">退出</a>]
+			<?php echo $_SESSION['userinfo']['username'];?>[<a href="<?php echo URLROOT;?>p/logout"><?php echo $system->lang('home','logout');?></a>]
 		</div>
 	</div>
 </div>
 <br/><br/><br/><br/>
 <div id="dh">
-	<a href="<?php echo URLROOT;?>home/friends">好友列表</a>
-	<a href="<?php echo URLROOT;?>home/message">消息/通知列表</a>
-	<a href="<?php echo URLROOT;?>home/info">个人资料</a>
-	<a href="<?php echo URLROOT;?>home/soft">账号安全</a>
-	<a href="<?php echo URLROOT;?>home/shop">积分市场</a>
+	<a href="<?php echo URLROOT;?>home/friends"><?php echo $system->lang('home','friends');?></a>
+	<a href="<?php echo URLROOT;?>home/message"><?php echo $system->lang('home','message');?></a>
+	<a href="<?php echo URLROOT;?>home/info"><?php echo $system->lang('home','info');?></a>
+	<a href="<?php echo URLROOT;?>home/safe"><?php echo $system->lang('home','soft');?></a>
+	<a href="<?php echo URLROOT;?>home/shop"><?php echo $system->lang('home','shop');?></a>
 </div>
 <div class="main_top"></div>
 <script>
 <?php if($exc_change){?>
 $(function(){
 	<?php foreach($exc_change as $v){
-		echo 'myScript.message("',$v['why']?$v['why']:'积分变化','","',$v['name'],$v['number']>0?'增加了':'',$v['number'],'");';
+		echo 'myScript.message("',$v['why']?$v['why']:$system->lang('home','score_change'),'","',$v['name'],$v['number']>0?'+':'',$v['number'],'");';
 	}?>
 });
 <?php } ?>

@@ -39,28 +39,28 @@ class shop_server{
 	*/
 	public function buy($gid,$uid,$num){
 		$gid+=0;$uid+=0;$num+=0;
-		if($num<1||is_float($num)) return 3;
+		if($num<1||is_float($num)) return 1003;
 		$g_info=$this->system->db()->exec('SELECT `name`,`take_type`,`take_number`,`need_type` FROM `'.self::table.'` WHERE `gid`='.$gid);
 		if($g_info){
 			$g_info=$g_info[0];
 			switch ($g_info['need_type']) {
 				case 0:
 					$bfile=$this->system->ini_get('controls_dir').'goods/by_'.$gid.'.php';
-					if(!file_exists($bfile)) return -2;
+					if(!file_exists($bfile)) return 1005;
 					$exc=new exc_server($this->system);
-					if($exc->add_s($uid,$g_info['take_type'],-$g_info['take_number']*$num,'购买'.$g_info['name'].$num.'个')){
+					if($exc->add_s($uid,$g_info['take_type'],-$g_info['take_number']*$num,$this->system->lang('home','buy.message',array($num,$g_info['name'])))){
 						include $bfile;
 						return 0;
 					}else{
-						return 1;
+						return 1001;
 					}
 					break;
 				
 				default:
-					return 2;
+					return 1002;
 					break;
 			}
 		}
-		return -1;
+		return 1004;
 	}
 }

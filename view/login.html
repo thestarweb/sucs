@@ -7,13 +7,13 @@
 	<div id="login_box">
 		<h4>将登陆文件拖拽到这里可以实现文件拖拽登陆哦</h4>
 		<div class="beizhu">*旧版登陆文件已经被禁用，新版登陆文件将在近期对所有用户开放</div><hr/><br/>
-		<p>用户名：<input type="text" size="20"/></p>
-		<p>密　码：<input type="password" size="20"/></p>
-		<p>验证码：<img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input class="nu" type="number" size="1" maxlength="3"/>
+		<p><?php echo $system->lang('login','username');?><input type="text" size="20"/></p>
+		<p><?php echo $system->lang('login','password');?><input type="password" size="20"/></p>
+		<p><?php echo $system->lang('login','verification');?><img src="<?php echo $system->ini_get('imgs_url');?>addition.php?name=login"/>=<input class="nu" type="number" size="1" maxlength="3"/>
 		</p>
-		<div><input type="checkbox"/>记住登陆</div>
-		<p><input type="button" value="登陆" id="loginbutton"/></p>
-		<div><a href="<?php echo URLROOT;?>index/reg">注册</a></div>
+		<div><input type="checkbox"/><?php echo $system->lang('login','remember');?></div>
+		<p><input type="button" value="<?php echo $system->lang('login','login');?>" id="loginbutton"/></p>
+		<div><a href="<?php echo URLROOT;?>index/reg"><?php echo $system->lang('login','register');?></a></div>
 </div>
 <?php include $system->get_view('script/login');?>
 <script type="text/javascript">
@@ -50,7 +50,7 @@
 		ajax.callback=function(ajax){
 			if(ajax.text=='can') login_ok();
 			else{
-				myScript.message('登陆失败:',ajax.text,'red');
+				myScript.message('<?php echo $system->lang('login','loginerror');?>',ajax.text,'red');
 				login_error();
 			}
 		}

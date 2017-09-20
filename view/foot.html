@@ -1,7 +1,14 @@
 <br/><br/>
+<footer>
 <div id="system_foot">
+	<p>
+<?php $langlist=$this->lang_list();foreach ($langlist as $k=>$v) {?>
+		<a href="?lang=<?php echo $k;?>"><?php echo $v;?></a>
+<?php } ?>
+	</p>
 	<p>sucs<?php echo VERSION_INFO;?>(<?php echo MAKE_TIME; ?>)</p>
 	<p><?php echo COPY;?></p>
 </div>
+</footer>
 </body>
 </html>

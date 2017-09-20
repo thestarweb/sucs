@@ -1,8 +1,10 @@
 <style>
-	.block{
-		width: 43%;
-		float: left;
-	}
+<?php if(!$system->on_phone()){ ?>
+		.block{
+			width: 43%;
+			float: left;
+		}
+<?php } ?>
 	#main{
 		overflow: hidden;
 	}
@@ -11,6 +13,7 @@
 		border: 1px solid #000;
 		margin: 0;
 		padding: 0;
+		width: 100%;	
 	}
 	table td,table th{
 		border: 1px solid #000;
@@ -31,22 +34,22 @@
 	}
 </style>
 <div id="main">
-	<h1>欢迎回来</h1>
+	<h1><?php echo $system->lang('home','back');?></h1>
 	<div class="block">
-		<h2>最近登陆记录</h2>
+		<h2><?php echo $system->lang('home','nearby_login');?></h2>
 		<p class="beizhu">如果有非本人登陆，请注意修改密码</p>
 		<p class="beizhu">如果有被反复尝试使用错误密码登陆，需要注意账户安全，有必要请联系管理员封禁尝试使用穷举法破解密码者的IP</p>
 		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<th>登陆时间</th>
-				<th>登陆ip</th>
-				<th>登陆状态</th>
+				<th><?php echo $system->lang('home','login_time');?></th>
+				<th><?php echo $system->lang('home','login_ip');?></th>
+				<th><?php echo $system->lang('home','login_state');?></th>
 			</tr>
 <?php foreach($login_his as $v){?>
 		<tr>
 			<td><?php echo date('Y-m-d H:m:s',$v['time']);?></td>
 			<td><?php echo $v['ip']; ?></td>
-			<td><?php echo $v['is_true']?'成功':'失败';?></td>
+			<td><?php echo $v['is_true']?$system->lang('home','login_state_succeed'):$system->lang('home','login_state_fail');?></td>
 		</tr>
 <?php }?>
 		</table>
