@@ -4,9 +4,9 @@ if(!defined('system::VISION')||system::VISION<7){
 	die('核心框架system版本过低');
 }
 			//版本及版权信息
-			define('VERSION','1.3.0.0270 beta');
+			define('VERSION','1.3.1.0272 beta');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2017-09-18');
+			define('MAKE_TIME','2017-09-20');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2017 星星站点 保留所有权利');
 			$this->cfgs['reg_ver_ses_name']='reg_nu';
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
