@@ -130,7 +130,7 @@
 			if(strpos($v,self::file_version_string)!==0)return 2;
 			$v=substr($v,strlen(self::file_version_string));
 
-			$fid=substr(fgets($fp),0,-4)+0;
+			$fid=substr(fgets($fp),0,-2)+0;
 
 			if($v=="2.1\r\n") fgets($fp);//s
 			else if($v!="2.0\r\n") return 2;
