@@ -23,7 +23,7 @@
 			if($system->ini_get('use_key_reg_oney')){
 				include $system->get_view('cant_reg');
 			}else{
-				include $system->get_view('reg');
+				include $system->get_view('reg',false);
 			}
 			$system->show_foot();
 		}
