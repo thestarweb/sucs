@@ -44,6 +44,7 @@
 	</div>
 	<div class="block">
 		<h2><?php echo $system->lang('home','my_loginfile');?></h2>
+		<div><span class="beizhu">*为了防止恶意创建打大量登陆文件，暂时仅允许创建一个，且收费1元宝，有效期30天</span><?php if(!$login_file){ ?><input type="button" value="<?php echo $system->lang('home','creat_loginfile');?>" onclick="create_loginfile()"/><?php } ?></div>
 		<table>
 			<tr>
 				<th><?php echo $system->lang('home','create_time');?></th>
@@ -102,6 +103,22 @@
 			ajax.data="fid="+fid;
 			ajax.callback=function(ajax){
 				window.location.reload(true);
+			}
+			ajax.send();
+		}
+		function create_loginfile(){
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/create_loginfile';
+			ajax.callback=function(ajax){
+				if(ajax.getResponseHeader("Content-type")=="application/octet-stream"){
+					myScript.show('<a href="data:text/plain,'+(ajax.text.replace(/\r/g,"%0d").replace(/\n/g,"%0a"))+'" download="login.slogin">点我下载</a><br/>关闭后将无法再次下载',200,100,"请尽快下载登陆文件文件").onoff=function(){
+							window.location.reload(true);
+						};
+				}else{
+					if(ajax.json.info) var info=ajax.json.info;
+					else var info="服务器返回未知数据";
+					myScript.message('<?php echo $system->lang('home','creat_loginfile.error');?>',info,'red');
+				}
 			}
 			ajax.send();
 		}

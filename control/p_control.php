@@ -131,6 +131,21 @@
 			$login=new login_server($system);
 			$login->del_loginfile($_POST['fid']);
 		}
+		//处理创建登陆文件
+		public function create_loginfile_page($system){
+			$login=new login_server($system);
+			$uid=$login->is_login();
+			if($uid!==null&&!$login->get_loginfile_info($uid)){
+				$exc=new exc_server($system);
+				if($exc->add_s($uid,"元宝",-1,"申请登陆文件成功")){
+					$login->create_loginfile($uid,time()+3600*24*30);exit;
+				}
+				$error=1001;
+			}else{
+				$error=20;
+			}
+			$system->show_json(array('info'=>$system->lang('errors',$error)));
+		}
 		//处理上传头像
 		public function save_head_page($system){
 			$login=new login_server($system);

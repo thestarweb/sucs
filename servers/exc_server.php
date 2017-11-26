@@ -76,7 +76,8 @@ class exc_server{
 		@uid int 用户id
 	*/
 	public function add_for_login($uid){
-		$this->add_s($uid,0,5,'登陆奖励');
+		$this->add_s($uid,'经验',5,'登陆奖励');
+		$this->add_s($uid,'铜钱',10,'登陆奖励');
 	}
 	/**
 		获取最近（还未查看的）积分变化

@@ -74,6 +74,7 @@ $l=[
 	'login_clients'=>'当前在线客户端',
 	'login_history'=>'登陆历史',
 	'creat_loginfile'=>'创建登陆文件',
+	'creat_loginfile.error'=>'创建登陆文件失败',
 	'my_loginfile'=>'我的登陆文件',
 	'create_time'=>'创建时间',
 	'loginfile.useable'=>'将于：%0失效',
