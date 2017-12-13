@@ -1,6 +1,7 @@
 <?php
 	class login_server{
-		public $system;
+		private $system;
+		private $submit_safe;
 		public $user;
 		const table='@%_logins';
 		const log_table='@%_login_log';
@@ -11,6 +12,11 @@
 		const file_key_length=128;
 		public function __construct($system){
 			$this->system=$system;
+			$this->submit_safe=new submit_safe_server($system);
+			if($this->submit_safe->is_locked(40)){
+				echo ':)',$system->lang('errors',100);
+				exit;
+			}
 		}
 		/**
 			增加一次用户登陆记录（如果登陆成功则同时写入登陆表）
@@ -111,8 +117,9 @@
 						return $res[0]['uid'];
 					}
 				}
-				setcookie('r_login_key','',0);
-				setcookie('r_login_id','',0);
+				setcookie('r_login_key','',0,URLROOT);
+				setcookie('r_login_id','',0,URLROOT);
+				$this->submit_safe->add(4);
 			}
 			return false;
 		}
@@ -192,6 +199,8 @@
 				if($res&&$_SERVER['HTTP_USER_AGENT']==$res[0]['UA']){
 					return $res[0]['uid'];
 				}
+				setcookie('login_key','',0,URLROOT);
+				$this->submit_safe->add(2);
 			}
 			//var_dump($_COOKIE['login_key']);
 			unset($_SESSION['userinfo']);
