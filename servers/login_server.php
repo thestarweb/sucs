@@ -2,6 +2,7 @@
 	class login_server{
 		private $system;
 		private $submit_safe;
+		private $uid_cache=-1;
 		public $user;
 		const table='@%_logins';
 		const log_table='@%_login_log';
@@ -38,9 +39,7 @@
 			//完成登陆
 			if($is_ok){
 				//
-				$str='ABCDEGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
-				$str.=$str;
-				$key=substr(str_shuffle($str),0,10);
+				$key=$this->system->rand(10);
 				setcookie('login_key',$key,0,URLROOT);
 				$_COOKIE['login_key']=$key;
 				$db->u_exec('INSERT INTO `'.self::table.'`(`key`,`time`,`uid`,`username`,`UA`) VALUES(?,?,?,?,?)',array($key,time(),$uid,$username,$_SERVER['HTTP_USER_AGENT']));
@@ -194,17 +193,25 @@
 			return uid(int)登陆成功的uid false(bool)登陆失败
 		*/
 		public function is_login(){
+			if($this->uid_cache!=-1) return $this->uid_cache;
 			if(isset($_COOKIE['login_key'])){
-				$res=$this->system->db()->u_exec('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=? and `UA`=?',array($_COOKIE['login_key'],$_SERVER['HTTP_USER_AGENT']));
+				$res=$this->system->db()->u_exec('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=?',array($_COOKIE['login_key']));
 				if($res&&$_SERVER['HTTP_USER_AGENT']==$res[0]['UA']){
-					return $res[0]['uid'];
+					//匹配成功
+					if(rand(0,20)==0){
+						//有概率刷新key
+						$key=$this->system->rand(10);
+						setcookie('login_key',$key,0,URLROOT);
+						$this->system->db()->u_exec('UPDATE `'.self::table.'` SET `key`=? WHERE `key`=?',array($key,$_COOKIE['login_key']));
+					}
+					return $this->uid_cache=$res[0]['uid'];
 				}
 				setcookie('login_key','',0,URLROOT);
 				$this->submit_safe->add(2);
 			}
 			//var_dump($_COOKIE['login_key']);
 			unset($_SESSION['userinfo']);
-			return $this->try_relogin();
+			return $this->uid_cache=$this->try_relogin();
 		}
 		/**
 			退出当前用户
