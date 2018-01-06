@@ -118,7 +118,7 @@
 				}
 				setcookie('r_login_key','',0,URLROOT);
 				setcookie('r_login_id','',0,URLROOT);
-				$this->submit_safe->add(4);
+				$this->submit_safe->add(8);
 			}
 			return false;
 		}
@@ -207,7 +207,7 @@
 					return $this->uid_cache=$res[0]['uid'];
 				}
 				setcookie('login_key','',0,URLROOT);
-				$this->submit_safe->add(2);
+				$this->submit_safe->add(5);
 			}
 			//var_dump($_COOKIE['login_key']);
 			unset($_SESSION['userinfo']);

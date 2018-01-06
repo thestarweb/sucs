@@ -43,7 +43,7 @@
 		public function filelogin_page($system){
 			if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>$system->lang('errors',6)));
 			$s=new submit_safe_server($system);
-			if($s->is_locked(16)){
+			if($s->is_locked(25)){
 				echo $system->lang('errors',100);
 				return;
 			}
@@ -51,7 +51,7 @@
 			//echo md5_file($_FILES['FILE']['tmp_name']);
 			$t=$log->file_login($_FILES['FILE']['tmp_name']);
 			if($t){
-				$s->add(4);
+				$s->add(5);
 				echo $system->lang('errors',7);
 			}else{
 				echo 'can';
@@ -80,31 +80,43 @@
 		}
 		//处理邀请码注册
 		public function reg_for_key_page($system){
+			$s=new submit_safe_server($system);
+			if($s->is_locked(15)){
+				return $system->show_json(array('error'=>100,'info'=>$system->lang('errors',100)));
+			}
 			$sname=$system->ini_get('reg_ver_ses_name');
 			switch (@$_GET['stp']) {
 				case '1':
+						//匹配验证码
 						if(@!$_SESSION[$sname]||$_POST[$sname]!=$_SESSION[$sname]){
 							$_SESSION[$sname]='';
 							$system->show_json(array('error'=>1,'info'=>$system->lang('errors',1)));
 							exit;
 						}
+						//匹配邀请码
 						$user=new user_server($system);
 						if($res=$user->match_reg_key($_POST['key'])){
 							$_SESSION[$sname.'_1']=$_SESSION[$sname];
 							$_SESSION['reg_key']=$_POST['key'];
 						}else{
+							$s->add(6);
 							$res=array('error'=>203,'info'=>$system->lang('errors',203));
 						}
 						$_SESSION[$sname]='';
 						$system->show_json($res);
 					break;
 				case '2':
+						//匹配记录的邀请码
 						if(@!$_SESSION[$sname.'_1']||$_POST[$sname]!=$_SESSION[$sname.'_1']){
 							$error=1;
+							$s->add(6);
 						}else{
 							$user=new user_server($system);
 							$error=$user->reg_key($_SESSION['reg_key'],$_POST['uid'],$_POST['username'],$_POST['password'],$_POST['group']=='auto'?'':$_POST['group']);
-							if($error) $error+=200;
+							if($error){
+								$error+=200;
+								$s->add(10);
+							}
 						}
 						$system->show_json(array('error'=>$error,'info'=>$system->lang('errors',$error)));
 					break;
