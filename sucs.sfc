@@ -1,6 +1,5 @@
 <?php
 if(!defined('system::VISION')||system::VISION<8){
-	//var_dump(defined('system::VISION'));
 	die('核心框架system版本过低');
 }
 			//版本及版权信息
