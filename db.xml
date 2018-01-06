@@ -47,6 +47,15 @@
 		<structure type="varchar(50)" name="why"/>
 		<index name="ip" type="INDEX">ip</index>
 	</table>
+	<!--错误操作表，防止恶意提交、暴力破解等行为-->
+	<table name="submit_safe" engine="MEMORY">
+		<structure type="varchar(15)" name="ip" default=""/>
+		<structure type="int" name="time" attributes="UNSIGNED" default="0"/>
+		<!--num是指封禁程度，根据不同错误操作增加，达到特定值后将不被允许操作，达到时间上限后自动解除-->
+		<structure type="tinyint" name="num" default="0"/>
+		<index name="ip" type="PRIMARY">ip</index>
+		<index name="time" type="index">time</index>
+	</table>
 	<table name="friends">
 		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
 		<structure type="mediumint" name="fid" attributes="UNSIGNED"/>

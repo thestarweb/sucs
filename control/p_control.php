@@ -6,9 +6,15 @@
 				$system->show_json(array('isok'=>0,'info'=>'验证码有误'));
 				exit;
 			}
+			$s=new submit_safe_server($system);
+			if($s->is_locked(20)){
+				return $system->show_json(array('isok'=>0,'info'=>$system->lang('errors',100)));
+			}
 			$_SESSION['login']='';
 			$login=new login_server($system);
-			$system->show_json($login->try_to('name',$_POST['username'],$_POST['password'],isset($_POST['remember'])&&$_POST['remember']));
+			$res=$login->try_to('name',$_POST['username'],$_POST['password'],isset($_POST['remember'])&&$_POST['remember']);
+			if(!$res['isok']) $s->add(4);
+			$system->show_json($res);
 		}
 		//处理发送消息
 		public function send_message_page($system){
@@ -36,11 +42,20 @@
 		//文件拖拽登陆
 		public function filelogin_page($system){
 			if(isset($_FILES['FILE'])&&$_FILES['FILE']['error']) $system->show_json(array('error'=>$system->lang('errors',6)));
+			$s=new submit_safe_server($system);
+			if($s->is_locked(16)){
+				echo $system->lang('errors',100);
+				return;
+			}
 			$log=new login_server($system);
 			//echo md5_file($_FILES['FILE']['tmp_name']);
 			$t=$log->file_login($_FILES['FILE']['tmp_name']);
-			if($t) echo $system->lang('errors',7);
-			else echo 'can';
+			if($t){
+				$s->add(4);
+				echo $system->lang('errors',7);
+			}else{
+				echo 'can';
+			}
 		}
 		//处理登出
 		public function logout_page($system){
