@@ -185,4 +185,12 @@
 			}
 			$system->show_json(array('info'=>'未发现图片'));
 		}
+		//处理强制下线请求
+		public function kick_c_page($system){
+			if(!isset($_POST['id'])) return;
+			$login=new login_server($system);
+			if($login->is_belong_to($_POST['id'])){
+				$login->delete($_POST['id']);
+			}
+		}
 	}

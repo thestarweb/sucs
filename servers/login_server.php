@@ -59,6 +59,7 @@
 			@user mix 所选登陆方式的识别标识
 			@password string 密码
 			@remember bool 是否记住登陆
+			@oLogin string 外部登陆时使用
 		*/
 		public function try_to($type,$user,$password,$remember=false){
 			if(!isset($_SESSION['black_list']))$_SESSION['black_list']=0;//session黑名单
@@ -229,7 +230,14 @@
 			return array 包含信息的二维数组
 		*/
 		public function get_logins($uid=null){
-			return $this->system->db()->exec('SELECT `id`,`uid`,`username`,`UA` FROM `'.self::table.'`'.($uid===null?'':' WHERE uid='.$uid));
+			return $this->system->db()->exec('SELECT `id`,`key`,`uid`,`username`,`UA` FROM `'.self::table.'`'.($uid===null?'':' WHERE uid='.$uid));
+		}
+		/**
+			获取当前登录用户的key
+			return string 当前登录用户的key（若用户未登陆着返回空字符串）
+		*/
+		public function get_now_key(){
+			return isset($_COOKIE['login_key'])?$_COOKIE['login_key']:'';
 		}
 		/**
 				获取用户的用于登录的文件信息
@@ -284,6 +292,18 @@
 				return;
 			}
 			$this->system->db()->u_exec('DELETE FROM `'.self::table.'` WHERE `uid`=? and `key`!=?',array($uid,$_COOKIE['login_key']));
+		}
+		/**
+			查询登陆信息是否属于当前用户
+			@id int 要查询的登陆id
+			return bool 是否属于当前用户
+		*/
+		public function is_belong_to($id){
+			$arr=$this->get_logins();
+			foreach($arr as $v){
+				if($v['id']==$id) return true;
+			}
+			return false;
 		}
 		/**
 			强制退出指定的登陆

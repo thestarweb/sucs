@@ -69,6 +69,7 @@
 		public function safe_page($system){
 			$login_his=$this->user->get_history_login($this->uid);
 			$login_c=$this->login->get_logins($this->uid);
+			$login_k=$this->login->get_now_key();
 			$login_file=$this->login->get_loginfile_info($this->uid);
 			include $system->get_view('home/safe',false);
 		}

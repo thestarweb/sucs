@@ -20,7 +20,7 @@
 		<table>
 <?php foreach($login_c as $v){?>
 			<tr>
-			<td class="UA_c"><?php echo $v['UA'];?></td><td>下线</td>
+			<td class="UA_c"><?php echo $v['UA'];?></td><td><?php if($v['key']==$login_k){ echo '当前设备'; }else{ ?><a href="javascript:kick(<?php echo $v['id'];?>)">下线</a><?php } ?></td>
 			</tr>
 <?php }?>
 		</table>
@@ -119,6 +119,15 @@
 					else var info="服务器返回未知数据";
 					myScript.message('<?php echo $system->lang('home','creat_loginfile.error');?>',info,'red');
 				}
+			}
+			ajax.send();
+		}
+		function kick(id){
+			var ajax=$.ajax();
+			ajax.page='<?php echo URLROOT;?>p/kick_c';
+			ajax.data="id="+id;
+			ajax.callback=function(ajax){
+				window.location.reload(true);
 			}
 			ajax.send();
 		}
