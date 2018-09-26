@@ -23,6 +23,9 @@ class succ{
 		require_once __DIR__.'/usedb.php';$this->link_use=new db_link();
 		$this->js_key=rand(100,999);
 	}
+	public set_system($system){
+		$this->link_use->set_system($system);
+	}
 	public function login_page(){
 		return $this->link_use->server_url.'/index/login';
 	}

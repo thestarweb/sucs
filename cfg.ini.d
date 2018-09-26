@@ -15,12 +15,14 @@ db_server=127.0.0.1		#数据库主机地址
 db_username=root		#数据库用户名
 db_password=root		#数据库密码
 db_name=sucs		#数据库库名称
-#db_prefix=sucs		#数据库表前缀（暂时无法正确支持）
+#db_prefix=sucs		#数据库表前缀
 
 #debug=1 			#是否开启debug模式
 
 #目录配置
 tools_dir=../tools
 
-use_key_reg_oney=1	#注册是否强制要求使用邀请码（目前这个设置没有处理好，起不到作用）
+use_key_reg_oney=0	#注册是否强制要求使用邀请码（目前这个设置没有处理好，起不到作用）
 my_script_path=static/myScript2.js#myscript路径（相对index.php或使用绝对路径）
+
+lang_list=zh-cn,zh-tw

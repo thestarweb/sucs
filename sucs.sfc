@@ -1,11 +1,11 @@
 <?php
-if(!defined('system::VISION')||system::VISION<8){
+if(!defined('system::VISION')||system::VISION<10){
 	die('核心框架system版本过低');
 }
 			//版本及版权信息
-			define('VERSION','1.4.0.0290 Alpha');
+			define('VERSION','1.4.0.0295');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2018-01-06');
+			define('MAKE_TIME','2018-09-26');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2018 星星站点 保留所有权利');
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
 			$this->cfgs['max_try_login_time']=4;//最大登陆次数

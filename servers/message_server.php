@@ -36,7 +36,7 @@ class message_server{
 	public function get_message($mid){
 		//$res=$this->system->db()->u_exec('SELECT `u`.`uid` as `senderid`,`u`.`username` as `sender`,`m`.`time`,`m`.`body`,`m`.`geter` FROM `message` AS `m` JOIN `users` AS `u` ON `m`.`sender`=`u`.`uid` WHERE `m`.`mid`=?',array($mid));
 		$res=$this->system->db()->u_exec('SELECT `m`.`mid`,`m`.`body`,`m`.`time`,`u_g`.`username` AS `geter`,`u_g`.`uid` AS `geter_id`,`m`.`type`,`u_s`.`username` AS `sender`,`u_s`.`uid` AS `sender_id`
-			FROM `message` AS `m` JOIN `users` AS `u_g` ON `m`.`geter`=`u_g`.`uid` JOIN `users` AS `u_s` ON `m`.`sender`=`u_s`.`uid`
+			FROM `'.self::table.'` AS `m` JOIN `'.user_server::table.'` AS `u_g` ON `m`.`geter`=`u_g`.`uid` JOIN `'.user_server::table.'` AS `u_s` ON `m`.`sender`=`u_s`.`uid`
 			WHERE `m`.`mid`=? LIMIT 1',array($mid));
 		if($res){
 			return $res[0];

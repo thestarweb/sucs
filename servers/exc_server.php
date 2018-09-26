@@ -18,7 +18,7 @@ class exc_server{
 		$res=$this->system->db()->exec('SELECT * FROM `'.self::table.'` WHERE `uid`='.$uid);
 		if(!$res){
 			//if($this->system->db()->exec('SELCET * FROM `users` WHERE `uid`='.$uid)){
-			$this->system->db()->exec('INSERT INTO `user_exc`(`uid`) VALUE('.$uid.')');
+			$this->system->db()->exec('INSERT INTO `'.self::table.'`(`uid`) VALUE('.$uid.')');
 			$res=$this->system->db()->exec('SELECT * FROM `'.self::table.'` WHERE `uid`='.$uid);
 			//}
 		}

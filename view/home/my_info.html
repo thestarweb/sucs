@@ -8,6 +8,9 @@
 			height: 20px;
 			width: 99%;
 		}
+		.left,.right{
+			min-height:22px;
+		}
 	</style>
 	<br/>
 	<div id="names">
@@ -19,19 +22,19 @@
 	<div class="info">
 		<div>
 			<div class="left"><?php echo $system->lang('home','sex');?></div>
-			<div class="lright"><?php echo $user['sex']?($user['sex']==1?$system->lang('home','male'):$system->lang('home','female')):$system->lang('home','not_set');?></div>
+			<div class="right"><?php echo $user['sex']?($user['sex']==1?$system->lang('home','male'):$system->lang('home','female')):$system->lang('home','not_set');?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','true_name');?></div>
-			<div class="lright"><?php echo $user['true_name']?$user['true_name']:'-';?></div>
+			<div class="right"><?php echo $user['true_name']?$user['true_name']:'-';?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','group');?></div>
-			<div class="lright"><?php echo $user['gname']?$user['gname']:'　';?></div>
+			<div class="right"><?php echo $user['gname']?$user['gname']:'　';?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','egroup');?></div>
-			<div class="lright">
+			<div class="right">
 <?php if($egroups)foreach($egroups as $v){?>
 				<p style="color:#<?php echo $v['color'];?>"><?php echo $v['gname'];?></p>
 <?php }else{?>
@@ -41,32 +44,32 @@
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','udtitle');?></div>
-			<div class="lright"><?php echo $user['title']?$user['title']:$system->lang('home','not_set');?></div>
+			<div class="right"><?php echo $user['title']?$user['title']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','QQ');?></div>
-			<div class="lright"><?php echo $user['qq']?$user['qq']:$system->lang('home','not_set');?></div>
+			<div class="right"><?php echo $user['qq']?$user['qq']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','reg_ip');?></div>
-			<div class="lright"><?php echo $user['reg_ip'];?></div>
+			<div class="right"><?php echo $system->protect_ip($user['reg_ip']);?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','reg_time');?></div>
-			<div class="lright"><?php echo date('Y-m-d H:m:s',$user['reg_time']);?></div>
+			<div class="right"><?php echo date('Y-m-d H:m:s',$user['reg_time']);?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','birthday');?></div>
-			<div class="lright"><?php echo isset($user['barth'])?$user['barth']:$system->lang('home','not_set');?></div>
+			<div class="right"><?php echo isset($user['barth'])?$user['barth']:$system->lang('home','not_set');?></div>
 		</div>
 		<div>
 			<div class="left"><?php echo $system->lang('home','score');?></div>
-			<div class="lright">&nbsp;</div>
+			<div class="right">&nbsp;</div>
 		</div>
 		<?php foreach($exc as $k=>$v){ ?>
 		<div>
 			<div class="left"><?php echo $k;?></div>
-			<div class="lright"><?php echo $v;?></div>
+			<div class="right"><?php echo $v;?></div>
 		</div>
 		<?php } ?>
 	</div>
