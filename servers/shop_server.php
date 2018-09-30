@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class shop_server{
 	public function __construct($system){
 		$this->system=$system;

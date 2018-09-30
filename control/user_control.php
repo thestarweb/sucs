@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class user_control{
 	public function head_page($system,$uid){
 		header('Content-Type: image/jpeg');

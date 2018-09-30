@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	/**
 	* 用户数据
 	*/

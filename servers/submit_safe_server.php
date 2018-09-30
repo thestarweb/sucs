@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class submit_safe_server{
 	const table='@%_submit_safe';
 	const max_time=300;

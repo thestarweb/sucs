@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class api_control{
 	public function __construct($system){
 		$this->app=new app_server($system);
@@ -43,6 +44,7 @@ header(”Proxy-Connection: Keep-Alive”);
 		}
 	}*/
 	public function index_page($system){
+		echo 'succ API';
 	}
 	/*public function __destruct(){
 		$_SESSION['test']-=1;

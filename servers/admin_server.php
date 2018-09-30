@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class admin_server{
 	private $admin_table='@%_admins';
 	private $page_table='@%_admin_pages';

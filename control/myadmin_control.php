@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class myadmin_control{
 	public function __construct($system){
 		$login=new login_server($system);

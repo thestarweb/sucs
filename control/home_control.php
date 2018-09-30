@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	class home_control{
 		public 	$stop=0;
 		public $system;

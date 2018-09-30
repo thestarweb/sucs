@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	class p_control{
 		//处理登陆
 		public function login_page($system){

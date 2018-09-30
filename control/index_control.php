@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	class index_control{
 		public function index_page($system){
 			$login=new login_server($system);

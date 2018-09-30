@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class message_server{
 	const table='@%_message';
 	private $system;

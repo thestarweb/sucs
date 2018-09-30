@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 class app_server{
 	const table='@%_apps';
 	private $system;

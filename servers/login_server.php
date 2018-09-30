@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	class login_server{
 		private $system;
 		private $submit_safe;
