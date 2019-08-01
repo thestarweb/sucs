@@ -11,7 +11,6 @@ class user_control{
 		echo file_get_contents($system->ini_get('imgs_dir').'u_head/0.jpg');
 	}
 	public function info_page($system,$uid){
-		$uid+=0;
 		$user_server=new user_server($system);
 		$user=$user_server->get_user_info($uid);
 		if(!$user){
