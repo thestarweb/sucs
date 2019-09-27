@@ -11,8 +11,10 @@ class install_control{
 		}
 		if(isset($_GET['yes'])){
 			set_time_limit(0);
-			\dbhelper_tool::update($system->db(),__DIR__.'/../db.xml');
-			echo '数据库更新已完成';
+			$t=\dbhelper_tool::update($system->db(),__DIR__.'/../db.xml');
+			if($t['succ']) echo '数据库更新已完成<br/>';
+			else echo '数据库更新有错误<br/>';
+			echo '<pre>'.$t['log'];
 			fclose(fopen(__DIR__.'/../update.lock','w'));
 			exit;
 		}
