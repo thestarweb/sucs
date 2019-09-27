@@ -76,7 +76,7 @@
 	<table name="group">
 		<structure type="tinyint" name="gid" auto_increment="true" attributes="UNSIGNED"/>
 		<structure type="varchar(15)" name="gname" default="普通用户"/>
-		<structure type="tinyint" name="read_rank" default="10"/>
+		<structure type="tinyint" name="read_rank" attributes="unsigned" default="10"/>
 		<structure type="char(6)" name="color" default="000000"/>
 		<structure type="tinyint" name="use_honor"  default="0"/>
 		<structure type="smallint" name="max_signature" attributes="UNSIGNED" default="0"/>
