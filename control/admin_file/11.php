@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 	$login=new login_server($system);
 	if(isset($_POST['doing'])){
 		switch ($_POST['doing']) {

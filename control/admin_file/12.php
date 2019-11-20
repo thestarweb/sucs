@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 $doing=isset($_GET['doing'])?$_GET['doing']:'';
 $u_s=new user_server($system);
 switch ($doing) {

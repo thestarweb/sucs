@@ -1,4 +1,5 @@
 <?php
+namespace sucs; 
 $s=new app_server($system);
 switch(isset($_GET['doing'])?$_GET['doing']:''){
 	case 'add':
