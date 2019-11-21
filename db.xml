@@ -104,7 +104,7 @@
 		<index name="uid" type="INDEX">uid</index>
 	</table>
 	<table name="login_remember">
-		<structure type="smallint" name="id" attributes="UNSIGNED"/>
+		<structure type="smallint" name="id" auto_increment="true" attributes="UNSIGNED"/>
 		<structure type="char(20)" name="key"/>
 		<structure type="mediumint" name="uid" attributes="UNSIGNED"/>
 		<structure type="int" name="end_time"/>
