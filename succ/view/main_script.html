@@ -43,7 +43,7 @@
 	document.body.appendChild(card_iframe);
 	window.succ={
 		show_card:function(uid,x,y){
-			card_iframe.src=card_base_URL+uid;
+			if(card_iframe.src!=card_base_URL+uid)card_iframe.src=card_base_URL+uid;
 			card_iframe.style.top=(y+5)+"px";
 			card_iframe.style.left=(x+5)+"px";
 			card_iframe.style.display="";
