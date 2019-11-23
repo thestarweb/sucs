@@ -4,9 +4,9 @@ if(!defined('system::VISION')||system::VISION<14){
 }
 			$this->namespace='sucs';
 			//版本及版权信息
-			define('VERSION','1.4.1.0305');
+			define('VERSION','1.4.1.0306');
 			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2019-11-21');
+			define('MAKE_TIME','2019-11-23');
 			define('COPY','星星站点用户中心服务器端&copy;2013-2019 星星站点 保留所有权利');
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
 			$this->cfgs['max_try_login_time']=4;//最大登陆次数
