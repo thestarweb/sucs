@@ -12,16 +12,20 @@ class app_server{
 		return bool
 	*/
 	public function is_admit($data=''){
-		if(!isset($_POST['p_time'])||!isset($_POST['APP_id'])||!isset($_POST['md5'])||$_POST['p_time']<(time()-30)){//超时请求
+		if(!isset($_POST['p_time'])||!isset($_POST['APP_id'])||!isset($_POST['hash'])||$_POST['p_time']<(time()-30)){//超时请求
 			return false;
 		}
 		$_POST['APP_id']+=0;
 		$res=$this->system->db()->exec('SELECT `urlroot`,`key` FROM `'.self::table.'` WHERE `aid`='.$_POST['APP_id'].' LIMIT 1');
 		if($res){
-			header('Access-Control-Allow-Origin: '.$res[0]['urlroot']);
-			header('Access-Control-Allow-Credentials:true');
 			$str=$_POST['p_time'].$data.$res[0]['key'];
-			if(md5($str)==$_POST['md5']) return true;
+			if(hash('sha256',$str)==$_POST['hash']){
+				if(isset($_SERVER['HTTP_REFERER'])){
+					header('Access-Control-Allow-Origin: '.substr($_SERVER['HTTP_REFERER'],0,strpos($_SERVER['HTTP_REFERER'],'/',8)));
+					header('Access-Control-Allow-Credentials:true');
+				}
+				return true;
+			}
 		}
 		return false;
 	}

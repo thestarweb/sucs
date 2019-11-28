@@ -19,7 +19,7 @@
 	ajax.setCont({
 		APP_id:"<?php echo $this->appid;?>",
 		p_time:"<?php echo time();?>",
-		md5:"<?php echo md5(time().$this->appkey);?>"
+		hash:"<?php echo hash('sha256',time().$this->appkey);?>"
 	});
 	ajax.callback=function(ajax){
 		if(ajax.json){
