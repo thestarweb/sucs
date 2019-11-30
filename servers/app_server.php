@@ -20,9 +20,15 @@ class app_server{
 		if($res){
 			$str=$_POST['p_time'].$data.$res[0]['key'];
 			if(hash('sha256',$str)==$_POST['hash']){
-				if(isset($_SERVER['HTTP_REFERER'])){
-					header('Access-Control-Allow-Origin: '.substr($_SERVER['HTTP_REFERER'],0,strpos($_SERVER['HTTP_REFERER'],'/',8)));
-					header('Access-Control-Allow-Credentials:true');
+				// if(isset($_SERVER['HTTP_REFERER'])){
+				// 	header('Access-Control-Allow-Origin: '.substr($_SERVER['HTTP_REFERER'],0,strpos($_SERVER['HTTP_REFERER'],'/',8)));
+				// 	header('Access-Control-Allow-Credentials:true');
+				// }
+				$t=explode('//',$res[0]['urlroot'],2);
+				if(isset($t[1])){
+					$t=explode('/',$t[1]);
+					header('Access-Control-Allow-Origin: '.$_SERVER["REQUEST_SCHEME"].'://'.$t[0]);
+				 	header('Access-Control-Allow-Credentials:true');
 				}
 				return true;
 			}
