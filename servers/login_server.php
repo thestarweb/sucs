@@ -113,7 +113,7 @@ namespace sucs;
 					if($res[0]['key']==$_COOKIE['r_login_key']){
 						$this->add_login($res[0]['uid']);
 						$new_key=$this->system->rand(20);
-						$this->system->db()->exec('UPDATE `'.self::re_table.'` SET `key`="'.$new_key.'" WHERE `id`='.$_COOKIE['r_login_id'].'`end_time`='.($time=(time()+3600*24*7)));
+						$this->system->db()->exec('UPDATE `'.self::re_table.'` SET `key`="'.$new_key.'",`end_time`='.($time=(time()+3600*24*7)).' WHERE `id`='.$_COOKIE['r_login_id']);
 						setcookie('r_login_key',$new_key,$time,URLROOT);
 						return $res[0]['uid'];
 					}
