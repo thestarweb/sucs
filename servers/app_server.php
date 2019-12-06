@@ -25,10 +25,13 @@ class app_server{
 				// 	header('Access-Control-Allow-Credentials:true');
 				// }
 				$t=explode('//',$res[0]['urlroot'],2);
-				if(isset($t[1])){
+				if(isset($t[1])&&isset($_SERVER['HTTP_REFERER'])){
+					list($type)=explode('//',$_SERVER['HTTP_REFERER']);
 					$t=explode('/',$t[1]);
-					header('Access-Control-Allow-Origin: '.$_SERVER["REQUEST_SCHEME"].'://'.$t[0]);
-				 	header('Access-Control-Allow-Credentials:true');
+					header('Access-Control-Allow-Origin: '.$type.'//'.$t[0]);
+				 	header('Access-Control-Allow-Credentials: true');
+				 	header('Access-Control-Allow-Headers: *');
+				 	header('Access-Control-Request-Method: *');
 				}
 				return true;
 			}
