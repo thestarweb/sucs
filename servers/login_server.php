@@ -84,7 +84,7 @@ namespace sucs;
 					$is_ok=0;
 				}else{
 					//比对密码
-					$is_ok=sha1(sha1($password).$res[0]['s'])==$res[0]['password']?1:0;
+					$is_ok=hash_equals(sha1(sha1($password).$res[0]['s']),$res[0]['password'])?1:0;
 					/*记住登陆功能*/
 					if($is_ok&&$remember){
 						$remember_key=$system->rand(20);
@@ -110,7 +110,7 @@ namespace sucs;
 			if(isset($_COOKIE['r_login_key'])&&isset($_COOKIE['r_login_id'])){
 				$_COOKIE['r_login_id']+=0;
 				if($res=$this->system->db()->exec('SELECT `uid`,`key` FROM `'.self::re_table.'` WHERE `id`='.$_COOKIE['r_login_id'])){
-					if($res[0]['key']==$_COOKIE['r_login_key']){
+					if(hash_equals($res[0]['key'],$_COOKIE['r_login_key'])){
 						$this->add_login($res[0]['uid']);
 						$new_key=$this->system->rand(20);
 						$this->system->db()->exec('UPDATE `'.self::re_table.'` SET `key`="'.$new_key.'",`end_time`='.($time=(time()+3600*24*7)).' WHERE `id`='.$_COOKIE['r_login_id']);
