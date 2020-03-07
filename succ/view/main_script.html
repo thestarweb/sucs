@@ -44,7 +44,7 @@
 	document.body.appendChild(card_iframe);
 	window.succ={
 		show_card:function(uid,x,y){
-			ifcard_iframe.display_uid!=uid){
+			if(card_iframe.display_uid!=uid){
 				card_iframe.src=card_base_URL+uid;
 				card_iframe.display_uid=uid;
 			}
