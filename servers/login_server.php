@@ -191,14 +191,26 @@ namespace sucs;
 			echo $string;
 		}
 		/**
+			根据token获取用户是否登录
+			return uid(int)登陆成功的uid false(bool)登陆失败
+		*/
+		public function is_login_token($token,$UA){
+			$res=$this->system->db()->u_exec('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=?',array($token));
+			if($res&&$UA==$res[0]['UA']){
+				//匹配成功
+				return $res[0];
+			}
+			return false;
+		}
+		/**
 			用于检测用户是否登陆（会尝试检测记住登陆信息）
 			return uid(int)登陆成功的uid false(bool)登陆失败
 		*/
 		public function is_login(){
 			if($this->uid_cache!=-1) return $this->uid_cache;
 			if(isset($_COOKIE['login_key'])){
-				$res=$this->system->db()->u_exec('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=?',array($_COOKIE['login_key']));
-				if($res&&$_SERVER['HTTP_USER_AGENT']==$res[0]['UA']){
+				$user=$this->is_login_token($_COOKIE['login_key'],$_SERVER['HTTP_USER_AGENT']);
+				if($user!==false){
 					//匹配成功
 					if(rand(0,20)==0){
 						//有概率刷新key
@@ -206,7 +218,7 @@ namespace sucs;
 						setcookie('login_key',$key,0,URLROOT);
 						$this->system->db()->u_exec('UPDATE `'.self::table.'` SET `key`=? WHERE `key`=?',array($key,$_COOKIE['login_key']));
 					}
-					return $this->uid_cache=$res[0]['uid'];
+					return $this->uid_cache=$user['uid'];
 				}
 				setcookie('login_key','',0,URLROOT);
 				$this->submit_safe->add(5);
