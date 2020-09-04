@@ -1,13 +1,14 @@
 <?php
-if(!defined('system::VISION')||system::VISION<14){
+namespace sucs;
+if(!defined('system::VISION')||\system::VISION<19){
 	die('核心框架system版本过低');
 }
 			$this->namespace='sucs';
 			//版本及版权信息
-			define('VERSION','1.4.1.0311');
-			define('VERSION_INFO',VERSION);
-			define('MAKE_TIME','2019-12-24');
-			define('COPY','星星站点用户中心服务器端&copy;2013-2019 星星站点 保留所有权利');
+			const VERSION='1.4.1.0314';
+			const VERSION_INFO=VERSION;
+			const MAKE_TIME='2020-09-04';
+			const COPY='星星站点用户中心服务器端&copy;2013-2021 星星站点 保留所有权利';
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
 			$this->cfgs['max_try_login_time']=4;//最大登陆次数
 			$this->cfgs['max_try_login_time_in']=5;//登陆时间显示（单位分钟）
