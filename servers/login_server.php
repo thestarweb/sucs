@@ -25,7 +25,7 @@ namespace sucs;
 			@uid int 用户uid
 			@userneme string 尝试用户名
 			@is_ok int 是否登陆成功
-			return void
+			return string 登录成功时返回key，失败时返回空字符串
 		*/
 		public function add_login($uid,$username=0,$is_ok=1){
 			$uid+=0;
@@ -41,8 +41,6 @@ namespace sucs;
 			if($is_ok){
 				//
 				$key=$this->system->rand(10);
-				setcookie('login_key',$key,0,URLROOT);
-				$_COOKIE['login_key']=$key;
 				$db->u_exec('INSERT INTO `'.self::table.'`(`key`,`time`,`uid`,`username`,`UA`) VALUES(?,?,?,?,?)',array($key,time(),$uid,$username,$_SERVER['HTTP_USER_AGENT']));
 				//登陆积分奖励
 				$llt=$db->exec('SELECT `last_login_time` FROM `'.user_server::table.'` WHERE `uid`='.$uid);
@@ -52,7 +50,9 @@ namespace sucs;
 				}
 				//修改最后登录时间 需要在加积分之后
 				$db->u_exec('UPDATE `'.user_server::table.'` SET `last_login_time`=?,`last_login_ip`=? WHERE `uid`=?',array(time(),$_SERVER['REMOTE_ADDR'],$uid));
+				return $key;
 			}
+			return '';
 		}
 		/**
 			尝试登陆
@@ -60,13 +60,9 @@ namespace sucs;
 			@user mix 所选登陆方式的识别标识
 			@password string 密码
 			@remember bool 是否记住登陆
-			@oLogin string 外部登陆时使用
+			return array ['isok'=>是否成功,info=>错误信息，key=>登录key，uid=>用户id]
 		*/
 		public function try_to($type,$user,$password,$remember=false){
-			if(!isset($_SESSION['black_list']))$_SESSION['black_list']=0;//session黑名单
-			if(@$_SESSION['black_list']>5){
-				return array('server_version'=>VERSION,'isok'=>0,'info'=>'抱歉，由于您频繁尝试登陆，本次会话已被系统拉入黑名单！');
-			}
 			$system=$this->system;
 			$max_time=$system->ini_get('max_try_login_time');
 			$max_time_in=$system->ini_get('max_try_login_time_in');
@@ -95,10 +91,14 @@ namespace sucs;
 						setcookie('r_login_id',$rid,$time,URLROOT);
 					}
 				}
-				$this->add_login($res[0]['uid'],$res[0]['username'],$is_ok);
-				return array('isok'=>$is_ok,'info'=>$is_ok?'':$system->lang('errors',3,[$max_time_in-$t-1]));
+				$key=$this->add_login($res[0]['uid'],$res[0]['username'],$is_ok);
+				return array(
+					'isok'=>$is_ok,
+					'info'=>$is_ok?'':$system->lang('errors',3,[$max_time_in-$t-1]),
+					'key'=>$key,
+					'uid'=>$res[0]['uid']
+				);
 			}else{//禁止登陆
-				isset($_SESSION['black_list'])?$_SESSION['black_list']++:$_SESSION['black_list']=1;
 				return array('server_version'=>VERSION,'isok'=>0,'info'=>$system->lang('errors',4,[$max_time_in,$max_time]));
 			}
 		}
@@ -195,7 +195,7 @@ namespace sucs;
 			return uid(int)登陆成功的uid false(bool)登陆失败
 		*/
 		public function is_login_token($token,$UA){
-			$res=$this->system->db()->u_exec('SELECT `uid`,`UA` FROM `'.self::table.'` WHERE `key`=?',array($token));
+			$res=$this->system->db()->u_exec('SELECT `uid`,`UA`,`uid` FROM `'.self::table.'` WHERE `key`=?',array($token));
 			if($res&&$UA==$res[0]['UA']){
 				//匹配成功
 				return $res[0];

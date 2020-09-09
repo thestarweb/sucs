@@ -3,3 +3,5 @@ error.log
 *.temp
 control/test_control.php
 control/update.lock
+php_errors.log
+update.lock

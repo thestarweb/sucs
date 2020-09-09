@@ -5,9 +5,9 @@ if(!defined('system::VISION')||\system::VISION<19){
 }
 			$this->namespace='sucs';
 			//版本及版权信息
-			const VERSION='1.4.1.0314';
+			const VERSION='1.4.1.0319';
 			const VERSION_INFO=VERSION;
-			const MAKE_TIME='2020-09-04';
+			const MAKE_TIME='2020-09-09';
 			const COPY='星星站点用户中心服务器端&copy;2013-2021 星星站点 保留所有权利';
 			//在max_try_login_time_in分钟内只允许登陆max_try_login_time次
 			$this->cfgs['max_try_login_time']=4;//最大登陆次数

@@ -15,6 +15,7 @@ namespace sucs;
 			$login=new login_server($system);
 			$res=$login->try_to('name',$_POST['username'],$_POST['password'],isset($_POST['remember'])&&$_POST['remember']);
 			if(!$res['isok']) $s->add(4);
+			else setcookie('login_key',$res['key'],0,URLROOT);
 			$system->show_json($res);
 		}
 		//处理发送消息

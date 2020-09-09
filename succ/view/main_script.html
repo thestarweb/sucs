@@ -15,7 +15,7 @@
 	}
 	var ajax=$.ajax();
 	ajax.withCredentials = true;
-	ajax.page="<?php echo $this->link_use->server_url;?>/api/is_login?";
+	ajax.page="<?php echo $this->cfgs['url'];?>/api/is_login?";
 	ajax.setCont({
 		APP_id:"<?php echo $this->appid;?>",
 		p_time:"<?php echo time();?>",
@@ -39,15 +39,11 @@
 	card_iframe.setAttribute("frameborder",0);
 	card_iframe.style.width="425px";
 	card_iframe.style.height="285px";
-	card_iframe.display_uid=-1;
 	card_base_URL="<?php echo $this->link_use->server_url;?>/user/card/";
 	document.body.appendChild(card_iframe);
 	window.succ={
 		show_card:function(uid,x,y){
-			if(card_iframe.display_uid!=uid){
-				card_iframe.src=card_base_URL+uid;
-				card_iframe.display_uid=uid;
-			}
+			if(card_iframe.src!=card_base_URL+uid)card_iframe.src=card_base_URL+uid;
 			card_iframe.style.top=(y+5)+"px";
 			card_iframe.style.left=(x+5)+"px";
 			card_iframe.style.display="";
