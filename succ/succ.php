@@ -32,7 +32,7 @@ class succ{
 		require_once __DIR__.'/usedb.php';$this->link_use=new db_link();
 		$this->js_key=rand(100,999);
 		$this->cfgs=array_merge($this->cfgs,require_once(__DIR__."/ini.php"));
-		$this->system=new system($this->cfgs['ini'],$this->cfgs['sfc']);
+		$this->system=new system($this->cfgs['ini'],$this->cfgs['sfc'],true);
 	}
 	public function call_fun($server,$fun,$arg){
 		if($this->cfgs['usedb']){
